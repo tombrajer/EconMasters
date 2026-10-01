@@ -1,0 +1,197 @@
+{
+  "founders": [
+    {
+      "name": "Max Gajdoš",
+      "role": "Founder",
+      "src": "/photos/max-gajdos.jpg",
+      "bio": "I'm a high school student with a slightly unhealthy interest in economics. I love understanding how markets, businesses, and people work, and I'm always looking for ways to take that passion further. Luckily, I found two people who felt the same way. Together, we created the Economics Masters Challenge to bring students like us together, turn our passion into competition, and have a lot of fun along the way.",
+      "linkedin": "https://www.linkedin.com/in/maxg1636"
+    },
+    {
+      "name": "Minh Anh Vu",
+      "role": "FOUNDER",
+      "src": "/photos/minh-anh-vu.jpg",
+      "bio": "My interest in economics comes from wanting to understand the reasoning behind the decisions we see every day-for example from how businesses make strategic decisions to how economies respond to shifting conditions. As a student, I wanted a space where economics could be explored beyond the classroom and where students could put their knowledge and ideas to the test. That ambition led me, together with Max and Laura, to create the Economics Masters Challenge: a competition built around curiosity, critical thinking, and a shared interest in economics.",
+      "linkedin": "https://cz.linkedin.com/in/minh-anh-vu-2a6b45353"
+    },
+    {
+      "name": "Laura Lávičková",
+      "role": "FOUNDER",
+      "src": "/photos/laura-lavickova.jpg",
+      "bio": "I’m Laura Lávičková, a high school student interested in economics.\nI wanted a way to explore economics outside the classroom and meet other students who were just as curious about it, which is what led me to help create the Economics Masters Challenge. For me, it’s a chance to make economics a little more competitive, social, and fun.\n"
+    }
+  ],
+  "judges": [
+    {
+      "background": "Director at Visa",
+      "name": "Viktória Kolesárová",
+      "image": "/photos/viktoria-kolesarova.jpg"
+    },
+    {
+      "background": "Ph.D. candidate in Economics at CERGE-EI",
+      "name": "Olga Novikova",
+      "image": "/photos/olga-novikova.png"
+    },
+    {
+      "background": "Head of Economics at ECP",
+      "name": "David Wyllyams"
+    },
+    {
+      "background": "Two decades of Wall Street experience",
+      "name": "Frank Ricca",
+      "image": "/photos/frank-ricca.png"
+    }
+  ],
+  "rounds": [
+    {
+      "index": "01",
+      "title": "Analytical Foundations",
+      "lead": "A rigorous multiple-choice round testing economic knowledge and reasoning under time pressure.",
+      "points": [
+        "Microeconomics",
+        "Macroeconomics",
+        "Economic reasoning",
+        "Conceptual understanding",
+        "Quantitative thinking",
+        "Application of economic principles"
+      ],
+      "note": "The 2026 edition used approximately 60 questions.  Roughly 35–40 microeconomics and 20–25 macroeconomics. Format may vary by edition."
+    },
+    {
+      "index": "02",
+      "title": "Case Challenge",
+      "lead": "A real-world economics and business case solved collaboratively, then defended before the panel.",
+      "points": [
+        "Interpret information",
+        "Analyze data",
+        "Identify the economic problem",
+        "Apply theory",
+        "Reason through uncertainty",
+        "Communicate a solution"
+      ],
+      "note": "Scoring emphasises logic, data interpretation, economic reasoning and practical application."
+    }
+  ],
+  "steps": [
+    {
+      "n": "01",
+      "title": "Form your team",
+      "body": "Teams of three."
+    },
+    {
+      "n": "02",
+      "title": "Test your foundations",
+      "body": "Put economic knowledge and analytical reasoning to the test."
+    },
+    {
+      "n": "03",
+      "title": "Enter the case",
+      "body": "Move from theory into a real-world problem."
+    },
+    {
+      "n": "04",
+      "title": "Analyze",
+      "body": "Interpret data, identify the problem, and build your reasoning."
+    },
+    {
+      "n": "05",
+      "title": "Present your solution",
+      "body": "Communicate your conclusions clearly and convincingly."
+    },
+    {
+      "n": "06",
+      "title": "Compete for the top",
+      "body": "Final results, recognition, and awards."
+    }
+  ],
+  "benefits": [
+    {
+      "title": "Apply economics",
+      "body": "Move beyond textbook theory."
+    },
+    {
+      "title": "Think analytically",
+      "body": "Solve unfamiliar problems under pressure."
+    },
+    {
+      "title": "Work as a team",
+      "body": "Develop a solution together."
+    },
+    {
+      "title": "Handle data",
+      "body": "Interpret evidence and identify what matters."
+    },
+    {
+      "title": "Face real-world cases",
+      "body": "Connect economics to actual decisions."
+    },
+    {
+      "title": "Meet the economics community",
+      "body": "Interact with students, educators, academics, and professionals."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Who can participate?",
+      "a": "Students passionate about economics from different academic programs. Exact eligibility is set for each edition."
+    },
+    {
+      "q": "How many students are on a team?",
+      "a": "Three."
+    },
+    {
+      "q": "Do I need to study AP Economics?",
+      "a": "No. The competition is inspired by rigorous economics curricula and is designed to be accessible to students from different academic systems, subject to the edition's eligibility rules."
+    },
+    {
+      "q": "What does the competition test?",
+      "a": "Economic knowledge, analytical reasoning, data interpretation, application, teamwork, and problem solving."
+    },
+    {
+      "q": "Is the competition individual or team-based?",
+      "a": "Team-based. Teams consist of three students."
+    },
+    {
+      "q": "What is the Case Challenge?",
+      "a": "A real-world economics and business case requiring teams to analyze information and develop a reasoned solution."
+    },
+    {
+      "q": "What should I prepare?",
+      "a": "A strong understanding of economics fundamentals — especially microeconomics and macroeconomics — plus the ability to reason through unfamiliar problems."
+    },
+    {
+      "q": "Where is it held?",
+      "a": "The 2026 edition was held at Sunny Canadian International School. Venue information for future editions is announced with each edition."
+    },
+    {
+      "q": "How do I register?",
+      "a": "Registration dates will be announced with the next edition. The form is currently a preview and does not submit entries. For updates, contact youthvoiceeducation@gmail.com."
+    }
+  ],
+  "gallery": [
+    {
+      "src": "/photos/opening-address.jpg",
+      "caption": "Opening address"
+    },
+    {
+      "src": "/photos/round-one-in-progress.jpg",
+      "caption": "Round 1 in progress"
+    },
+    {
+      "src": "/photos/sponsors.jpg",
+      "caption": "Sponsors"
+    },
+    {
+      "src": "/photos/case-challenge-deliberation.jpg",
+      "caption": "Case challenge deliberation"
+    },
+    {
+      "src": "/photos/team-presentations.jpg",
+      "caption": "Team presentations"
+    },
+    {
+      "src": "/photos/winner.jpg",
+      "caption": "Winner of the 2026 edition"
+    }
+  ]
+}

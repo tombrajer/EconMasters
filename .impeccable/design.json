@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-01T15:56:32.385014+00:00",
+  "title": "Design System: Economics Masters Challenge",
+  "extensions": {
+    "colorMeta": {
+      "navy": {
+        "role": "primary",
+        "displayName": "Ink"
+      },
+      "hero": {
+        "role": "primary",
+        "displayName": "Market Black"
+      },
+      "ivory": {
+        "role": "neutral",
+        "displayName": "White"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Gray"
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Rule Gray"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Large regular-weight Inter hero headline."
+      },
+      "label": {
+        "displayName": "Model label",
+        "purpose": "Small monospace model and technical annotations."
+      }
+    },
+    "shadows": [
+      {
+        "name": "mobile-navigation",
+        "value": "0 12px 24px #11111110",
+        "purpose": "Only lifted surface; desktop sections remain flat."
+      }
+    ],
+    "motion": [
+      {
+        "name": "control-transition",
+        "value": ".18s ease",
+        "purpose": "Button colors, field borders, and disclosure icon state; removed under reduced motion."
+      },
+      {
+        "name": "market-landscape",
+        "value": "requestAnimationFrame; draw interval >32ms; pixel ratio capped at 2",
+        "purpose": "Synthetic canvas dots and supply/demand markers; pause offscreen/hidden, static reduced-motion frame, SVG initialization/no-JavaScript fallback."
+      },
+      {
+        "name": "journey",
+        "value": "passive scroll listener; one scheduled requestAnimationFrame",
+        "purpose": "Six-stage path draws with scrolling; reduced motion shows completed graph."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce",
+        "purpose": "Disable CSS transitions/animations, use automatic scrolling, stop hero loop, complete journey."
+      },
+      {
+        "name": "academic-curves",
+        "value": "passive scroll; requestAnimationFrame; pathLength 1; translateY up to 16px",
+        "purpose": "Draw illustrative graph curves on viewport entry; reduced motion shows completed paths."
+      },
+      {
+        "name": "gallery-parallax",
+        "value": "scale 1.06; shift bounded to min(12px, photo-window height * .03 - 1px)",
+        "purpose": "Scroll-linked photo motion without exposing crop edges; reduced motion uses no transform."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop",
+        "value": "1200px"
+      },
+      {
+        "name": "tablet",
+        "value": "900px"
+      },
+      {
+        "name": "mobile",
+        "value": "640px"
+      },
+      {
+        "name": "narrow-form",
+        "value": "360px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Shared registration and preview action on white surfaces.",
+      "html": "<button class=\"ds-button\">Preview your entry<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 12h16m-6-6 6 6-6 6\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg></button>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:28px;min-height:54px;padding:16px 28px;background:var(--navy,#111111);color:var(--ivory,#ffffff);font:13px/1.3 var(--sans,Inter,Arial,sans-serif);letter-spacing:0;border:1px solid var(--navy,#111111);border-radius:0;text-decoration:none;transition:background .18s ease,color .18s ease}.ds-button:hover{background:#333333;border-color:#333333}.ds-button:focus-visible{outline:2px solid #111111;outline-offset:6px}.ds-button:disabled{opacity:.5;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}"
+    },
+    {
+      "name": "Hero button",
+      "kind": "button",
+      "refersTo": "button-inverse",
+      "description": "Inverse action inside the dark hero.",
+      "html": "<div class=\"ds-dark\"><a class=\"ds-button ds-inverse\" href=\"/register\">Build your team<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 12h16m-6-6 6 6-6 6\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg></a></div>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:28px;min-height:54px;padding:16px 28px;background:var(--navy,#111111);color:var(--ivory,#ffffff);font:13px/1.3 var(--sans,Inter,Arial,sans-serif);letter-spacing:0;border:1px solid var(--navy,#111111);border-radius:0;text-decoration:none;transition:background .18s ease,color .18s ease}.ds-button:hover{background:#333333;border-color:#333333}.ds-button:focus-visible{outline:2px solid #111111;outline-offset:6px}.ds-button:disabled{opacity:.5;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}.ds-dark{background:#080808;padding:20px}.ds-inverse{background:#fff;color:#111;border-color:#fff;min-height:44px;padding:12px 15px;font-size:11px;gap:18px}.ds-inverse:hover{background:#ddd;border-color:#fff}.ds-inverse:focus-visible{outline-color:#fff}"
+    },
+    {
+      "name": "Registration field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Square local-preview field with visible keyboard focus.",
+      "html": "<label class=\"ds-label\" for=\"ds-email\">Email *</label><input class=\"ds-input\" id=\"ds-email\" type=\"email\" placeholder=\"team@example.com\" required/>",
+      "css": ".ds-label{display:block;font:12px/1.6 var(--sans,Inter,Arial,sans-serif);color:var(--navy,#111);margin-bottom:10px}.ds-input{display:block;width:100%;background:transparent;border:1px solid #bbbbbb;border-radius:0;min-height:46px;padding:12px 13px;font:14px var(--sans,Inter,Arial,sans-serif);color:var(--navy,#111);caret-color:var(--navy,#111);outline-offset:3px;transition:border-color .18s ease}.ds-input::placeholder{color:#666}.ds-input:hover{border-color:#666}.ds-input:focus{outline:2px solid #111;border-color:#111}.ds-input[aria-invalid=true]{border-color:#333}@media(max-width:640px){.ds-input{font-size:16px}}@media(prefers-reduced-motion:reduce){.ds-input{transition:none}}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "description": "Dark shared desktop links; native mobile disclosure at 640px.",
+      "html": "<div class=\"ds-header\"><nav class=\"ds-nav\" aria-label=\"Main navigation\"><a href=\"/#about\">About</a><a href=\"/#competition\">Format</a><a href=\"/#faq\">FAQ</a></nav><details class=\"ds-mobile\"><summary>Menu</summary><nav aria-label=\"Mobile navigation\"><a href=\"/#about\">About</a><a href=\"/#competition\">Format</a><a href=\"/#faq\">FAQ</a><a href=\"/register\">Registration</a></nav></details></div>",
+      "css": ".ds-header{background:#080808;color:#fff;padding:20px;font-family:var(--sans,Inter,Arial,sans-serif)}.ds-nav{display:flex;gap:40px}.ds-nav a{color:inherit;text-decoration:none;font-size:12px;padding-block:12px}.ds-nav a:hover{text-decoration:underline}.ds-header a:focus-visible,.ds-header summary:focus-visible{outline:2px solid #fff;outline-offset:6px}.ds-mobile{display:none}@media(max-width:640px){.ds-nav{display:none}.ds-mobile{display:block}.ds-mobile summary{cursor:pointer;font-size:11px;padding:12px 0}.ds-mobile nav{background:#111;border:1px solid #444;padding:12px 20px}.ds-mobile a{display:block;color:#fff;text-decoration:none;padding:14px 0;font-size:20px;border-bottom:1px solid var(--line,#dedede)}.ds-mobile a:last-child{border-bottom:0}.ds-mobile a:hover{text-decoration:underline}}"
+    },
+    {
+      "name": "Illustrative market field",
+      "kind": "custom",
+      "description": "Static SVG fallback for the hero canvas; production motion is defined in the motion extensions.",
+      "html": "<figure class=\"ds-market\"><svg viewBox=\"0 0 1200 350\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><defs><pattern id=\"ds-market-dots\" width=\"12\" height=\"12\" patternUnits=\"userSpaceOnUse\"><circle cx=\"1\" cy=\"1\" r=\"1\" fill=\"#666\"/></pattern></defs><path d=\"M0 80Q300 10 600 100T1200 75V350H0Z\" fill=\"url(#ds-market-dots)\"/><path d=\"M80 260 180 235 280 230 380 190 480 175 580 172 680 140 780 130 880 100 980 95 1100 65M80 65 180 80 280 100 380 120 480 145 580 165 680 180 780 215 880 220 980 250 1100 270\" fill=\"none\" stroke=\"#ddd\" stroke-width=\"1\"/></svg></figure>",
+      "css": ".ds-market{margin:0;background:#080808;color:#fff;height:360px;position:relative}.ds-market svg{display:block;width:100%;height:100%}@media(max-width:900px){.ds-market{height:330px}}@media(max-width:640px){.ds-market{height:265px}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Economic Field",
+    "overview": "Black and white technical landscapes express an academic competition built around original thinking. Large, regular-weight sans-serif headings sit beside compact explanations; fine rules and dotted fields organize the white sections. An animated synthetic market landscape gives the dark hero its distinctive identity.\n\nReal people and the first edition remain visible through the existing color photographs. Detailed material lives in native disclosures, keeping the initial page concise. The homepage and registration preview share the same angular controls, typography, navigation, and footer.",
+    "keyCharacteristics": [
+      "Black and white surfaces with neutral gray annotations.",
+      "Large Inter headings, compact body copy, monospace model labels.",
+      "Thin ruled divisions, dotted grids, simple economic diagrams.",
+      "A moving market field and the existing scroll-drawn journey.",
+      "Existing people and event photography in original color."
+    ],
+    "rules": [
+      {
+        "name": "The Monochrome Rule",
+        "body": "Keep interface, diagrams, and displayed photography achromatic. Do not restore the former blue/ivory palette.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "**Do** use the current monochrome variables even where legacy names suggest color.",
+      "**Do** keep headings in Inter, body copy concise, and model annotations in monospace.",
+      "**Do** organize sections with rules and dotted fields.",
+      "**Do** retain all 12 existing people/event photos and retain their original colors.",
+      "**Do** preserve native disclosures, keyboard focus, static motion alternatives, and the SVG hero fallback.",
+      "**Do** distinguish confirmed 2026 content from the unannounced next edition and preserve registration-preview wording."
+    ],
+    "donts": [
+      "**Don't** restore ivory, navy-blue, colored accents, or serif display type.",
+      "**Don't** add city imagery, stock photography, testimonials, or invented participation claims.",
+      "**Don't** add rounded floating cards, broad shadows, or extra decorative animation.",
+      "**Don't** present the synthetic hero as a factual market chart.",
+      "**Don't** animate the canvas while offscreen, hidden, or reduced motion is requested.",
+      "**Don't** remove black backing from white SVG paths extending beyond the diagram plane."
+    ]
+  }
+}
