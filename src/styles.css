@@ -82,12 +82,6 @@ section>.container>h2:first-child{margin-bottom:clamp(32px,4vw,56px)}
 .market-landscape[data-ready=true] .market-pause{display:flex}
 .market-pause:hover{color:#fff;border-color:#777}
 .market-pause svg{width:18px;height:18px}
-.hero-rounds{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line-dark)}
-.hero-rounds li{padding:28px 32px 36px 0;display:grid;grid-template-columns:auto 1fr;column-gap:24px;row-gap:6px;align-items:baseline}
-.hero-rounds li+li{padding-left:32px;border-left:1px solid var(--line-dark)}
-.hero-rounds span{grid-row:1/3;font:11px/1.4 var(--mono);letter-spacing:.1em;color:var(--muted-dark);padding-top:6px}
-.hero-rounds strong{font-size:clamp(22px,2.2vw,30px);font-weight:400;letter-spacing:-.03em;line-height:1.15}
-.hero-rounds p{font-size:15px;color:var(--muted-dark);max-width:42ch}
 
 /* Format */
 .rounds{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--ink)}
@@ -337,9 +331,6 @@ legend{padding:0;font-size:28px;letter-spacing:-.025em;margin-bottom:24px}
   .mobile-menu nav a:last-child{border-bottom:0}
   .header-registration{margin-left:auto}
   .split-heading{flex-direction:column;align-items:start;gap:14px}
-  .hero-rounds{grid-template-columns:1fr}
-  .hero-rounds li{padding:22px 0}
-  .hero-rounds li+li{padding-left:0;border-left:0;border-top:1px solid var(--line-dark)}
   .economic-row{grid-template-columns:1fr 1fr;gap:0 28px;padding-block:32px;min-height:0}
   .economic-row-title{padding:0 0 20px;grid-column:1/-1;flex-direction:row;align-items:end;justify-content:space-between}
   .economic-plate{border:0;min-height:200px}
@@ -366,11 +357,7 @@ legend{padding:0;font-size:28px;letter-spacing:-.025em;margin-bottom:24px}
 
 
   h2{font-size:clamp(32px,9vw,40px)}
-  .hero{display:flex;flex-direction:column}
-  .hero-top{padding-top:36px;gap:20px;order:0}
-  .hero>.container:last-child{order:1}
-  .hero-rounds{margin-top:24px}
-  .market-landscape{order:2}
+  .hero-top{padding-top:36px;gap:20px}
   .hero h1{font-size:clamp(40px,12.5vw,58px);line-height:1.02}
   .hero h1 span{white-space:normal}
   .hero-description{font-size:17px}
@@ -378,10 +365,6 @@ legend{padding:0;font-size:28px;letter-spacing:-.025em;margin-bottom:24px}
   .hero-actions .button{white-space:nowrap;gap:14px;padding-inline:16px}
   .hero-actions .text-link{min-height:44px;gap:8px}
   .market-landscape{height:250px;margin-top:20px}
-  .hero-rounds li{grid-template-columns:1fr;row-gap:6px;padding:20px 0}
-  .hero-rounds span{grid-row:auto;padding-top:0}
-  .hero-rounds strong{font-size:24px}
-  .hero-rounds p{font-size:14px}
 
   .round{padding:24px 20px 28px;gap:18px}
   .round h3{font-size:clamp(30px,9vw,40px);margin-top:4px}

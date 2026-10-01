@@ -20,12 +20,6 @@ export function Home() {
         </div>
       </div>
       <MarketLandscape />
-      <div className="container">
-        <ol className="hero-rounds" aria-label="Competition rounds">
-          <li><span>Round 1</span><strong>Multiple-choice exam</strong><p>An MCQ exam on microeconomics and macroeconomics.</p></li>
-          <li><span>Round 2</span><strong>Case challenge</strong><p>Solve a real-world case as a team, then present your solution to the judges.</p></li>
-        </ol>
-      </div>
     </section>
 
     <section id="format" className="format-section section" aria-labelledby="format-title"><div className="container">
