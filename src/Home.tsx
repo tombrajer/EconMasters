@@ -1,50 +1,117 @@
 import { useRef } from 'react';
 import { useScrollMotion } from './useScrollMotion';
-import { academicRows, content, eligibility, partners, schedule, site } from './content';
+import { content, edition, eligibility, partners, preparation, site } from './content';
 import { Arrow, Disclosure, RegisterLink } from './components/Shared';
-import { Journey, SmallGraph } from './components/Graphs';
+import { ExampleQuestion, Timeline } from './components/Graphs';
 import { EconomicPlate, MarketLandscape } from './components/MarketLandscape';
+
+const [foundations, caseRound] = content.rounds;
 
 export function Home() {
   const main = useRef<HTMLElement>(null);
   useScrollMotion(main);
   return <main id="main" ref={main}>
     <section className="hero" aria-labelledby="hero-title">
-      <div className="hero-top container"><h1 id="hero-title">Economics<br /><span>Masters Challenge.</span></h1><div className="hero-copy"><p className="hero-description">A two-round economics competition for high school teams. Real questions. Original thinking.</p><div className="hero-actions"><a className="text-link" href="#competition">Explore the format<Arrow /></a><RegisterLink label="Build your team" /></div></div></div>
+      <div className="hero-top container">
+        <h1 id="hero-title">Economics<br /><span>Masters Challenge.</span></h1>
+        <div className="hero-copy">
+          <p className="hero-description">A student-run economics competition for high school teams of three.</p>
+          <div className="hero-actions"><RegisterLink label="Register your team" /><a className="text-link" href="#format">How it works<Arrow /></a></div>
+        </div>
+      </div>
       <MarketLandscape />
-
+      <div className="container">
+        <ol className="hero-rounds" aria-label="Competition rounds">
+          <li><span>Round 1</span><strong>Multiple-choice exam</strong><p>An MCQ exam on microeconomics and macroeconomics.</p></li>
+          <li><span>Round 2</span><strong>Case challenge</strong><p>Solve a real-world case as a team, then present your solution to the judges.</p></li>
+        </ol>
+      </div>
     </section>
 
-    <section id="about" className="about-section section container">
-      <p>A student-led challenge. Analyze data, apply theory, and solve real-world problems. Inspired by AP-style rigor, open to different academic programs.</p>
+    <section id="format" className="format-section section" aria-labelledby="format-title"><div className="container">
+      <h2 id="format-title">The format</h2>
+      <div className="rounds">
+        <article className="round">
+          <header className="round-head"><span className="round-index">Round {foundations.index}</span><span className="round-type">MCQ exam</span></header>
+          <h3>{foundations.title}</h3>
+          <p className="round-lead">{foundations.lead}</p>
+          <dl className="round-facts">{foundations.facts?.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+          <ExampleQuestion />
+          <p className="round-note">Figures from the 2026 edition. The format may vary by edition.</p>
+        </article>
+        <article className="round round-case">
+          <header className="round-head"><span className="round-index">Round {caseRound.index}</span><span className="round-type">{caseRound.type}</span></header>
+          <h3>{caseRound.title}</h3>
+          <p className="round-lead">{caseRound.lead}</p>
+          <ol className="case-steps">{caseRound.steps?.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, '0')}</span>{step}</li>)}</ol>
+          <figure className="case-photo"><img src="/photos/team-presentations.jpg" alt="A team presenting its case solution to the judges at the 2026 edition" width="1200" height="800" loading="lazy" /><figcaption>Team presentations, 2026</figcaption></figure>
+          <div className="case-criteria"><p>The judges score</p><ul>{caseRound.points.map(point => <li key={point}>{point}</li>)}</ul></div>
+        </article>
+      </div>
+    </div></section>
+
+    <section className="day-section section" id="day" aria-labelledby="day-title"><div className="container">
+      <div className="split-heading"><h2 id="day-title">Competition day</h2><p>2026 schedule. Next edition to be announced.</p></div>
+      <Timeline />
+    </div></section>
+
+    <section className="prepare-section section" id="prepare" aria-labelledby="prepare-title"><div className="container">
+      <h2 id="prepare-title">What to prepare</h2>
+    </div>
+      <div className="economic-rows">
+        {preparation.map(row => <article className="economic-row container" key={row.title}>
+          <div className="economic-row-title"><span className="model-label">{row.round} · {row.meta}</span><h3>{row.title}</h3></div>
+          <EconomicPlate kind={row.kind} />
+          <ul className="topic-list">{row.topics.map(topic => <li key={topic}>{topic}</li>)}</ul>
+        </article>)}
+      </div>
     </section>
 
-    <section id="competition" className="format-section section"><div className="container">
-      <div className="section-heading"><h2>Two rounds.<br /><em>One team.</em></h2></div>
-      <div className="rounds">{content.rounds.map((round, index) => <article className="round" key={round.index}><div className="round-top"><span className="round-number">Round {round.index}</span><SmallGraph kind={index === 0 ? 'foundations' : 'case'} /></div><h3>{round.title}</h3><p className="round-lead">{round.lead}</p><Disclosure className="round-extra" label="Topics & scoring"><ul className="round-topics">{round.points.map(point => <li key={point}>{point}</li>)}</ul><p className="round-note">{round.note}</p></Disclosure></article>)}<article className="round team-round"><div className="round-top"><span className="round-number">The team</span><SmallGraph kind="frontier" /></div><h3>Three perspectives</h3><p className="round-lead">Three students. One shared solution. Work together throughout both rounds.</p><a className="text-link" href="#eligibility">Who can join<Arrow /></a></article></div>
-      <p className="format-note">Teams of three compete together throughout both rounds.</p>
+    <section className="eligibility-section section" id="eligibility" aria-labelledby="eligibility-title"><div className="container eligibility-layout">
+      <div><h2 id="eligibility-title">Who can enter</h2><p>Any high school student, from any grade and any academic program. Eligibility is confirmed for each edition.</p><RegisterLink label="Register your team" /></div>
+      <dl className="facts-list">{eligibility.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
     </div></section>
 
-    <section className="how-section section container" id="how-it-works"><div className="how-intro"><h2>Follow{' '}<br />your <em>thinking.</em></h2><a href="#eligibility" className="text-link">Find your starting point<Arrow /></a></div><Journey /></section>
-
-    <section className="philosophy-section" aria-label="Academic philosophy and benefits"><div className="economic-rows">
-      {academicRows.map(row => <article className="economic-row container" key={row.kind}><div className="economic-row-title"><span className="model-label">{row.label}</span><h3>{row.title}</h3></div><EconomicPlate kind={row.kind} /><p>{row.body}</p></article>)}
+    <section className="edition-section section" id="previous-edition" aria-labelledby="edition-title"><div className="container">
+      <h2 id="edition-title">The 2026 edition</h2>
+      <dl className="edition-facts">{edition.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+      <div className="gallery">{content.gallery.map(photo => <figure key={photo.src}><div className="photo-window"><img src={photo.src} alt={photo.caption} width="1200" height="800" loading="lazy" /></div><figcaption>{photo.caption}</figcaption></figure>)}</div>
     </div></section>
 
-    <section className="eligibility-section section container" id="eligibility"><div><h2>A place for<br /><em>curious minds.</em></h2><p className="eligibility-description">All high school grades. AP, IB, and other programs. Eligibility is confirmed for each edition.</p></div><dl className="facts-list">{eligibility.map(([label,value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl></section>
+    <section className="judges-section section" id="judges" aria-labelledby="judges-title"><div className="container">
+      <div className="split-heading"><h2 id="judges-title">2026 judges</h2><p>The panel for the next edition will be announced.</p></div>
+      <div className="judges">{content.judges.map(judge => <article className="judge" key={judge.name}>
+        {judge.image ? <img src={judge.image} alt={judge.name} width="400" height="480" loading="lazy" /> : <div className="portrait-placeholder" role="img" aria-label={`Portrait unavailable for ${judge.name}`}><span>{judge.name.split(' ').map(part => part[0]).join('')}</span></div>}
+        <h3>{judge.name}</h3><p>{judge.background}</p>
+      </article>)}</div>
+    </div></section>
 
-    <section className="founders-section section" id="founders"><div className="container"><div className="section-heading"><h2>Organizers</h2></div><div className="founders">{content.founders.map(founder => <article className="founder" key={founder.name}><img src={founder.src} alt={founder.name} width="600" height="720" loading="lazy" /><div className="founder-name"><h3>{founder.name}</h3>{founder.linkedin && <a href={founder.linkedin} target="_blank" rel="noreferrer" aria-label={`${founder.name} on LinkedIn`}><Arrow diagonal /></a>}</div><p className="person-role">Founder</p><Disclosure label={`Meet ${founder.name.split(" ")[0]}`}><p className="founder-bio">{founder.bio}</p></Disclosure></article>)}</div></div></section>
+    <section className="partners-section section" id="partners" aria-labelledby="partners-title"><div className="container">
+      <h2 id="partners-title">2026 partners</h2>
+      <ul className="partner-logos">{partners.map(partner => <li key={partner.name}><a href={partner.href} target="_blank" rel="noreferrer" aria-label={partner.name}><img className={`logo-${partner.width / partner.height > 2 ? 'wide' : 'round'}`} src={partner.logo} alt={partner.name} width={partner.width} height={partner.height} loading="lazy" /></a></li>)}</ul>
+    </div></section>
 
-    <section className="judges-section section container" id="judges"><div className="judges-heading"><h2>Judges <em>& experts.</em></h2><p>2026 edition</p><p className="judges-description">Next-edition panel to be confirmed.</p></div><div className="judges">{content.judges.map(judge => <article className="judge" key={judge.name}>{judge.image ? <img src={judge.image} alt={judge.name} width="120" height="144" loading="lazy" /> : <div className="portrait-placeholder" aria-label={`Portrait unavailable for ${judge.name}`}><span>DW</span></div>}<div><h3>{judge.name}</h3><p>{judge.background}</p></div></article>)}</div></section>
+    <section className="founders-section section" id="founders" aria-labelledby="founders-title"><div className="container">
+      <h2 id="founders-title">Organisers</h2>
+      <div className="founders">{content.founders.map(founder => <article className="founder" key={founder.name}>
+        <img src={founder.src} alt={founder.name} width="600" height="720" loading="lazy" />
+        <div className="founder-body">
+          <div className="founder-name"><h3>{founder.name}</h3>{founder.linkedin && <a href={founder.linkedin} target="_blank" rel="noreferrer" aria-label={`${founder.name} on LinkedIn`}><Arrow diagonal /></a>}</div>
+          <p className="person-role">Founder</p>
+          <Disclosure label="Read bio"><p className="founder-bio">{founder.bio}</p></Disclosure>
+        </div>
+      </article>)}</div>
+      <div className="youth-voice"><p><strong>Youth Voice</strong> is a student-led platform making economics more accessible through writing, events, and academic initiatives.</p><a href={site.instagram} target="_blank" rel="noreferrer" className="text-link">Youth Voice on Instagram<Arrow diagonal /></a></div>
+    </div></section>
 
-    <section className="partners-section container" id="partners"><div className="partners-heading"><h2>In good company.</h2><p>Partners & sponsors · 2026 edition</p></div><div className="partner-wordmarks">{partners.map(partner => <a className={`partner-${partner.name.toLowerCase()}`} href={partner.href} key={partner.name} target="_blank" rel="noreferrer">{partner.name}<Arrow diagonal /></a>)}</div><p className="partners-note">Selected 2026 partners. Future partnerships to be announced.</p></section>
+    <section className="faq-section section" id="faq" aria-labelledby="faq-title"><div className="container faq-layout">
+      <div><h2 id="faq-title">FAQ</h2><p>Anything else? <a className="text-link" href={`mailto:${site.email}`}>{site.email}</a></p></div>
+      <div className="faq-list">{content.faq.map(item => <Disclosure key={item.q} label={item.q}><p>{item.a}</p></Disclosure>)}</div>
+    </div></section>
 
-    <section className="previous-section section" id="previous-edition"><div className="container"><div className="section-heading"><h2>The first<br /><em>chapter.</em></h2><div><p className="edition-date">May 29, 2026</p><p>Approximately 40 students. Two rounds. One real-world case.<br />Hosted at {site.host}.</p></div></div><div className="edition-strip"><span>2026 edition</span><p>3 students per team</p><p>2 competition rounds</p><p>1 real-world case</p></div><div className="gallery">{content.gallery.map((photo,index) => <figure key={photo.src}><div className="photo-window"><img src={photo.src} alt={photo.caption} width="1200" height="800" loading="lazy" /></div><figcaption><span>{String(index+1).padStart(2,'0')}</span>{photo.caption}</figcaption></figure>)}</div><Disclosure className="edition-schedule" label="2026 edition schedule"><p>Indicative running order. Each edition publishes its own schedule.</p><ol>{schedule.map(([time,title],index) => <li key={index}><span>{time}</span>{title}</li>)}</ol></Disclosure></div></section>
-
-    <section className="youth-section section container" id="youth-voice"><h2>A new generation.<br /><em>A voice of its own.</em></h2><div><p>Born from Youth Voice, a student-led platform making economics more accessible through writing, events, and academic initiatives.</p><a href={site.instagram} target="_blank" rel="noreferrer" className="text-link">Explore Youth Voice<Arrow diagonal /></a></div></section>
-
-    <section className="faq-section section" id="faq"><div className="container faq-layout"><div><h2>Questions,<br /><em>answered.</em></h2><p>Still curious?<br /><a className="text-link" href={`mailto:${site.email}`}>Let’s talk<Arrow diagonal /></a></p></div><div className="faq-list">{content.faq.map(item => <Disclosure key={item.q} label={item.q}><p>{item.a}</p></Disclosure>)}</div></div></section>
-
-    <section className="closing-section section container"><div><h2>Bring your<br /><em>next big idea.</em></h2><div className="closing-actions"><RegisterLink label="Register your team" /><a className="text-link" href={`mailto:${site.email}`}>Contact us<Arrow diagonal /></a></div><p className="registration-status">Next edition and registration dates to be announced.</p></div><svg className="closing-graph" viewBox="0 0 400 300" fill="none" aria-hidden="true"><path className="graph-axis" d="M30 20v250h340"/><path className="graph-supply" d="M55 243c55-4 47-89 112-82s77-84 111-71 36-53 71-62"/><circle cx="349" cy="28" r="6" fill="currentColor"/></svg></section>
+    <section className="closing-section section" aria-labelledby="closing-title"><div className="container closing-layout">
+      <div><h2 id="closing-title">Register your team</h2><p className="registration-status">Dates for the next edition and registration will be announced.</p></div>
+      <div className="closing-actions"><RegisterLink label="Go to registration" /><a className="text-link" href={`mailto:${site.email}`}>Contact us<Arrow diagonal /></a></div>
+    </div></section>
   </main>;
 }
