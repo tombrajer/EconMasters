@@ -12,11 +12,11 @@ npm test
 npm run preview
 ```
 
-`npm test` includes the production build and type check before the seven automated checks.
+`npm test` includes the production build and type check before the automated checks.
 
 The production build prerenders both pages, so their content and native disclosures work without JavaScript. Serve `dist/` with clean directory URLs; `/register/index.html` is included.
 
-Registration is a **local preview**. It validates required fields without sending, storing, or registering anything. An authenticated delivery integration must be added separately before accepting real entries. JavaScript-disabled browsers cannot submit the preview form.
+Registration uses a Vercel API and Neon Postgres. Exactly three students are required; capacity is limited atomically to 33 teams (99 participants). Setup is documented in [docs/registration-setup.md](docs/registration-setup.md). Registration remains unavailable until the database is connected and the schema is applied, and closed until `REGISTRATION_OPEN=true`. JavaScript-disabled browsers cannot submit.
 
 Original competition facts and biographies are in `src/content.json`. Shared facts and form fields are in `src/content.ts`. Photos come from the existing competition site; their source URLs are recorded in `public/photos/provenance.json`. Self-hosted fonts include their SIL Open Font Licenses.
 

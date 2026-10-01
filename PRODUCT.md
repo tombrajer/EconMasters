@@ -12,11 +12,11 @@ Delegated by the user: React, TypeScript, and Vite.
 
 ## Users and purpose
 
-High school students exploring a student-led economics competition. Teams of three compete in an analytical round and a real-world case round. The homepage explains the format and connects visitors to a registration preview.
+High school students exploring a student-led economics competition. Teams of three compete in an analytical round and a real-world case round. The homepage explains the format and connects visitors to team registration.
 
 ## Constraints
 
-Preserve verified competition facts, edition distinctions, founder biographies, people photos, and all six existing gallery photographs. No city references or other photography. Next-edition date, deadline, and panel remain unconfirmed. The registration form is UI only: no submissions, storage, backend, or misleading confirmation.
+Preserve verified competition facts, edition distinctions, founder biographies, people photos, and all six existing gallery photographs. No city references or other photography. Next-edition date, deadline, and panel remain unconfirmed. Registration uses a Vercel API and Neon Postgres, with exactly three students per team and a hard 33-team limit. Show confirmation only after persistence; keep registration closed until configured and explicitly opened.
 
 ## Brand commitments
 

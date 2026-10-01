@@ -6,10 +6,9 @@ test('desktop economics diagrams animate while in view on laptop and PC', () => 
   for (const viewport of [800, 1080]) {
     const height = 300;
     assert.equal(economicProgress(viewport * .75 - height / 2, height, viewport), 0);
-    assert.equal(economicProgress(viewport * .6 - height / 2, height, viewport), 0);
-    const middle = economicProgress(viewport * .3 - height / 2, height, viewport);
+    const middle = economicProgress(viewport * .525 - height / 2, height, viewport);
     assert.ok(Math.abs(middle - .5) < .001);
-    assert.equal(economicProgress(-height / 2, height, viewport), 1);
+    assert.equal(economicProgress(viewport * .3 - height / 2, height, viewport), 1);
     assert.equal(economicProgress(viewport, height, viewport, true), 1);
   }
 });

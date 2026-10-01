@@ -6,7 +6,7 @@ export function graphProgress(top: number, height: number, viewport: number, red
 export function economicProgress(top: number, height: number, viewport: number, reducedMotion = false): number {
   if (reducedMotion) return 1;
   const center = top + height / 2;
-  return Math.max(0, Math.min(1, (viewport * .6 - center) / (viewport * .6)));
+  return Math.max(0, Math.min(1, (viewport * .75 - center) / (viewport * .45)));
 }
 
 export function validateRegistration(values: Record<string, string>): Record<string, string> {
