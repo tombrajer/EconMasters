@@ -1,5 +1,6 @@
 node_modules/
 dist/
 .prerender/
-.impeccable/review/
-*.local
+.vercel/
+.env*
+!.env.example

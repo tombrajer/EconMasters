@@ -1,6 +1,18 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { graphProgress, validateRegistration } from '../src/behavior.ts';
+import { economicProgress, graphProgress, validateRegistration } from '../src/behavior.ts';
+
+test('desktop economics diagrams animate while in view on laptop and PC', () => {
+  for (const viewport of [800, 1080]) {
+    const height = 300;
+    assert.equal(economicProgress(viewport * .75 - height / 2, height, viewport), 0);
+    assert.equal(economicProgress(viewport * .6 - height / 2, height, viewport), 0);
+    const middle = economicProgress(viewport * .3 - height / 2, height, viewport);
+    assert.ok(Math.abs(middle - .5) < .001);
+    assert.equal(economicProgress(-height / 2, height, viewport), 1);
+    assert.equal(economicProgress(viewport, height, viewport, true), 1);
+  }
+});
 
 test('graph remains bounded and reverses as the visitor scrolls back', () => {
   assert.equal(graphProgress(1200, 1000, 800), 0);
@@ -35,4 +47,11 @@ test('an invalid email cannot pass preview validation', () => {
 const validTeam = { team: 'Market Minds', school: 'Example School', m1: 'Alex', m2: 'Sam', m3: 'Jordan', captain: 'Alex', email: 'team@example.org' };
 test('a complete team needs no optional fields to pass validation', () => {
   assert.deepEqual(validateRegistration(validTeam), {});
+});
+
+test('registration requires three different students', () => {
+  for (const member of ['m1', 'm2', 'm3']) {
+    assert.ok(validateRegistration({ ...validTeam, [member]: ' ' })[member]);
+  }
+  assert.match(validateRegistration({ ...validTeam, m3: ' alex ' }).m3, /different student/);
 });

@@ -1,4 +1,5 @@
 import { useEffect, type RefObject } from 'react';
+import { economicProgress } from './behavior';
 
 export function useScrollMotion(main: RefObject<HTMLElement | null>) {
   useEffect(() => {
@@ -13,7 +14,9 @@ export function useScrollMotion(main: RefObject<HTMLElement | null>) {
       const viewport = window.innerHeight;
       rows.forEach(row => {
         const rect = row.getBoundingClientRect();
-        const progress = motion.matches ? 1 : Math.min(1, Math.max(0, (viewport * .9 - rect.top) / (rect.height * .7)));
+        const progress = window.innerWidth > 640
+          ? economicProgress(rect.top, rect.height, viewport, motion.matches)
+          : motion.matches ? 1 : Math.min(1, Math.max(0, (viewport * .9 - rect.top) / (rect.height * .7)));
         const svg = row.querySelector<SVGSVGElement>('.economic-plate svg');
         if (svg) svg.style.transform = `translateY(${(1 - progress) * 16}px)`;
         row.querySelectorAll<SVGPathElement>('.chart-curve').forEach(path => {
