@@ -13,7 +13,7 @@ export function RegisterLink({ label = 'Registration', className = '' }: { label
   return <a className={`button ${className}`} href="/register">{label}<Arrow /></a>;
 }
 
-const navigation = [{ href: '/#about', label: 'About' }, { href: '/#competition', label: 'Format' }, { href: '/#faq', label: 'FAQ' }];
+const navigation = [{ href: '/#format', label: 'Format' }, { href: '/#prepare', label: 'Prepare' }, { href: '/#judges', label: 'Judges' }, { href: '/#faq', label: 'FAQ' }];
 
 export function Header() {
   const menu = useRef<HTMLDetailsElement>(null);
@@ -43,8 +43,8 @@ export function Header() {
 
 export function Footer() {
   return <footer className="site-footer"><div className="container">
-    <div className="footer-top"><a href="/" className="brand" aria-label={site.name}><Mark /><span>Economics<br />Masters<br />Challenge</span></a><p>Compete. Think. Solve.<br /><span>Economics beyond the classroom.</span></p><a className="text-link" href={`mailto:${site.email}`}>Get in touch<Arrow diagonal /></a></div>
-    <div className="footer-links"><nav aria-label="Footer navigation"><a href="/#about">About</a><a href="/#competition">Format</a><a href="/#judges">Judges</a><a href="/#partners">Partners</a><a href="/#faq">FAQ</a><a href="/register">Registration</a></nav><a href={site.instagram} target="_blank" rel="noreferrer">Instagram<Arrow diagonal /></a></div>
+    <div className="footer-top"><a href="/" className="brand" aria-label={site.name}><Mark /><span>Economics<br />Masters<br />Challenge</span></a><a className="text-link" href={`mailto:${site.email}`}>{site.email}<Arrow diagonal /></a></div>
+    <div className="footer-links"><nav aria-label="Footer navigation"><a href="/#format">Format</a><a href="/#day">Schedule</a><a href="/#prepare">Prepare</a><a href="/#judges">Judges</a><a href="/#partners">Partners</a><a href="/#faq">FAQ</a><a href="/register">Registration</a></nav><a href={site.instagram} target="_blank" rel="noreferrer">Instagram<Arrow diagonal /></a></div>
     <div className="footer-bottom"><p>© 2026 Economics Masters Challenge</p><p>An initiative of Youth Voice · Hosted at {site.host}</p></div>
   </div></footer>;
 }

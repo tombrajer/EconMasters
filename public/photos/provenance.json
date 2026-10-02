@@ -46,5 +46,17 @@
   "hu": {
     "local": "/photos/winner.jpg",
     "source": "https://econmasterschallenge.com/__l5e/assets-v1/7b72b346-04d2-4339-97a3-c74549a4fcfe/winner.jpg"
+  },
+  "logo-visa": {
+    "local": "/logos/visa.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Visa_Inc._logo_(2021%E2%80%93present).svg"
+  },
+  "logo-bankovnictvi": {
+    "local": "/logos/bankovnictvi.png",
+    "source": "https://bankovnictvionline.cz/sites/default/files/logo.png"
+  },
+  "logo-eaaps": {
+    "local": "/logos/eaaps.png",
+    "source": "https://www.eaaps.eu/wp-content/uploads/2025/04/ChatGPT-Image-Apr-28-2025-10_04_52-PM-e1745870833304-768x764.png"
   }
 }

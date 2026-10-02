@@ -1,8 +1,23 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { BASE, SPAN, demand, supply, equilibrium, scenario } from '../market';
 
-/** A synthetic market landscape, rather than a chart of real market data. */
+function gutter(width: number) {
+  return width > 1100 ? Math.max(56, (width - 1320) / 2) : width > 820 ? 40 : width > 560 ? 28 : 20;
+}
+
+function curvePath(fn: (q: number) => number, shift: number, x: (q: number) => number, y: (p: number) => number) {
+  const points: string[] = [];
+  for (let index = 0; index <= 40; index++) {
+    const local = (index / 40) * SPAN;
+    points.push(`${x(local + shift).toFixed(1)},${y(fn(local)).toFixed(1)}`);
+  }
+  return `M${points.join('L')}`;
+}
+
 export function MarketLandscape() {
   const canvas = useRef<HTMLCanvasElement>(null);
+  const elapsed = useRef(0);
+  const [paused, setPaused] = useState(false);
   useEffect(() => {
     const surface = canvas.current;
     const context = surface?.getContext('2d');
@@ -12,61 +27,107 @@ export function MarketLandscape() {
     let visible = true;
     let width = 0;
     let height = 0;
-    let time = 0;
+    let time = elapsed.current;
     let previous = 0;
     const draw = () => {
       context.clearRect(0, 0, width, height);
-      const columns = width < 600 ? 62 : 110;
-      for (let row = 0; row < 32; row++) {
-        const depth = row / 31;
+      const compact = width < 640;
+      const pad = gutter(width);
+      const left = pad + (compact ? 22 : 34);
+      const right = width - pad - (compact ? 4 : 8);
+      const top = compact ? 44 : 50;
+      const bottom = height - (compact ? 34 : 40);
+      const x = (q: number) => left + q * (right - left);
+      const y = (p: number) => bottom - p * (bottom - top);
+
+      const columns = compact ? 46 : 96;
+      for (let row = 0; row < 22; row++) {
+        const depth = row / 21;
         for (let col = 0; col < columns; col++) {
           const u = col / (columns - 1);
-          const x = (u - .5) * width * (1 + depth * .7) + width / 2;
-          const wave = Math.sin(u * 13 + depth * 6 + time * .35) * Math.cos(u * 5 - time * .16);
-          const y = height * .21 + depth * depth * height * .77 - wave * (18 + depth * 24);
-          const alpha = (.14 + (wave + 1) * .1) * (1 - depth * .7);
-          context.fillStyle = `rgba(255,255,255,${alpha})`;
-          const size = .75 + depth * 1.3;
-          context.fillRect(x, y, size, size);
+          const px = (u - .5) * width * (1 + depth * .6) + width / 2;
+          const wave = Math.sin(u * 11 + depth * 5 + time * .3) * Math.cos(u * 4 - time * .14);
+          const py = height * .5 + depth * depth * height * .52 - wave * (10 + depth * 14);
+          context.fillStyle = `rgba(255,255,255,${(.05 + (wave + 1) * .05) * (1 - depth * .5)})`;
+          const size = .7 + depth * 1.1;
+          context.fillRect(px, py, size, size);
         }
       }
-      const curves = [
-        { label: 'SUPPLY', sign: -1, alpha: .85 },
-        { label: 'DEMAND', sign: 1, alpha: .45 },
-      ];
-      for (const curve of curves) {
-        const points = Array.from({ length: 13 }, (_, index) => {
-          const u = index / 12;
-          return { x: width * (.08 + u * .84), y: height * (.49 + curve.sign * (u - .5) * .48) + Math.sin(u * 9 + time * .3) * 7 };
-        });
-        context.strokeStyle = `rgba(255,255,255,${curve.alpha})`;
-        context.lineWidth = 1;
-        context.beginPath();
-        points.forEach((point, index) => index ? context.lineTo(point.x, point.y) : context.moveTo(point.x, point.y));
-        context.stroke();
-        points.forEach(point => {
-          context.fillStyle = '#080808';
-          context.beginPath(); context.arc(point.x, point.y, 3, 0, Math.PI * 2); context.fill(); context.stroke();
-        });
-        const endpoint = points[12];
-        context.fillStyle = '#b5b5b5';
-        context.font = '10px monospace';
-        context.fillText(curve.label, endpoint.x - 45, endpoint.y - 16);
-        const position = (time * .075 + (curve.sign === 1 ? .5 : 0)) % 1;
-        const index = position * 12;
-        const first = points[Math.floor(index)];
-        const second = points[Math.min(Math.floor(index) + 1, 12)];
-        const blend = index % 1;
-        context.fillStyle = '#fff';
-        context.beginPath(); context.arc(first.x + (second.x - first.x) * blend, first.y + (second.y - first.y) * blend, 4, 0, Math.PI * 2); context.fill();
+
+      context.strokeStyle = 'rgba(255,255,255,.45)';
+      context.lineWidth = 1;
+      context.beginPath(); context.moveTo(left, top - 14); context.lineTo(left, bottom); context.lineTo(right + 4, bottom); context.stroke();
+      context.font = `${compact ? 10 : 11}px ui-monospace, SFMono-Regular, Menlo, monospace`;
+      context.fillStyle = 'rgba(255,255,255,.7)';
+      context.textAlign = 'left';
+      context.fillText('PRICE', left + 8, top - 16);
+      context.textAlign = 'right';
+      context.fillText('QUANTITY', right + 4, bottom + 20);
+
+      const state = motion.matches ? { demandShift: BASE, supplyShift: BASE, label: 'Market equilibrium' } : scenario(time);
+      const base = equilibrium(BASE, BASE);
+      const current = equilibrium(state.demandShift, state.supplyShift);
+
+      const stroke = (fn: (q: number) => number, shift: number, color: string, widthPx: number, dash: number[] = []) => {
+        context.setLineDash(dash);
+        context.strokeStyle = color;
+        context.lineWidth = widthPx;
+        context.stroke(new Path2D(curvePath(fn, shift, x, y)));
+        context.setLineDash([]);
+      };
+      const demandMoved = Math.abs(state.demandShift - BASE) > .002;
+      const supplyMoved = Math.abs(state.supplyShift - BASE) > .002;
+      if (demandMoved) stroke(demand, BASE, 'rgba(255,255,255,.28)', 1, [4, 5]);
+      if (supplyMoved) stroke(supply, BASE, 'rgba(255,255,255,.28)', 1, [4, 5]);
+      stroke(demand, state.demandShift, 'rgba(255,255,255,.62)', 1.5);
+      stroke(supply, state.supplyShift, '#fff', 1.5);
+
+      context.textAlign = 'left';
+      context.fillStyle = '#fff';
+      context.font = `600 ${compact ? 12 : 13}px Inter, Arial, sans-serif`;
+      context.fillText(demandMoved ? 'D₁' : 'D', x(SPAN + state.demandShift) + 6, y(demand(SPAN)) + 4);
+      context.fillText(supplyMoved ? 'S₁' : 'S', x(SPAN + state.supplyShift) + 6, y(supply(SPAN)) + 4);
+      if (Math.abs(state.demandShift - BASE) > .06) { context.fillStyle = 'rgba(255,255,255,.4)'; context.fillText('D₀', x(SPAN + BASE) + 6, y(demand(SPAN)) + 4); }
+      if (Math.abs(state.supplyShift - BASE) > .06) { context.fillStyle = 'rgba(255,255,255,.4)'; context.fillText('S₀', x(SPAN + BASE) + 6, y(supply(SPAN)) + 4); }
+
+      const ex = x(current.q);
+      const ey = y(current.p);
+      context.setLineDash([3, 4]);
+      context.strokeStyle = 'rgba(255,255,255,.45)';
+      context.lineWidth = 1;
+      context.beginPath(); context.moveTo(left, ey); context.lineTo(ex, ey); context.lineTo(ex, bottom); context.stroke();
+      if (demandMoved || supplyMoved) {
+        context.strokeStyle = 'rgba(255,255,255,.18)';
+        context.beginPath(); context.moveTo(left, y(base.p)); context.lineTo(x(base.q), y(base.p)); context.lineTo(x(base.q), bottom); context.stroke();
       }
+      context.setLineDash([]);
+
+      context.fillStyle = 'rgba(255,255,255,.14)';
+      context.beginPath(); context.arc(ex, ey, compact ? 10 : 13, 0, Math.PI * 2); context.fill();
+      context.fillStyle = '#fff';
+      context.beginPath(); context.arc(ex, ey, 4.5, 0, Math.PI * 2); context.fill();
+
+      context.font = `${compact ? 10 : 11}px ui-monospace, SFMono-Regular, Menlo, monospace`;
+      context.fillStyle = '#fff';
+      context.textAlign = 'right';
+      context.fillText('P*', left - 8, ey + 4);
+      context.textAlign = 'center';
+      context.fillText('Q*', ex, bottom + 20);
+      context.textAlign = 'right';
+      context.fillStyle = 'rgba(255,255,255,.75)';
+      context.fillText(state.label.toUpperCase(), right - 60, top - 16);
+
       surface.dataset.phase = time.toFixed(2);
+      surface.dataset.scenario = state.label;
+      surface.dataset.price = current.p.toFixed(3);
+      surface.dataset.quantity = current.q.toFixed(3);
     };
     const tick = (now: number) => {
       frame = 0;
-      if (!visible || document.hidden || motion.matches) return;
+      if (!visible || document.hidden || motion.matches || paused) return;
       if (now - previous > 32) {
         time += Math.min((now - previous) / 1000, .05);
+        elapsed.current = time;
         previous = now;
         draw();
       }
@@ -75,9 +136,9 @@ export function MarketLandscape() {
     const sync = () => {
       cancelAnimationFrame(frame);
       frame = 0;
-      surface.dataset.motion = motion.matches ? 'reduced' : 'animated';
+      surface.dataset.motion = motion.matches ? 'reduced' : paused ? 'paused' : 'animated';
       draw();
-      if (visible && !document.hidden && !motion.matches) { previous = performance.now(); frame = requestAnimationFrame(tick); }
+      if (visible && !document.hidden && !motion.matches && !paused) { previous = performance.now(); frame = requestAnimationFrame(tick); }
     };
     const resize = () => {
       const rect = surface.getBoundingClientRect();
@@ -99,15 +160,24 @@ export function MarketLandscape() {
       cancelAnimationFrame(frame); observer.disconnect(); intersection.disconnect();
       motion.removeEventListener('change', sync); document.removeEventListener('visibilitychange', sync);
     };
-  }, []);
-  return <figure className="market-landscape" aria-label="Animated illustrative supply and demand curves over a dotted economic landscape. No real market data.">
-    <svg className="landscape-fallback" viewBox="0 0 1200 350" preserveAspectRatio="none" aria-hidden="true">
-      <defs><pattern id="market-dots" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#666" /></pattern></defs>
-      <path d="M0 80Q300 10 600 100T1200 75V350H0Z" fill="url(#market-dots)" />
-      <path d="M80 260 180 235 280 230 380 190 480 175 580 172 680 140 780 130 880 100 980 95 1100 65M80 65 180 80 280 100 380 120 480 145 580 165 680 180 780 215 880 220 980 250 1100 270" fill="none" stroke="#ddd" strokeWidth="1" />
+  }, [paused]);
+
+  const fx = (q: number) => 60 + q * 1100;
+  const fy = (p: number) => 320 - p * 280;
+  const point = equilibrium(BASE, BASE);
+  return <figure className="market-landscape" aria-label="Animated supply and demand diagram. Demand shifts right, raising price and quantity; then supply shifts right, lowering price and raising quantity. Illustrative, not real market data.">
+    <svg className="landscape-fallback" viewBox="0 0 1200 360" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M60 26V320H1164" fill="none" stroke="#777" vectorEffect="non-scaling-stroke" />
+      <path d={curvePath(demand, BASE, fx, fy)} fill="none" stroke="#aaa" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+      <path d={curvePath(supply, BASE, fx, fy)} fill="none" stroke="#fff" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+      <path d={`M60 ${fy(point.p)}H${fx(point.q)}V320`} fill="none" stroke="#777" strokeDasharray="3 4" vectorEffect="non-scaling-stroke" />
+      <circle cx={fx(point.q)} cy={fy(point.p)} r="4" fill="#fff" />
+      <g fill="#ccc" fontFamily="Arial, sans-serif" fontSize="13"><text x="70" y="22">Price</text><text x="1160" y="348" textAnchor="end">Quantity</text><text x={fx(SPAN + BASE) + 10} y={fy(supply(SPAN))}>S</text><text x={fx(SPAN + BASE) + 10} y={fy(demand(SPAN))}>D</text></g>
     </svg>
     <canvas ref={canvas} aria-hidden="true" />
-
+    <button className="market-pause" type="button" aria-label={paused ? 'Play market animation' : 'Pause market animation'} onClick={() => setPaused(value => !value)}>
+      <svg viewBox="0 0 20 20" aria-hidden="true">{paused ? <path d="m7 4 9 6-9 6Z" fill="currentColor" /> : <path d="M7 5v10m6-10v10" stroke="currentColor" strokeWidth="2" />}</svg>
+    </button>
   </figure>;
 }
 

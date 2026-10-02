@@ -46,7 +46,22 @@
     {
       "index": "01",
       "title": "Analytical Foundations",
-      "lead": "A rigorous multiple-choice round testing economic knowledge and reasoning under time pressure.",
+      "type": "Multiple-choice exam",
+      "lead": "A timed multiple-choice exam on microeconomics and macroeconomics.",
+      "facts": [
+        [
+          "Questions",
+          "~60"
+        ],
+        [
+          "Microeconomics",
+          "35–40"
+        ],
+        [
+          "Macroeconomics",
+          "20–25"
+        ]
+      ],
       "points": [
         "Microeconomics",
         "Macroeconomics",
@@ -54,118 +69,63 @@
         "Conceptual understanding",
         "Quantitative thinking",
         "Application of economic principles"
-      ],
-      "note": "The 2026 edition used approximately 60 questions.  Roughly 35–40 microeconomics and 20–25 macroeconomics. Format may vary by edition."
+      ]
     },
     {
       "index": "02",
       "title": "Case Challenge",
-      "lead": "A real-world economics and business case solved collaboratively, then defended before the panel.",
-      "points": [
-        "Interpret information",
-        "Analyze data",
-        "Identify the economic problem",
-        "Apply theory",
-        "Reason through uncertainty",
-        "Communicate a solution"
+      "type": "Case + presentation to the judges",
+      "lead": "Your team gets a real-world economics and business case. You work out a solution together, then present it to the judges and answer their questions.",
+      "steps": [
+        "Read the case",
+        "Analyse the data",
+        "Build a solution",
+        "Present to the judges"
       ],
-      "note": "Scoring emphasises logic, data interpretation, economic reasoning and practical application."
-    }
-  ],
-  "steps": [
-    {
-      "n": "01",
-      "title": "Form your team",
-      "body": "Teams of three."
-    },
-    {
-      "n": "02",
-      "title": "Test your foundations",
-      "body": "Put economic knowledge and analytical reasoning to the test."
-    },
-    {
-      "n": "03",
-      "title": "Enter the case",
-      "body": "Move from theory into a real-world problem."
-    },
-    {
-      "n": "04",
-      "title": "Analyze",
-      "body": "Interpret data, identify the problem, and build your reasoning."
-    },
-    {
-      "n": "05",
-      "title": "Present your solution",
-      "body": "Communicate your conclusions clearly and convincingly."
-    },
-    {
-      "n": "06",
-      "title": "Compete for the top",
-      "body": "Final results, recognition, and awards."
-    }
-  ],
-  "benefits": [
-    {
-      "title": "Apply economics",
-      "body": "Move beyond textbook theory."
-    },
-    {
-      "title": "Think analytically",
-      "body": "Solve unfamiliar problems under pressure."
-    },
-    {
-      "title": "Work as a team",
-      "body": "Develop a solution together."
-    },
-    {
-      "title": "Handle data",
-      "body": "Interpret evidence and identify what matters."
-    },
-    {
-      "title": "Face real-world cases",
-      "body": "Connect economics to actual decisions."
-    },
-    {
-      "title": "Meet the economics community",
-      "body": "Interact with students, educators, academics, and professionals."
+      "points": [
+        "Logic",
+        "Data interpretation",
+        "Economic reasoning",
+        "Practical application"
+      ]
     }
   ],
   "faq": [
     {
       "q": "Who can participate?",
-      "a": "Students passionate about economics from different academic programs. Exact eligibility is set for each edition."
+      "a": "High school students from any grade and academic program. Exact eligibility is confirmed for each edition."
     },
     {
       "q": "How many students are on a team?",
-      "a": "Three."
+      "a": "Exactly three. You compete as a team in both rounds."
     },
     {
       "q": "Do I need to study AP Economics?",
-      "a": "No. The competition is inspired by rigorous economics curricula and is designed to be accessible to students from different academic systems, subject to the edition's eligibility rules."
+      "a": "No. The questions cover AP-level economics, but students from any program can compete, subject to the edition's eligibility rules."
     },
     {
-      "q": "What does the competition test?",
-      "a": "Economic knowledge, analytical reasoning, data interpretation, application, teamwork, and problem solving."
-    },
-    {
-      "q": "Is the competition individual or team-based?",
-      "a": "Team-based. Teams consist of three students."
+      "q": "What is Round 1?",
+      "a": "A timed multiple-choice exam. In 2026 it had about 60 questions: roughly 35–40 on microeconomics and 20–25 on macroeconomics."
     },
     {
       "q": "What is the Case Challenge?",
-      "a": "A real-world economics and business case requiring teams to analyze information and develop a reasoned solution."
+      "a": "Round 2. Your team receives a real-world economics and business case, analyses the information, builds a solution, and presents it to the judges, who then ask questions."
+    },
+    {
+      "q": "How is the case judged?",
+      "a": "On logic, data interpretation, economic reasoning, and how practical your solution is."
     },
     {
       "q": "What should I prepare?",
-      "a": "A strong understanding of economics fundamentals — especially microeconomics and macroeconomics — plus the ability to reason through unfamiliar problems."
+      "a": "Solid micro and macro fundamentals, practice reading charts and data tables, and some practice presenting an argument out loud."
     },
     {
       "q": "Where is it held?",
-      "a": "The 2026 edition was held at Sunny Canadian International School. Venue information for future editions is announced with each edition."
+      "a": "The 2026 edition was held at Sunny Canadian International School. The venue for future editions is announced with each edition."
     },
     {
       "q": "How do I register?",
-      "a": "Registration dates will be announced with the next edition. The form is currently a preview and does not submit entries. For updates, contact youthvoiceeducation@gmail.com."
+      "a": "Through the registration page, once registration opens. Dates are announced with the next edition. For updates, contact youthvoiceeducation@gmail.com."
     }
   ],
   "gallery": [
