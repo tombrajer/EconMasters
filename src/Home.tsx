@@ -72,13 +72,7 @@ export function Home() {
       <div className="gallery">{content.gallery.map(photo => <figure key={photo.src}><div className="photo-window"><img src={photo.src} alt={photo.caption} width="1200" height="800" loading="lazy" /></div><figcaption>{photo.caption}</figcaption></figure>)}</div>
     </div></section>
 
-    <section className="judges-section section" id="judges" aria-labelledby="judges-title"><div className="container">
-      <div className="split-heading"><h2 id="judges-title">2026 judges</h2><p>The panel for the next edition will be announced.</p></div>
-      <div className="judges">{content.judges.map(judge => <article className="judge" key={judge.name}>
-        {judge.image ? <img src={judge.image} alt={judge.name} width="400" height="480" loading="lazy" /> : <div className="portrait-placeholder" role="img" aria-label={`Portrait unavailable for ${judge.name}`}><span>{judge.name.split(' ').map(part => part[0]).join('')}</span></div>}
-        <h3>{judge.name}</h3><p>{judge.background}</p>
-      </article>)}</div>
-    </div></section>
+    <section className="judges-section section container" id="judges" aria-labelledby="judges-title"><div className="judges-heading"><h2 id="judges-title">Judges <em>& experts.</em></h2><p>2026 edition</p><p className="judges-description">Next-edition panel to be confirmed.</p></div><div className="judges">{content.judges.map(judge => <article className="judge" key={judge.name}>{judge.image ? <img src={judge.image} alt={judge.name} width="120" height="144" loading="lazy" /> : <div className="portrait-placeholder" role="img" aria-label={`Portrait unavailable for ${judge.name}`}><span>DW</span></div>}<div><h3>{judge.name}</h3><p>{judge.background}</p></div></article>)}</div></section>
 
     <section className="partners-section section" id="partners" aria-labelledby="partners-title"><div className="container">
       <h2 id="partners-title">2026 partners</h2>

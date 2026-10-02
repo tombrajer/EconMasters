@@ -40,16 +40,16 @@ export function MarketLandscape() {
       const x = (q: number) => left + q * (right - left);
       const y = (p: number) => bottom - p * (bottom - top);
 
-      const columns = compact ? 46 : 96;
-      for (let row = 0; row < 22; row++) {
-        const depth = row / 21;
+      const columns = compact ? 62 : 110;
+      for (let row = 0; row < 32; row++) {
+        const depth = row / 31;
         for (let col = 0; col < columns; col++) {
           const u = col / (columns - 1);
-          const px = (u - .5) * width * (1 + depth * .6) + width / 2;
-          const wave = Math.sin(u * 11 + depth * 5 + time * .3) * Math.cos(u * 4 - time * .14);
-          const py = height * .5 + depth * depth * height * .52 - wave * (10 + depth * 14);
-          context.fillStyle = `rgba(255,255,255,${(.05 + (wave + 1) * .05) * (1 - depth * .5)})`;
-          const size = .7 + depth * 1.1;
+          const px = (u - .5) * width * (1 + depth * .7) + width / 2;
+          const wave = Math.sin(u * 13 + depth * 6 + time * .35) * Math.cos(u * 5 - time * .16);
+          const py = height * .21 + depth * depth * height * .77 - wave * (18 + depth * 24);
+          context.fillStyle = `rgba(255,255,255,${(.14 + (wave + 1) * .1) * (1 - depth * .7)})`;
+          const size = .75 + depth * 1.3;
           context.fillRect(px, py, size, size);
         }
       }
