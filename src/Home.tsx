@@ -6,6 +6,12 @@ import { ExampleQuestion, Timeline } from './components/Graphs';
 import { EconomicPlate, MarketLandscape } from './components/MarketLandscape';
 
 const [foundations, caseRound] = content.rounds;
+const caseIcons = [
+  <><path d="M8 3h13l5 5v25H8Z" /><path d="M21 3v6h5M12 14h10M12 19h10M12 24h7" /></>,
+  <><path d="M5 24h5v9H5ZM15 16h5v17h-5ZM25 6h5v27h-5Z" /></>,
+  <><path d="M12 24c0-4-5-5-5-12a10 10 0 0 1 20 0c0 7-5 8-5 12M12 24h10M13 28h8M15 32h4" /></>,
+  <><circle cx="12" cy="10" r="5" /><path d="M3 30v-3c0-5 4-8 9-8s9 3 9 8v3ZM24 6a5 5 0 0 1 0 10M25 20c5 0 8 3 8 7v3h-8" /></>,
+];
 
 export function Home() {
   const main = useRef<HTMLElement>(null);
@@ -37,7 +43,7 @@ export function Home() {
           <header className="round-head"><span className="round-index">Round {caseRound.index}</span><span className="round-type">{caseRound.type}</span></header>
           <h3>{caseRound.title}</h3>
           <p className="round-lead">{caseRound.lead}</p>
-          <ol className="case-steps">{caseRound.steps?.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, '0')}</span>{step}</li>)}</ol>
+          <ol className="case-steps">{caseRound.steps?.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, '0')}</span><svg className="case-step-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{caseIcons[index]}</svg><p>{step}</p></li>)}</ol>
           <figure className="case-photo"><img src="/photos/team-presentations.jpg" alt="A team presenting its case solution to the judges at the 2026 edition" width="1200" height="800" loading="lazy" /><figcaption>Team presentations, 2026</figcaption></figure>
           <div className="case-criteria"><p>The judges score</p><ul>{caseRound.points.map(point => <li key={point}>{point}</li>)}</ul></div>
         </article>

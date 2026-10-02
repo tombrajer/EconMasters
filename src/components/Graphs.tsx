@@ -57,9 +57,9 @@ export function ExampleQuestion() {
   const [answer, setAnswer] = useState<number | null>(null);
   const options = ['Price rises, quantity falls', 'Price falls, quantity rises', 'Price and quantity both rise', 'Nothing changes'];
   return <figure className="example-question" aria-label="Example question in the style of Round 1">
-    <figcaption>Example question</figcaption>
+    <figcaption>Example question<span className="question-time" aria-label="Suggested practice time: 1 minute 20 seconds" title="Suggested practice time"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8" /><path d="M10 5v5l3 2" /></svg>01:20</span></figcaption>
     <p>A new technology lowers the cost of making solar panels. With demand unchanged, what happens to equilibrium price and quantity?</p>
     <ol>{options.map((option, index) => <li key={option}><button type="button" aria-pressed={answer === index} data-answer={answer === null ? undefined : index === 1 ? 'correct' : answer === index ? 'incorrect' : undefined} onClick={() => setAnswer(index)}><span>{'ABCD'[index]}</span>{option}{answer !== null && index === 1 && <svg className="answer-check" viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-8" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg>}</button></li>)}</ol>
-    <div className="answer-feedback" role="status" hidden={answer === null}><strong>{answer === 1 ? 'Correct.' : 'The answer is B.'}</strong> Lower production costs shift supply to the right. Equilibrium price falls and quantity rises.</div>
+    <div className="answer-feedback" role="status" hidden={answer === null}><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill={answer === 1 ? '#4f806a' : '#666'} /><path d="m6 12 4 4 8-9" fill="none" stroke="#fff" strokeWidth="2" /></svg><p><strong>{answer === 1 ? 'Correct.' : 'The answer is B.'}</strong> Lower production costs shift supply to the right. Equilibrium price falls and quantity rises.</p></div>
   </figure>;
 }
