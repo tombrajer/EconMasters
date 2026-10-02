@@ -214,6 +214,9 @@ section>.container>h2:first-child{margin-bottom:clamp(32px,4vw,56px)}
 .founder-name{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px}
 .founder-name h3{font-size:clamp(22px,2vw,26px)}
 .founder-name a{padding:6px}
+.founder-linkedin{color:#777;display:grid;place-items:center;min-width:44px;min-height:44px;transition:color 160ms ease}
+.founder-linkedin svg{width:24px;height:24px}
+.founder-linkedin:hover,.founder-linkedin:focus-visible{color:#0a66c2}
 .person-role{color:var(--muted);font-size:13px;margin-top:4px}
 .founder .disclosure,.founder details{border-top:1px solid var(--line);margin-top:18px}
 .founder .disclosure-trigger,.founder summary{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);padding-top:14px;list-style:none;min-height:40px}

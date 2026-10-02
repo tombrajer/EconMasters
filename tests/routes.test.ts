@@ -14,7 +14,7 @@ test('both prerendered routes contain content and do not enable submission witho
   const registration = await readFile(new URL('../dist/register/index.html', import.meta.url), 'utf8');
   assert.match(home, /Economics.*?<br\/>.*?Masters Challenge/);
   assert.match(home, /gallery/);
-  assert.match(home, /og:image" content="https:\/\/econmasters\.vercel\.app\/og-image\.png"/);
+  assert.match(home, /og:image" content="https:\/\/econmasters\.vercel\.app\/og-hero\.png"/);
   assert.match(registration, /disabled=""/);
   assert.doesNotMatch(home + registration, /Prague|Praha|Prahy/i);
 });
