@@ -1,0 +1,12 @@
+Generated with the built-in imagegen tool on 2026-10-05.
+Exported with sips to the site sizes. favicon.ico packages the generated PNG mark at 16 and 32 pixels.
+
+Sharing card prompt:
+Use case: ads-marketing
+Asset type: Open Graph link-sharing card for Economics Masters Challenge, wide landscape canvas with 1.905:1 aspect ratio, intended final size 1200x630.
+Primary request: a polished graphic matching an economics competition website with deep navy #0a2448, golden yellow #f9b12a and white. Flat clean editorial graphic design. Bold modern sans-serif typography, generous margins. Large white title arranged on three lines, exact text "Economics Masters Challenge". Smaller white line below, exact text "Student Economics Competition". To the right a striking golden yellow ascending five-bar chart, inspired by the existing website brand mark, with thin subtle economics graph curves in navy-on-navy behind it. Dark navy background, minimal uncluttered layout, title occupies left two thirds, chart right third. No dates, no other words, no photographs, no mockup borders, no watermark. All typography crisp, fully inside canvas, legible when shared as a small thumbnail.
+
+Favicon prompt:
+Use case: logo-brand
+Asset type: square website favicon master, 1024x1024 canvas.
+Primary request: clean flat graphic favicon for Economics Masters Challenge. Full-bleed solid deep navy #0a2448 background. Center a simple ascending five-bar chart in golden yellow #f9b12a, matching the existing economics website brand motif. Five thick vertical rectangular bars with equal widths and equal small gaps, all sharing the same baseline, increasing in height from left to right. Mark fills about 70 percent of the square with even clear margin. Bold silhouette that remains legible at 16 pixels. Straight crisp edges. No letters, no text, no axes, no numbers, no border, no shadow, no gradients, no texture, no 3D, no mockup, no watermark.
