@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { BASE, SPAN, demand, supply, equilibrium, scenario } from '../market';
 
+const ACCENT = '#f9b12a';
+const NAVY = '#0a2448';
+const GRID = '#4a6690';
+
 function gutter(width: number) {
   return width > 1100 ? Math.max(56, (width - 1320) / 2) : width > 820 ? 40 : width > 560 ? 28 : 20;
 }
@@ -80,12 +84,13 @@ export function MarketLandscape() {
       if (demandMoved) stroke(demand, BASE, 'rgba(255,255,255,.28)', 1, [4, 5]);
       if (supplyMoved) stroke(supply, BASE, 'rgba(255,255,255,.28)', 1, [4, 5]);
       stroke(demand, state.demandShift, 'rgba(255,255,255,.62)', 1.5);
-      stroke(supply, state.supplyShift, '#fff', 1.5);
+      stroke(supply, state.supplyShift, ACCENT, 2);
 
       context.textAlign = 'left';
       context.fillStyle = '#fff';
       context.font = `600 ${compact ? 12 : 13}px Inter, Arial, sans-serif`;
       context.fillText(demandMoved ? 'D₁' : 'D', x(SPAN + state.demandShift) + 6, y(demand(SPAN)) + 4);
+      context.fillStyle = ACCENT;
       context.fillText(supplyMoved ? 'S₁' : 'S', x(SPAN + state.supplyShift) + 6, y(supply(SPAN)) + 4);
       if (Math.abs(state.demandShift - BASE) > .06) { context.fillStyle = 'rgba(255,255,255,.4)'; context.fillText('D₀', x(SPAN + BASE) + 6, y(demand(SPAN)) + 4); }
       if (Math.abs(state.supplyShift - BASE) > .06) { context.fillStyle = 'rgba(255,255,255,.4)'; context.fillText('S₀', x(SPAN + BASE) + 6, y(supply(SPAN)) + 4); }
@@ -102,9 +107,9 @@ export function MarketLandscape() {
       }
       context.setLineDash([]);
 
-      context.fillStyle = 'rgba(255,255,255,.14)';
+      context.fillStyle = 'rgba(249,177,42,.2)';
       context.beginPath(); context.arc(ex, ey, compact ? 10 : 13, 0, Math.PI * 2); context.fill();
-      context.fillStyle = '#fff';
+      context.fillStyle = ACCENT;
       context.beginPath(); context.arc(ex, ey, 4.5, 0, Math.PI * 2); context.fill();
 
       context.font = `${compact ? 10 : 11}px ui-monospace, SFMono-Regular, Menlo, monospace`;
@@ -167,12 +172,12 @@ export function MarketLandscape() {
   const point = equilibrium(BASE, BASE);
   return <figure className="market-landscape" aria-label="Animated supply and demand diagram. Demand shifts right, raising price and quantity; then supply shifts right, lowering price and raising quantity. Illustrative, not real market data.">
     <svg className="landscape-fallback" viewBox="0 0 1200 360" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M60 26V320H1164" fill="none" stroke="#777" vectorEffect="non-scaling-stroke" />
-      <path d={curvePath(demand, BASE, fx, fy)} fill="none" stroke="#aaa" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
-      <path d={curvePath(supply, BASE, fx, fy)} fill="none" stroke="#fff" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
-      <path d={`M60 ${fy(point.p)}H${fx(point.q)}V320`} fill="none" stroke="#777" strokeDasharray="3 4" vectorEffect="non-scaling-stroke" />
-      <circle cx={fx(point.q)} cy={fy(point.p)} r="4" fill="#fff" />
-      <g fill="#ccc" fontFamily="Arial, sans-serif" fontSize="13"><text x="70" y="22">Price</text><text x="1160" y="348" textAnchor="end">Quantity</text><text x={fx(SPAN + BASE) + 10} y={fy(supply(SPAN))}>S</text><text x={fx(SPAN + BASE) + 10} y={fy(demand(SPAN))}>D</text></g>
+      <path d="M60 26V320H1164" fill="none" stroke={GRID} vectorEffect="non-scaling-stroke" />
+      <path d={curvePath(demand, BASE, fx, fy)} fill="none" stroke="#a7b3c7" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+      <path d={curvePath(supply, BASE, fx, fy)} fill="none" stroke={ACCENT} strokeWidth="2" vectorEffect="non-scaling-stroke" />
+      <path d={`M60 ${fy(point.p)}H${fx(point.q)}V320`} fill="none" stroke={GRID} strokeDasharray="3 4" vectorEffect="non-scaling-stroke" />
+      <circle cx={fx(point.q)} cy={fy(point.p)} r="4" fill={ACCENT} />
+      <g fill="#c7d0de" fontFamily="Arial, sans-serif" fontSize="13"><text x="70" y="22">Price</text><text x="1160" y="348" textAnchor="end">Quantity</text><text x={fx(SPAN + BASE) + 10} y={fy(supply(SPAN))}>S</text><text x={fx(SPAN + BASE) + 10} y={fy(demand(SPAN))}>D</text></g>
     </svg>
     <canvas ref={canvas} aria-hidden="true" />
     <button className="market-pause" type="button" aria-label={paused ? 'Play market animation' : 'Pause market animation'} onClick={() => setPaused(value => !value)}>
@@ -186,21 +191,21 @@ export function EconomicPlate({ kind }: { kind: 'frontier' | 'data' | 'network' 
   const project = (x: number, y: number, z = 0) => `${180 + (x - y) * 17},${93 + (x + y) * 8 - z}`;
   const grid = Array.from({ length: 11 }, (_, index) => index);
   return <div className="economic-plate"><svg viewBox="0 0 360 290" fill="none" aria-hidden="true">
-    <path d={`M${project(0,0)} ${project(10,0)} ${project(10,10)} ${project(0,10)}Z`} fill="#111" stroke="#111" />
-    <g stroke="#777" strokeWidth=".6">{grid.map(n => <path key={n} d={`M${project(n,0)} ${project(n,10)}M${project(0,n)} ${project(10,n)}`} />)}</g>
+    <path d={`M${project(0,0)} ${project(10,0)} ${project(10,10)} ${project(0,10)}Z`} fill={NAVY} stroke={NAVY} />
+    <g stroke={GRID} strokeWidth=".6">{grid.map(n => <path key={n} d={`M${project(n,0)} ${project(n,10)}M${project(0,n)} ${project(10,n)}`} />)}</g>
     {kind === 'frontier' ? <>
       {[2,4,6,8].map((x,i) => {
         const bar = `M${project(x,7)} ${project(x,7,25+i*15)} ${project(x+ .6,7,25+i*15)} ${project(x+ .6,7)}M${project(x,7,25+i*15)} ${project(x,7.6,25+i*15)} ${project(x+.6,7.6,25+i*15)} ${project(x+.6,7,25+i*15)}M${project(x,7.6,25+i*15)} ${project(x,7.6)}`;
-        return <g key={x} className="chart-pillar" data-base-y={93+(x+7.3)*8}><path d={bar} fill="#111" stroke="#111" strokeWidth="2.5" /><path d={bar} fill="#111" stroke="#eee" strokeWidth=".8" /></g>;
+        return <g key={x} className="chart-pillar" data-base-y={93+(x+7.3)*8}><path d={bar} fill={NAVY} stroke={NAVY} strokeWidth="2.5" /><path d={bar} fill={NAVY} stroke={ACCENT} strokeWidth=".8" /></g>;
       })}
     </> : kind === 'data' ? <>
-      <path d={`M${project(1,4,10)} ${project(2,4,30)} ${project(3,4,20)} ${project(4,4,60)} ${project(5,4,40)} ${project(6,4,100)} ${project(7,4,70)} ${project(8,4,95)} ${project(9,4,80)}`} stroke="#111" strokeWidth="3.5" className="chart-curve" pathLength="1" />
-      <path d={`M${project(1,4,10)} ${project(2,4,30)} ${project(3,4,20)} ${project(4,4,60)} ${project(5,4,40)} ${project(6,4,100)} ${project(7,4,70)} ${project(8,4,95)} ${project(9,4,80)}`} stroke="#fff" strokeWidth="1.5" className="chart-curve" pathLength="1" />
-      {[2,4,6,8].map((x,i) => <path key={x} d={`M${project(x,4)} ${project(x,4,[30,60,100,95][i])}`} stroke="#999" strokeDasharray="2 3" />)}
+      <path d={`M${project(1,4,10)} ${project(2,4,30)} ${project(3,4,20)} ${project(4,4,60)} ${project(5,4,40)} ${project(6,4,100)} ${project(7,4,70)} ${project(8,4,95)} ${project(9,4,80)}`} stroke={NAVY} strokeWidth="3.5" className="chart-curve" pathLength="1" />
+      <path d={`M${project(1,4,10)} ${project(2,4,30)} ${project(3,4,20)} ${project(4,4,60)} ${project(5,4,40)} ${project(6,4,100)} ${project(7,4,70)} ${project(8,4,95)} ${project(9,4,80)}`} stroke={ACCENT} strokeWidth="1.5" className="chart-curve" pathLength="1" />
+      {[2,4,6,8].map((x,i) => <path key={x} d={`M${project(x,4)} ${project(x,4,[30,60,100,95][i])}`} stroke="#a7b3c7" strokeDasharray="2 3" />)}
     </> : <>
-      <ellipse className="network-ring" cx="180" cy="173" rx="53" ry="25" stroke="#fff" strokeWidth="1" pathLength="1" />
-      {[{x:2,y:2},{x:8,y:2},{x:2,y:8},{x:8,y:8}].map(({x,y},i) => <g className="network-branch" key={i}><path className="network-link" d={`M${project(5,5)} ${project(x,y)}`} stroke="#999" pathLength="1" /><circle className="network-node" cx={180+(x-y)*17} cy={93+(x+y)*8} r="5" fill="#111" stroke="white" /></g>)}
-      <circle cx="180" cy="173" r="5" fill="white" />
+      <ellipse className="network-ring" cx="180" cy="173" rx="53" ry="25" stroke={ACCENT} strokeWidth="1" pathLength="1" />
+      {[{x:2,y:2},{x:8,y:2},{x:2,y:8},{x:8,y:8}].map(({x,y},i) => <g className="network-branch" key={i}><path className="network-link" d={`M${project(5,5)} ${project(x,y)}`} stroke="#a7b3c7" pathLength="1" /><circle className="network-node" cx={180+(x-y)*17} cy={93+(x+y)*8} r="5" fill={NAVY} stroke="white" /></g>)}
+      <circle cx="180" cy="173" r="5" fill={ACCENT} />
     </>}
   </svg></div>;
 }
