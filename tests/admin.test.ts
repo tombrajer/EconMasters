@@ -9,12 +9,11 @@ const entry: AdminRegistration = {
 };
 
 function fakeStore(overrides: Partial<AdminStore> = {}) {
-  const calls = { reserve: 0, clear: 0, list: 0, delete: 0 };
+  const calls = { reserve: 0, clear: 0, list: 0 };
   const store: AdminStore = {
     async reserveAttempt() { calls.reserve++; return { allowed: true, attemptsLeft: 4 }; },
     async clearAttempts() { calls.clear++; },
     async list() { calls.list++; return [entry]; },
-    async delete() { calls.delete++; return true; },
     ...overrides,
   };
   return { store, calls };
@@ -88,37 +87,4 @@ test('storage failures never unlock the admin', async () => {
   const response = await handleAdmin(post({ passcode: '4821' }), offline.store, '4821');
   assert.equal(response.status, 503);
   assert.equal((await response.json()).registrations, undefined);
-});
-
-const remove = (passcode: string, id: unknown = entry.id) => new Request('https://example.org/api/admin', {
-  method: 'DELETE', headers: { 'Content-Type': 'application/json', Origin: 'https://example.org' },
-  body: JSON.stringify({ passcode, id }),
-});
-
-test('deletion requires the correct password and returns the deleted ID', async () => {
-  const { store, calls } = fakeStore();
-  assert.equal((await handleAdmin(remove('0000'), store, '0987')).status, 401);
-  assert.equal(calls.delete, 0);
-  const response = await handleAdmin(remove('0987'), store, '0987');
-  assert.equal(response.status, 200);
-  assert.deepEqual(await response.json(), { deleted: entry.id });
-  assert.equal(calls.delete, 1);
-});
-
-test('invalid IDs and missing registrations are handled without reporting success', async () => {
-  const { store, calls } = fakeStore();
-  for (const id of [null, 123, 'invalid']) {
-    assert.equal((await handleAdmin(remove('0987', id), store, '0987')).status, 400);
-  }
-  assert.equal(calls.delete, 0);
-  const missing = fakeStore({ async delete() { return false; } });
-  assert.equal((await handleAdmin(remove('0987'), missing.store, '0987')).status, 404);
-});
-
-test('locked and unavailable storage never allow deletion', async () => {
-  const locked = fakeStore({ async reserveAttempt() { return { allowed: false, retryAfter: 900 }; } });
-  assert.equal((await handleAdmin(remove('0987'), locked.store, '0987')).status, 429);
-  assert.equal(locked.calls.delete, 0);
-  const offline = fakeStore({ async delete() { throw new Error('offline'); } });
-  assert.equal((await handleAdmin(remove('0987'), offline.store, '0987')).status, 503);
 });
