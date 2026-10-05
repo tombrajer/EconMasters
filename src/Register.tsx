@@ -125,7 +125,7 @@ export function Register() {
     <label htmlFor={raw.name}>{raw.label}</label>
     {raw.textarea
       ? <textarea id={raw.name} name={raw.name} rows={3} value={values[raw.name] || ''} aria-invalid={!!errors[raw.name]} aria-describedby={errors[raw.name] ? `${raw.name}-error` : undefined} onChange={event => change(raw.name, event.target.value)} />
-      : <input id={raw.name} name={raw.name} type={raw.type || 'text'} required={raw.required} placeholder={raw.placeholder} value={values[raw.name] || ''} autoComplete={raw.name === 'email' ? 'email' : raw.name === 'phone' ? 'tel' : raw.name === 'country' ? 'country-name' : 'off'} aria-invalid={!!errors[raw.name]} aria-describedby={errors[raw.name] ? `${raw.name}-error` : undefined} onChange={event => change(raw.name, event.target.value)} />}
+      : <input id={raw.name} name={raw.name} type={raw.type || 'text'} required={raw.required} placeholder={raw.placeholder} value={values[raw.name] || ''} autoComplete={raw.name === 'email' ? 'email' : raw.name === 'phone' ? 'tel' : raw.name === 'country' ? 'country-name' : 'off'} autoCapitalize={raw.name === 'email' ? 'none' : undefined} autoCorrect={raw.name === 'email' ? 'off' : undefined} spellCheck={raw.name === 'email' ? false : undefined} enterKeyHint={raw.name === 'email' ? 'send' : 'next'} aria-invalid={!!errors[raw.name]} aria-describedby={errors[raw.name] ? `${raw.name}-error` : undefined} onChange={event => change(raw.name, event.target.value)} />}
     {errors[raw.name] && <p className="field-error" id={`${raw.name}-error`}>{errors[raw.name]}</p>}
   </div>;
   const notices = {

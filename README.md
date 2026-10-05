@@ -16,7 +16,7 @@ npm run preview
 
 The production build prerenders both pages, so their content and native disclosures work without JavaScript. Serve `dist/` with clean directory URLs; `/register/index.html` is included.
 
-Registration has two steps: team details, then captain and email. Optional information is collapsed, and going back keeps the entered values. Registration uses a Vercel API and Neon Postgres. Exactly three students are required; capacity is limited atomically to 33 teams (99 participants). Setup is documented in [docs/registration-setup.md](docs/registration-setup.md). Registration remains unavailable until the database is connected and the schema is applied, and closed until `REGISTRATION_OPEN=true`. JavaScript-disabled browsers cannot submit.
+Registration has two steps: team details, then captain and email. Optional information is collapsed, and going back keeps the entered values. Registration uses a Vercel API and Neon Postgres. Exactly three students are required; capacity is limited atomically to 33 teams (99 participants). Setup is documented in [docs/registration-setup.md](docs/registration-setup.md). The footer's `/admin` page (four-digit `ADMIN_PASSCODE`, attempt lockout) lists the entries and exports them to Excel. Registration remains unavailable until the database is connected and the schema is applied, and closed until `REGISTRATION_OPEN=true`. JavaScript-disabled browsers cannot submit.
 
 Original competition facts and biographies are in `src/content.json`. Shared facts and form fields are in `src/content.ts`. Photos come from the existing competition site; their source URLs are recorded in `public/photos/provenance.json`. Self-hosted fonts include their SIL Open Font Licenses.
 

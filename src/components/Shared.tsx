@@ -45,7 +45,7 @@ export function Footer() {
   return <footer className="site-footer"><div className="container">
     <div className="footer-top"><a href="/" className="brand" aria-label={site.name}><Mark /><span>Economics<br />Masters<br />Challenge</span></a><a className="text-link" href={`mailto:${site.email}`}>{site.email}<Arrow diagonal /></a></div>
     <div className="footer-links"><nav aria-label="Footer navigation"><a href="/#format">Format</a><a href="/#day">Schedule</a><a href="/#prepare">Prepare</a><a href="/#judges">Judges</a><a href="/#partners">Partners</a><a href="/#faq">FAQ</a><a href="/register">Registration</a></nav><a href={site.instagram} target="_blank" rel="noreferrer">Instagram<Arrow diagonal /></a></div>
-    <div className="footer-bottom"><p>© 2026 Economics Masters Challenge</p><p>An initiative of Youth Voice · Hosted at {site.host}</p></div>
+    <div className="footer-bottom"><p>© 2026 Economics Masters Challenge</p><p>An initiative of Youth Voice · Hosted at {site.host}</p><a className="footer-admin" href="/admin" rel="nofollow">Admin</a></div>
   </div></footer>;
 }
 
