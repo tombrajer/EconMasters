@@ -16,5 +16,7 @@ test('both prerendered routes contain content and do not enable submission witho
   assert.match(home, /gallery/);
   assert.match(home, /og:image" content="https:\/\/econmasters\.vercel\.app\/og-sharing\.png"/);
   assert.match(registration, /disabled=""/);
-  assert.doesNotMatch(home + registration, /Prague|Praha|Prahy/i);
+  // A judge's employer can be in Prague; the competition must not claim that venue.
+  const homeWithoutJudgeProfiles = home.replace(/<article class="judge">[\s\S]*?<\/article>/g, '');
+  assert.doesNotMatch(homeWithoutJudgeProfiles + registration, /Prague|Praha|Prahy/i);
 });
