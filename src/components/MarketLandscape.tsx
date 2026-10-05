@@ -22,17 +22,22 @@ function curvePath(fn: (q: number) => number, shift: number, x: (q: number) => n
 
 export function MarketLandscape() {
   const canvas = useRef<HTMLCanvasElement>(null);
+  const background = useRef<HTMLCanvasElement>(null);
   const elapsed = useRef(0);
   const [paused, setPaused] = useState(false);
   useEffect(() => {
     const surface = canvas.current;
     const context = surface?.getContext('2d');
-    if (!surface || !context) return;
+    const backdrop = background.current;
+    const backdropContext = backdrop?.getContext('2d');
+    if (!surface || !context || !backdrop || !backdropContext) return;
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let frame = 0;
     let visible = true;
     let width = 0;
     let height = 0;
+    let backdropWidth = 0;
+    let backdropHeight = 0;
     let time = elapsed.current;
     let previous = 0;
     const draw = () => {
@@ -46,17 +51,20 @@ export function MarketLandscape() {
       const x = (q: number) => left + q * (right - left);
       const y = (p: number) => bottom - p * (bottom - top);
 
+      backdropContext.clearRect(0, 0, backdropWidth, backdropHeight);
       const columns = compact ? 62 : 110;
-      for (let row = 0; row < 32; row++) {
-        const depth = row / 31;
+      for (let row = 0; row < 48; row++) {
+        const depth = row / 47;
         for (let col = 0; col < columns; col++) {
           const u = col / (columns - 1);
-          const px = (u - .5) * width * (1 + depth * .7) + width / 2;
+          const px = (u - .5) * backdropWidth * (1 + depth * .7) + backdropWidth / 2;
           const wave = Math.sin(u * 13 + depth * 6 + time * .35) * Math.cos(u * 5 - time * .16);
-          const py = height * .21 + depth * depth * height * .77 - wave * (18 + depth * 24);
-          context.fillStyle = `rgba(255,255,255,${(.14 + (wave + 1) * .1) * (1 - depth * .7)})`;
+          const py = backdropHeight * .03 + depth * depth * backdropHeight * .97 - wave * (24 + depth * 40);
+          // Leave quieter space around the centered title and event details.
+          const centerFade = 1 - .7 * Math.exp(-Math.pow((px / backdropWidth - .5) * 3.5, 2)) * (1 - depth * .5);
+          backdropContext.fillStyle = `rgba(255,255,255,${(.18 + (wave + 1) * .12) * centerFade * (1 - depth * .45)})`;
           const size = .75 + depth * 1.3;
-          context.fillRect(px, py, size, size);
+          backdropContext.fillRect(px, py, size, size);
         }
       }
 
@@ -153,16 +161,21 @@ export function MarketLandscape() {
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
       surface.width = Math.round(width * ratio); surface.height = Math.round(height * ratio);
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      const backdropRect = backdrop.getBoundingClientRect();
+      backdropWidth = backdropRect.width; backdropHeight = backdropRect.height;
+      backdrop.width = Math.round(backdropWidth * ratio); backdrop.height = Math.round(backdropHeight * ratio);
+      backdropContext.setTransform(ratio, 0, 0, ratio, 0, 0);
       sync();
     };
     const observer = new ResizeObserver(resize);
     observer.observe(surface);
+    observer.observe(backdrop);
     const intersection = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); });
     intersection.observe(surface);
     motion.addEventListener('change', sync);
     document.addEventListener('visibilitychange', sync);
     resize();
-    surface.parentElement?.setAttribute('data-ready', 'true');
+    surface.closest('.market-landscape')?.setAttribute('data-ready', 'true');
     return () => {
       cancelAnimationFrame(frame); observer.disconnect(); intersection.disconnect();
       motion.removeEventListener('change', sync); document.removeEventListener('visibilitychange', sync);
@@ -173,6 +186,8 @@ export function MarketLandscape() {
   const fy = (p: number) => 320 - p * 280;
   const point = equilibrium(BASE, BASE);
   return <figure className="market-landscape" aria-label="Animated supply and demand diagram. Demand shifts right, raising price and quantity; then supply shifts right, lowering price and raising quantity. Illustrative, not real market data.">
+    <canvas className="hero-landscape-background" ref={background} aria-hidden="true" />
+    <div className="market-graph">
     <svg className="landscape-fallback" viewBox="0 0 1200 360" preserveAspectRatio="none" aria-hidden="true">
       <path d="M60 26V320H1164" fill="none" stroke={GRID} vectorEffect="non-scaling-stroke" />
       <path d={curvePath(demand, BASE, fx, fy)} fill="none" stroke="#a7b3c7" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
@@ -185,6 +200,7 @@ export function MarketLandscape() {
     <button className="market-pause" type="button" aria-label={paused ? 'Play market animation' : 'Pause market animation'} onClick={() => setPaused(value => !value)}>
       <svg viewBox="0 0 20 20" aria-hidden="true">{paused ? <path d="m7 4 9 6-9 6Z" fill="currentColor" /> : <path d="M7 5v10m6-10v10" stroke="currentColor" strokeWidth="2" />}</svg>
     </button>
+    </div>
   </figure>;
 }
 
