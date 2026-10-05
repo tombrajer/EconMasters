@@ -1,0 +1,29 @@
+.tcc-root{position:relative;overflow:hidden;display:grid;place-items:center;width:100%;color:var(--ink,#262626);touch-action:pan-y pinch-zoom;outline:none;-webkit-tap-highlight-color:transparent;overscroll-behavior-x:contain}
+.tcc-root:focus-visible{box-shadow:inset 0 0 0 2px currentColor}
+.tcc-root[data-dragging],.tcc-root[data-dragging] .tcc-slide{cursor:grabbing}
+.tcc-stage{position:relative;aspect-ratio:1/1;margin-top:0}
+.tcc-slide{position:absolute;inset:0;margin:0;padding:0;border:0;background:none;color:inherit;font:inherit;cursor:grab;will-change:transform;transform-origin:50% 50%;touch-action:pan-y pinch-zoom;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.tcc-slide:focus-visible{outline:none}
+.tcc-slide:focus-visible .tcc-frame{box-shadow:0 0 0 3px var(--paper,#fff),0 0 0 5px var(--accent,#171717)}
+.tcc-frame{position:absolute;inset:0;overflow:hidden;border-radius:var(--tcc-r);background:color-mix(in oklab,currentColor 10%,transparent);box-shadow:0 1px 2px #0000000f}
+.tcc-frame>img{position:absolute;inset:0;width:100%;height:100%;max-width:none;display:block;object-fit:cover}
+.tcc-title,.tcc-cap{position:absolute;left:50%;width:100%;pointer-events:none;opacity:0;transform:translateX(-50%) scale(.7);transition:opacity .3s,transform .3s;text-align:center;text-wrap:balance}
+.tcc-title{bottom:calc(100% + 14px);font-size:14px;line-height:20px}
+.tcc-cap{top:calc(100% + 12px);font-size:12px;line-height:18px;color:var(--muted)}
+.tcc-slide[data-active] .tcc-title,.tcc-slide[data-active] .tcc-cap{opacity:1;transform:translateX(-50%) scale(1)}
+.tcc-controls{position:absolute;z-index:200;bottom:max(12px,env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:999px;max-width:calc(100% - 24px);background:color-mix(in oklab,var(--paper,#fff) 92%,transparent);border:1px solid color-mix(in oklab,currentColor 12%,transparent);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:0 1px 3px #00000014}
+.tcc-btn{display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;margin:0;padding:0;border:0;border-radius:999px;background:none;color:inherit;cursor:pointer;transition:background 120ms ease-out,transform 120ms ease-out}
+.tcc-btn:disabled{opacity:.3;cursor:default}
+.tcc-btn:not(:disabled):active{transform:scale(.92);background:color-mix(in oklab,currentColor 10%,transparent)}
+.tcc-btn:focus-visible,.tcc-dot:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+.tcc-dots{display:flex;justify-content:center;align-items:center;min-width:0}
+.tcc-dot{position:relative;width:32px;height:44px;flex:0 1 32px;margin:0;padding:0;border:0;border-radius:999px;background:none;color:inherit;cursor:pointer}
+.tcc-dot::before{content:"";position:absolute;top:50%;left:50%;width:7px;height:7px;border-radius:999px;transform:translate(-50%,-50%);background:currentColor;opacity:.3;transition:width .3s,opacity .3s}
+.tcc-dot[aria-current]::before{width:22px;opacity:1}
+.tcc-dot:active{background:color-mix(in oklab,currentColor 10%,transparent)}
+.tcc-btn,.tcc-dot{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation}
+@media(hover:hover) and (pointer:fine){.tcc-btn:not(:disabled):hover,.tcc-dot:hover{background:color-mix(in oklab,currentColor 7%,transparent)}}
+.tcc-count{font-size:13px;font-variant-numeric:tabular-nums;padding-inline:20px}
+.tcc-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media(max-width:560px){.tcc-stage{margin-top:-56px}}
+@media(prefers-reduced-motion:reduce){.tcc-title,.tcc-cap,.tcc-dot::before,.tcc-btn{transition:none}}

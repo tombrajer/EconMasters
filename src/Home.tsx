@@ -1,4 +1,6 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { DotPattern } from '@/components/ui/dot-pattern';
+import TiltCascadeDemo from '@/components/ui/tilt-cascade-demo';
 import { useScrollMotion } from './useScrollMotion';
 import { content, edition, eligibility, partners, preparation, site } from './content';
 import { Arrow, Disclosure, RegisterLink } from './components/Shared';
@@ -15,9 +17,14 @@ const caseIcons = [
 
 export function Home() {
   const main = useRef<HTMLElement>(null);
+  const [background, setBackground] = useState('dots');
+  useEffect(() => {
+    setBackground(new URLSearchParams(window.location.search).get('background') === 'wave' ? 'wave' : 'dots');
+  }, []);
   useScrollMotion(main);
   return <main id="main" ref={main}>
-    <section className="hero" aria-labelledby="hero-title">
+    <section className="hero" aria-labelledby="hero-title" data-background={background}>
+      {background === 'dots' && <DotPattern width={20} height={20} cr={.85} className="fill-white/25 [mask-image:radial-gradient(ellipse_at_center,white,transparent_85%)]" />}
       <div className="hero-top container">
         <h1 id="hero-title">Economics<br /><span>Masters Challenge</span></h1>
         <ul className="hero-event-details" aria-label="Event details">
@@ -80,7 +87,7 @@ export function Home() {
     <section className="edition-section section" id="previous-edition" aria-labelledby="edition-title"><div className="container">
       <h2 id="edition-title">The 2026 edition</h2>
       <dl className="edition-facts">{edition.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
-      <div className="gallery">{content.gallery.map(photo => <figure key={photo.src}><div className="photo-window"><img src={photo.src} alt={photo.caption} width="1200" height="800" loading="lazy" /></div><figcaption>{photo.caption}</figcaption></figure>)}</div>
+      <div className="gallery-carousel"><TiltCascadeDemo /></div>
     </div></section>
 
     <section className="judges-section section container" id="judges" aria-labelledby="judges-title"><div className="judges-heading"><h2 id="judges-title">Judges <em>& experts.</em></h2><p>2026 edition</p><p className="judges-description">Next-edition panel to be confirmed.</p></div><div className="judges">{content.judges.map(judge => <article className="judge" key={judge.name}>{judge.image ? <img src={judge.image} alt={judge.name} width="120" height="144" loading="lazy" /> : <div className="portrait-placeholder" role="img" aria-label={`Portrait unavailable for ${judge.name}`}><span>DW</span></div>}<div><h3>{judge.name}</h3><p>{judge.background}</p></div></article>)}</div></section>

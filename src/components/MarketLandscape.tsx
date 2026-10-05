@@ -5,12 +5,6 @@ const ACCENT = '#f9b12a';
 const NAVY = '#0a2448';
 const GRID = '#4a6690';
 
-function gutter(width: number) {
-  const container = document.querySelector('.hero-top');
-  if (container) return container.getBoundingClientRect().left;
-  return width > 1100 ? Math.max(56, (width - 1320) / 2) : width > 820 ? 40 : width > 560 ? 28 : 20;
-}
-
 function curvePath(fn: (q: number) => number, shift: number, x: (q: number) => number, y: (p: number) => number) {
   const points: string[] = [];
   for (let index = 0; index <= 40; index++) {
@@ -43,9 +37,9 @@ export function MarketLandscape() {
     const draw = () => {
       context.clearRect(0, 0, width, height);
       const compact = width < 640;
-      const pad = gutter(width);
-      const left = pad + (compact ? 22 : 34);
-      const right = width - pad - (compact ? 4 : 8);
+      const pad = compact ? 24 : 36;
+      const left = pad;
+      const right = width - pad;
       const top = compact ? 44 : 50;
       const bottom = height - (compact ? 34 : 40);
       const x = (q: number) => left + q * (right - left);
