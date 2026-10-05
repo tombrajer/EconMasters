@@ -15,7 +15,7 @@ export function RegisterLink({ label = 'Registration', className = '' }: { label
 
 const navigation = [{ href: '/#format', label: 'Format' }, { href: '/#prepare', label: 'Prepare' }, { href: '/#judges', label: 'Judges' }, { href: '/#faq', label: 'FAQ' }];
 
-export function Header() {
+export function Header({ overHero = false }: { overHero?: boolean }) {
   const menu = useRef<HTMLDetailsElement>(null);
   useEffect(() => {
     const escape = (event: KeyboardEvent) => {
@@ -29,7 +29,7 @@ export function Header() {
   }, []);
   return <>
     <a className="skip-link" href="#main">Skip to content</a>
-    <div className="header-shell"><header className="site-header container">
+    <div className={`header-shell${overHero ? ' header-shell--hero' : ''}`}><header className="site-header container">
       <a href="/" className="brand" aria-label={site.name}><Mark /><span>Economics<br />Masters<br />Challenge</span></a>
       <nav className="desktop-navigation" aria-label="Main navigation">{navigation.map(link => <a key={link.href} href={link.href}>{link.label}</a>)}</nav>
       <RegisterLink className="header-registration" />

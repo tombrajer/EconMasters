@@ -5,5 +5,5 @@ import { Admin } from './Admin';
 
 export function App({ path }: { path: string }) {
   const route = path.replace(/\/$/, '').replace(/\.html$/, '');
-  return <><Header />{route === '/register' ? <Register /> : route === '/admin' ? <Admin /> : <Home />}<Footer /></>;
+  return <><Header overHero={route !== '/register' && route !== '/admin'} />{route === '/register' ? <Register /> : route === '/admin' ? <Admin /> : <Home />}<Footer /></>;
 }
