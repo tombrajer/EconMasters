@@ -19,7 +19,12 @@ export function Home() {
   return <main id="main" ref={main}>
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-top container">
-        <h1 id="hero-title">Economics<br /><span>Masters Challenge.</span></h1>
+        <h1 id="hero-title">Economics<br /><span>Masters Challenge</span></h1>
+        <ul className="hero-event-details" aria-label="Event details">
+          <li>Date: TBD</li>
+          <li>In-Person Event</li>
+          <li>{site.host}</li>
+        </ul>
         <div className="hero-copy">
           <p className="hero-description">A student-run economics competition for high school teams of three.</p>
           <div className="hero-actions"><RegisterLink label="Register your team" /><a className="text-link" href="#format">How it works<Arrow /></a></div>
