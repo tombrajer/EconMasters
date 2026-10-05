@@ -6,6 +6,8 @@ const NAVY = '#0a2448';
 const GRID = '#4a6690';
 
 function gutter(width: number) {
+  const container = document.querySelector('.hero-top');
+  if (container) return container.getBoundingClientRect().left;
   return width > 1100 ? Math.max(56, (width - 1320) / 2) : width > 820 ? 40 : width > 560 ? 28 : 20;
 }
 

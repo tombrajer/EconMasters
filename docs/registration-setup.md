@@ -27,6 +27,17 @@ Entries are append-only for this edition. Do not manually delete rows to reopen 
 
 Protect the public POST endpoint with Vercel Firewall rate limits before launching publicly to prevent automated junk teams exhausting places. The capacity cap is a storage invariant; it does not verify that submitters are real students.
 
+## Admin page and Excel export
+
+The footer links to `/admin`: a four-digit passcode, then the list of registered teams and an **Export Excel** button (a real `.xlsx`, built in the browser; nothing is stored or sent anywhere).
+
+1. In the Vercel project's environment variables set `ADMIN_PASSCODE` to four digits (server only, never a `VITE_` name) and redeploy. Until it is set, `/admin` reports that admin is not set up.
+2. No manual database step: the first admin request creates a small `admin_throttle` table in the same database (the owner connection from `DATABASE_URL` is enough).
+
+A four-digit code can be guessed in at most 10,000 tries, so the server counts every attempt **before** comparing the code, and parallel requests cannot get around it. Five wrong attempts lock the page for 15 minutes; each following lockout is four times longer (1 h, 4 h, 16 h, then 24 h) until the right code resets it. The lock is shared by everyone, so someone guessing can also keep you locked out; to unlock yourself in an emergency run `UPDATE admin_throttle SET failures = 0, strikes = 0, locked_until = NULL;` in Neon. The code is kept in memory only, so refreshing the page asks for it again.
+
+Treat the passcode as a convenience lock, not strong security: the page lists students' names and emails. Use a code that is not guessable (not 1234, not a year), do not share it in group chats, and change it in Vercel when someone who knew it leaves. Nothing links search engines to the page (`noindex`), but anyone can find the URL.
+
 ## Local development
 
 `npm run dev` and `npm run preview` serve the frontend only. The form reports that registration is unavailable when the API is absent. Use `vercel dev` with a test `DATABASE_URL` and `REGISTRATION_OPEN=true` for end-to-end testing; no fake success or browser-only capacity counter is used.
