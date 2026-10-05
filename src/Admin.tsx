@@ -8,6 +8,7 @@ export function Admin() {
   const [data, setData] = useState<Loaded | null>(null);
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
+  const [deleting, setDeleting] = useState<string | null>(null);
   const input = useRef<HTMLInputElement>(null);
   const inFlight = useRef(false);
 
@@ -47,6 +48,36 @@ export function Admin() {
   const lock = () => { setData(null); setCode(''); setMessage(''); };
   const exportExcel = async () => (await import('./xlsx')).downloadXlsx(data!.registrations);
 
+  const deleteRegistration = async (entry: AdminRegistration) => {
+    if (inFlight.current || !window.confirm(`Delete registration for “${entry.team}”? This cannot be undone.`)) return;
+    inFlight.current = true;
+    setDeleting(entry.id);
+    setMessage('');
+    try {
+      const response = await fetch('/api/admin', {
+        method: 'DELETE', headers: { 'Content-Type': 'application/json' }, cache: 'no-store',
+        body: JSON.stringify({ passcode: code, id: entry.id }),
+      });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok || body.deleted !== entry.id) throw new Error(body.message || 'Could not delete registration. Try again.');
+      await unlockAfterDelete();
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Could not delete registration. Try again.');
+    } finally {
+      inFlight.current = false;
+      setDeleting(null);
+    }
+  };
+  const unlockAfterDelete = async () => {
+    const response = await fetch('/api/admin', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, cache: 'no-store',
+      body: JSON.stringify({ passcode: code }),
+    });
+    const body = await response.json();
+    if (!response.ok || !Array.isArray(body.registrations)) throw new Error('Registration deleted. Reload to refresh the list.');
+    setData(body);
+  };
+
   if (!data) return <main id="main" className="admin-main container">
     <form className="admin-lock" onSubmit={submit} aria-label="Admin">
       <label htmlFor="passcode">Admin</label>
@@ -61,15 +92,17 @@ export function Admin() {
       <h1>{registrations.length}<span> / {capacity} teams</span></h1>
       <div>
         <button type="button" className="button" onClick={() => void exportExcel()} disabled={!registrations.length}>Export Excel</button>
-        <button type="button" className="text-link" onClick={lock}>Lock</button>
+        <button type="button" className="text-link" onClick={lock} disabled={deleting !== null}>Lock</button>
       </div>
     </div>
+    <p role="status" className="admin-message">{message}</p>
     {registrations.length === 0 ? <p className="admin-empty">No registrations yet.</p> : <div className="admin-table" role="region" aria-label="Registrations" tabIndex={0}>
       <table>
-        <thead><tr><th scope="col">#</th><th scope="col">Team</th><th scope="col">School</th><th scope="col">Members</th><th scope="col">Captain</th><th scope="col">Email</th><th scope="col">Registered</th></tr></thead>
+        <thead><tr><th scope="col">#</th><th scope="col">Team</th><th scope="col">School</th><th scope="col">Members</th><th scope="col">Captain</th><th scope="col">Email</th><th scope="col">Registered</th><th scope="col" className="admin-actions">Actions</th></tr></thead>
         <tbody>{registrations.map(entry => <tr key={entry.id}>
           <td>{entry.slot}</td><th scope="row">{entry.team}</th><td>{entry.school}</td><td>{entry.members.join(', ')}</td><td>{entry.captain}</td>
           <td><a href={`mailto:${entry.email}`}>{entry.email}</a></td><td><time dateTime={entry.createdAt}>{entry.createdAt.slice(0, 10)}</time></td>
+          <td className="admin-actions"><button type="button" className="admin-delete" aria-label={`Delete ${entry.team}`} disabled={deleting !== null} onClick={() => void deleteRegistration(entry)}>{deleting === entry.id ? 'Deleting…' : 'Delete'}</button></td>
         </tr>)}</tbody>
       </table>
     </div>}

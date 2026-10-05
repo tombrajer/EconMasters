@@ -16,7 +16,7 @@ async function sameCode(a: string, b: string) {
 
 export async function handleAdmin(request: Request, store: AdminStore | null, passcode: string | undefined): Promise<Response> {
   try {
-    if (request.method !== 'POST') return new Response(null, { status: 405, headers: { Allow: 'POST', 'Cache-Control': 'no-store' } });
+    if (!['POST', 'DELETE'].includes(request.method)) return new Response(null, { status: 405, headers: { Allow: 'POST, DELETE', 'Cache-Control': 'no-store' } });
     const origin = request.headers.get('origin');
     if (origin && origin !== new URL(request.url).origin) return json({ message: 'Invalid request origin.' }, 403);
     if (!request.headers.get('content-type')?.includes('application/json')) return json({ message: 'Expected JSON.' }, 415);
@@ -34,6 +34,14 @@ export async function handleAdmin(request: Request, store: AdminStore | null, pa
     }
     if (!await sameCode(attempt, passcode)) {
       return json({ message: 'Incorrect passcode.', attemptsLeft: reservation.attemptsLeft }, 401);
+    }
+    if (request.method === 'DELETE') {
+      if (typeof body.id !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(body.id)) {
+        return json({ message: 'Invalid registration ID.' }, 400);
+      }
+      await store.clearAttempts();
+      if (!await store.delete(body.id)) return json({ message: 'Registration no longer exists.' }, 404);
+      return json({ deleted: body.id });
     }
     await store.clearAttempts();
     return json({ registrations: await store.list(), capacity: 33 });

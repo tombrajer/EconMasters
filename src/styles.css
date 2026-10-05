@@ -544,3 +544,10 @@ legend{padding:0;font-size:28px;letter-spacing:-.025em;margin-bottom:24px}
 .admin-table td:first-child{font-variant-numeric:tabular-nums;color:var(--muted)}
 .admin-table a{text-decoration:underline;text-underline-offset:3px}
 @media(max-width:560px){.admin-bar>div{width:100%;justify-content:space-between}.admin-bar .button{flex:1}}
+
+.admin-table .admin-actions{text-align:right;padding-right:0;white-space:nowrap}
+.admin-delete{font:inherit;color:#a12626;border:1px solid currentColor;border-radius:4px;background:transparent;padding:6px 12px;cursor:pointer}
+.admin-delete:disabled{opacity:.5;cursor:wait}
+.admin-delete:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.admin-message{font-size:14px;color:var(--muted)}
+.admin-message:not(:empty){margin-block:16px}

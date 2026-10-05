@@ -20,6 +20,7 @@ export type AdminStore = {
   reserveAttempt(): Promise<Attempt>;
   clearAttempts(): Promise<void>;
   list(): Promise<AdminRegistration[]>;
+  delete(id: string): Promise<boolean>;
 };
 
 // One shared counter, because a 4-digit code has only 10,000 possibilities. Each attempt is counted
@@ -64,6 +65,24 @@ export function adminStore(databaseUrl: string | undefined): AdminStore | null {
     async clearAttempts() {
       await ensure();
       await sql.query(SQL.clear);
+    },
+    async delete(id) {
+      // Use the same capacity lock as register_team; keep slots contiguous for its next insert.
+      const results = await sql.transaction([
+        sql.query('SELECT used FROM registration_capacity WHERE id = 1 FOR UPDATE'),
+        sql.query('DELETE FROM registrations WHERE id = $1::uuid RETURNING id', [id]),
+        sql.query(`UPDATE registrations SET slot = (
+          SELECT candidate FROM generate_series(1, (SELECT used FROM registration_capacity WHERE id = 1)) AS candidate
+          WHERE NOT EXISTS (SELECT 1 FROM registrations WHERE slot = candidate)
+          ORDER BY candidate LIMIT 1
+        ) WHERE slot = (SELECT used FROM registration_capacity WHERE id = 1)
+          AND EXISTS (
+            SELECT 1 FROM generate_series(1, (SELECT used FROM registration_capacity WHERE id = 1)) AS candidate
+            WHERE NOT EXISTS (SELECT 1 FROM registrations WHERE slot = candidate)
+          )`),
+        sql.query('UPDATE registration_capacity SET used = (SELECT count(*) FROM registrations) WHERE id = 1'),
+      ]);
+      return results[1].length > 0;
     },
     async list() {
       const rows = await sql.query(SQL.list);
