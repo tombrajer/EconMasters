@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { graphProgress } from '../behavior';
 import { schedule } from '../content';
+import { questions, verdict } from '../quiz';
+import { Arrow } from './Shared';
 
 export function Timeline() {
   const wrapper = useRef<HTMLDivElement>(null);
@@ -54,12 +56,52 @@ export function Timeline() {
 }
 
 export function ExampleQuestion() {
-  const [answer, setAnswer] = useState<number | null>(null);
-  const options = ['Price rises, quantity falls', 'Price falls, quantity rises', 'Price and quantity both rise', 'Nothing changes'];
-  return <figure className="example-question" aria-label="Example question in the style of Round 1">
-    <figcaption>Example question<span className="question-time" aria-label="Suggested practice time: 1 minute 20 seconds" title="Suggested practice time"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><circle cx="10" cy="10" r="8" /><path d="M10 5v5l3 2" /></svg>01:20</span></figcaption>
-    <p>A new technology lowers the cost of making solar panels. With demand unchanged, what happens to equilibrium price and quantity?</p>
-    <ol>{options.map((option, index) => <li key={option}><button type="button" aria-pressed={answer === index} data-answer={answer === null ? undefined : index === 1 ? 'correct' : answer === index ? 'incorrect' : undefined} onClick={() => setAnswer(index)}><span>{'ABCD'[index]}</span>{option}{answer !== null && index === 1 && <svg className="answer-check" viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-8" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg>}</button></li>)}</ol>
-    <div className="answer-feedback" role="status" hidden={answer === null}><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill={answer === 1 ? '#4f806a' : '#666'} /><path d="m6 12 4 4 8-9" fill="none" stroke="#fff" strokeWidth="2" /></svg><p><strong>{answer === 1 ? 'Correct.' : 'The answer is B.'}</strong> Lower production costs shift supply to the right. Equilibrium price falls and quantity rises.</p></div>
+  const [step, setStep] = useState(0);
+  const [picks, setPicks] = useState<number[]>([]);
+  const heading = useRef<HTMLElement | null>(null);
+  const moved = useRef(false);
+  const total = questions.length;
+  const finished = step >= total;
+  const question = questions[step];
+  const picked = picks[step];
+  const answered = picked !== undefined;
+  const score = picks.reduce((sum, pick, index) => sum + (pick === questions[index].answer ? 1 : 0), 0);
+  const result = verdict(score, total);
+
+  useEffect(() => {
+    if (moved.current) heading.current?.focus();
+    moved.current = true;
+  }, [step]);
+
+  const choose = (index: number) => { if (!answered) setPicks(current => [...current, index]); };
+  const restart = () => { setPicks([]); setStep(0); };
+
+  if (finished) return <figure className="example-question quiz-result" data-tone={result.tone} aria-label="Practice quiz result">
+    <figcaption>Practice quiz<span>Finished</span></figcaption>
+    <p className="quiz-score"><strong tabIndex={-1} ref={node => { heading.current = node; }}>{score}/{total}</strong><span className="visually-hidden"> correct</span></p>
+    <div role="status">
+      <h4>{result.title}</h4>
+      <p>{result.message}</p>
+    </div>
+    <ol className="quiz-review" aria-label="Answers by question">{questions.map((item, index) => <li key={item.prompt} data-correct={picks[index] === item.answer}><span aria-hidden="true">{index + 1}</span><span className="visually-hidden">Question {index + 1}: {picks[index] === item.answer ? 'correct' : 'incorrect'}</span></li>)}</ol>
+    <div className="quiz-actions">
+      <button type="button" className="button" onClick={restart}>Try again</button>
+      {result.tone === 'ready' && <a className="text-link" href="/register">Register your team<Arrow /></a>}
+    </div>
+  </figure>;
+
+  return <figure className="example-question" aria-label="Practice quiz in the style of Round 1">
+    <figcaption>
+      <span>{question.topic}</span>
+      <span className="quiz-count" aria-label={`Question ${step + 1} of ${total}`}>{String(step + 1).padStart(2, '0')} / {total}</span>
+    </figcaption>
+    <div className="quiz-progress" aria-hidden="true">{questions.map((item, index) => <span key={item.prompt} data-state={index < picks.length ? (picks[index] === item.answer ? 'right' : 'wrong') : index === step ? 'current' : 'todo'} />)}</div>
+    <p className="quiz-prompt" tabIndex={-1} ref={node => { heading.current = node; }}>{question.prompt}</p>
+    <ol>{question.options.map((option, index) => <li key={option}><button type="button" aria-pressed={picked === index} aria-disabled={answered} data-answer={!answered ? undefined : index === question.answer ? 'correct' : picked === index ? 'incorrect' : undefined} onClick={() => choose(index)}><span>{'ABCD'[index]}</span>{option}{answered && index === question.answer && <svg className="answer-check" viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-8" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg>}</button></li>)}</ol>
+    <div className="answer-feedback" role="status" hidden={!answered}>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill={picked === question.answer ? '#4f806a' : '#4e5a6e'} /><path d="m6 12 4 4 8-9" fill="none" stroke="#fff" strokeWidth="2" /></svg>
+      <p><strong>{picked === question.answer ? 'Correct.' : `The answer is ${'ABCD'[question.answer]}.`}</strong> {question.explanation}</p>
+    </div>
+    {answered && <div className="quiz-actions"><button type="button" className="button" onClick={() => setStep(step + 1)}>{step + 1 === total ? 'See my score' : 'Next question'}</button></div>}
   </figure>;
 }
