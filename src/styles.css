@@ -327,15 +327,8 @@ section>.container>h2:first-child{margin-bottom:clamp(32px,4vw,56px)}
 /* Footer */
 .site-footer{background:var(--deep);color:#fff;padding:48px 0 calc(24px + env(safe-area-inset-bottom,0px));border-top:3px solid var(--accent)}
 .site-footer a:focus-visible{outline-color:#fff}
-.footer-top{display:flex;justify-content:space-between;align-items:center;gap:32px;padding-bottom:32px;flex-wrap:wrap}
-.footer-top .text-link{font-size:clamp(16px,1.6vw,20px);overflow-wrap:anywhere}
-.footer-links{border-top:1px solid var(--line-dark);padding:22px 0;display:flex;justify-content:space-between;gap:24px;font-size:13px;color:#dce3ee}
-.footer-links nav{display:flex;gap:12px 28px;flex-wrap:wrap}
-.footer-links>a{display:flex;align-items:center;gap:10px}
-.footer-links .arrow{width:14px;height:14px}
-@media(hover:hover) and (pointer:fine){.footer-links a:hover{text-decoration:underline}}
-.footer-links a:active,.footer-top a:active,.brand:active{opacity:.65}
-.footer-bottom{display:flex;justify-content:space-between;gap:12px 30px;padding-top:22px;font-size:12px;color:var(--muted-dark);flex-wrap:wrap}
+/* Footer layout lives in components/site-chrome.css */
+.brand:active{opacity:.65}
 
 /* Disclosures */
 summary::-webkit-details-marker{display:none}
@@ -535,10 +528,6 @@ legend{padding:0;font-size:28px;letter-spacing:-.025em;margin-bottom:24px}
   .closing-actions{width:100%;gap:20px}
   .closing-actions .button{width:100%}
 
-  .site-footer{padding-top:36px}
-  .footer-links{flex-direction:column}
-  .footer-links nav{gap:14px 22px}
-  .footer-bottom{flex-direction:column;font-size:11px}
 
   .register-main{padding-top:24px;padding-bottom:56px}
   .registration-layout{margin-top:28px;gap:32px}
@@ -624,6 +613,5 @@ legend{padding:0;font-size:28px;letter-spacing:-.025em;margin-bottom:24px}
 
 /* Touch: give standalone links a full 44px tap target */
 @media(pointer:coarse){
-  .brand,.footer-links nav a,.footer-links>a,.footer-admin,.footer-top .text-link,.closing-actions .text-link,.partners-empty .text-link,.youth-voice .text-link{min-height:44px;display:inline-flex;align-items:center}
-  .footer-links nav{row-gap:0}
+  .brand,.footer-admin,.closing-actions .text-link,.partners-empty .text-link,.youth-voice .text-link{min-height:44px;display:inline-flex;align-items:center}
 }
