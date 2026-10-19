@@ -24,8 +24,12 @@ export function Header({ overHero = false }: { overHero?: boolean }) {
         menu.current.querySelector('summary')?.focus();
       }
     };
+    const outside = (event: PointerEvent) => {
+      if (menu.current?.open && !menu.current.contains(event.target as Node)) menu.current.open = false;
+    };
     window.addEventListener('keydown', escape);
-    return () => window.removeEventListener('keydown', escape);
+    document.addEventListener('pointerdown', outside);
+    return () => { window.removeEventListener('keydown', escape); document.removeEventListener('pointerdown', outside); };
   }, []);
   return <>
     <a className="skip-link" href="#main">Skip to content</a>
