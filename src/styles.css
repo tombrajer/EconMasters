@@ -318,24 +318,10 @@ summary::-webkit-details-marker{display:none}
 .registration-notice{padding:0 0 24px;border-bottom:1px solid var(--line)}
 .registration-notice p{font-size:14px;color:var(--muted)}
 .registration-notice .text-link{margin-top:12px;min-height:32px}
-.registration-steps{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px}
-.registration-steps li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);padding-bottom:18px;border-bottom:2px solid var(--line);transition:border-color 200ms,color 200ms}
-.registration-steps li[aria-current=step]{border-color:var(--ink);color:var(--ink)}
-.registration-steps span{display:grid;place-items:center;width:24px;height:24px;border:1px solid var(--line);border-radius:50%;font-size:12px;flex-shrink:0}
-.registration-steps li[aria-current=step] span,.registration-steps li[data-complete=true] span{background:var(--ink);border-color:var(--ink);color:#fff}
 fieldset{border:0;margin:30px 0 0;padding:0;min-width:0}
 legend{padding:0;font-size:28px;letter-spacing:-.025em;margin-bottom:24px}
 .form-fields{display:grid;grid-template-columns:1fr 1fr;gap:20px 20px}
 .full-width{grid-column:1/-1}
-.form-field{min-width:0}
-.form-field label{font-size:14px;display:block;margin-bottom:8px;line-height:1.5}
-.form-field input,.form-field textarea{display:block;width:100%;background:transparent;border:1px solid #b6c0cf;border-radius:0;min-height:50px;padding:12px 13px;font-size:16px;color:var(--ink);caret-color:var(--ink);outline-offset:3px;transition:border-color 180ms ease,background 180ms ease}
-.form-field textarea{resize:vertical;min-height:100px}
-.form-field input::placeholder{color:#7a8597}
-@media(hover:hover) and (pointer:fine){.form-field input:hover,.form-field textarea:hover{border-color:var(--muted)}}
-.form-field input:focus,.form-field textarea:focus{outline:2px solid var(--ink);border-color:var(--ink);background:#f7f8fa}
-.form-field [aria-invalid=true]{border-color:var(--ink);border-width:2px;padding:11px 12px}
-.field-error{font-size:13px;color:var(--ink);margin-top:8px;line-height:1.5}
 .form-actions{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-top:28px}
 .form-actions .button{margin-left:auto;min-width:180px}
 .form-back{min-height:44px;gap:8px;text-decoration:none}
@@ -474,7 +460,6 @@ legend{padding:0;font-size:28px;letter-spacing:-.025em;margin-bottom:24px}
   legend{font-size:24px}
   fieldset{margin-top:28px}
   .form-actions .button{flex:1;min-width:0}
-  .registration-steps{gap:16px}
   .registration-intro h1{font-size:clamp(38px,10vw,56px)}
   .registration-layout{margin-top:20px;gap:24px}
   .registration-intro>p{margin-top:12px}
@@ -525,29 +510,6 @@ legend{padding:0;font-size:28px;letter-spacing:-.025em;margin-bottom:24px}
 @media(hover:hover) and (pointer:fine){.footer-admin:hover{opacity:1}}
 .footer-admin:focus-visible,.footer-admin:active{opacity:1}
 .admin-main{padding-block:clamp(40px,8vw,96px);min-height:calc(100svh - 84px)}
-.admin-lock{display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:clamp(24px,10vh,120px)}
-.admin-lock label{font:12px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.admin-lock input{width:7ch;text-align:center;font:400 40px/1 var(--mono);letter-spacing:.35em;padding:14px 0 14px .35em;border:0;border-bottom:2px solid var(--ink);background:transparent;color:var(--ink);border-radius:0;caret-color:var(--accent)}
-.admin-lock input::placeholder{color:#b6c0cf}
-.admin-lock input:focus{outline:none;border-bottom-color:var(--accent)}
-.admin-lock input:disabled{opacity:.5}
-.admin-lock p{min-height:1.5em;font-size:14px;color:var(--muted)}
-.admin-bar{display:flex;align-items:end;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-bottom:20px;border-bottom:1px solid var(--line)}
-.admin-bar h1{font-size:clamp(40px,5vw,64px);font-variant-numeric:tabular-nums}
-.admin-bar h1 span{font-size:.4em;color:var(--muted);letter-spacing:-.01em}
-.admin-bar>div{display:flex;align-items:center;gap:24px}
-.admin-empty{margin-top:32px;color:var(--muted)}
-.admin-table{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
-.admin-table:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
-.admin-table table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.4}
-.admin-table th,.admin-table td{text-align:left;padding:14px 16px 14px 0;border-bottom:1px solid var(--line);vertical-align:top}
-.admin-table td:first-child,.admin-table td:last-child{white-space:nowrap}
-.admin-table td:nth-child(6){overflow-wrap:anywhere;min-width:150px}
-.admin-table thead th{font:11px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:400}
-.admin-table tbody th{font-weight:600}
-.admin-table td:first-child{font-variant-numeric:tabular-nums;color:var(--muted)}
-.admin-table a{text-decoration:underline;text-underline-offset:3px}
-@media(max-width:560px){.admin-bar>div{width:100%;justify-content:space-between}.admin-bar .button{flex:1}}
 
 /* Touch: give standalone links a full 44px tap target */
 @media(pointer:coarse){
