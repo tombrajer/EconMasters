@@ -14,11 +14,17 @@ export const eligibility = [
   ['Next edition', 'To be announced'],
   ['Registration deadline', 'To be announced'],
 ];
-export const partners = [
-  { name: 'Visa', href: 'https://www.visa.cz/', logo: '/logos/visa.svg', width: 1000, height: 325 },
-  { name: 'Bankovnictví', href: 'https://bankovnictvionline.cz/', logo: '/logos/bankovnictvi.png', width: 1038, height: 133 },
-  { name: 'EAAPS – European Association of AP Schools', href: 'https://www.eaaps.eu/', logo: '/logos/eaaps.png', width: 320, height: 318 },
+export type Partner = { name: string; href: string; logo: string; width: number; height: number };
+// Partners for the upcoming edition. Leave empty until confirmed.
+export const partners: Partner[] = [];
+export const previousPartners: { edition: string; partners: Partner[] }[] = [
+  { edition: '2026', partners: [
+    { name: 'Visa', href: 'https://www.visa.cz/', logo: '/logos/visa.svg', width: 1000, height: 325 },
+    { name: 'Bankovnictví', href: 'https://bankovnictvionline.cz/', logo: '/logos/bankovnictvi.png', width: 1038, height: 133 },
+    { name: 'EAAPS – European Association of AP Schools', href: 'https://www.eaaps.eu/', logo: '/logos/eaaps.png', width: 320, height: 318 },
+  ] },
 ];
+export const upcomingEdition = '2027';
 export const schedule = [
   { time: '08:00', title: 'Arrival & registration' },
   { time: '08:30', title: 'Opening' },

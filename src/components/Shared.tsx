@@ -13,7 +13,7 @@ export function RegisterLink({ label = 'Registration', className = '' }: { label
   return <a className={`button ${className}`} href="/register">{label}<Arrow /></a>;
 }
 
-const navigation = [{ href: '/#format', label: 'Format' }, { href: '/#prepare', label: 'Prepare' }, { href: '/#judges', label: 'Judges' }, { href: '/#faq', label: 'FAQ' }];
+const navigation = [{ href: '/#format', label: 'Format' }, { href: '/#prepare', label: 'Prepare' }, { href: '/#judges', label: 'Judges' }, { href: '/team', label: 'Team' }, { href: '/#faq', label: 'FAQ' }];
 
 export function Header({ overHero = false }: { overHero?: boolean }) {
   const menu = useRef<HTMLDetailsElement>(null);
@@ -44,9 +44,21 @@ export function Header({ overHero = false }: { overHero?: boolean }) {
 export function Footer() {
   return <footer className="site-footer"><div className="container">
     <div className="footer-top"><a href="/" className="brand" aria-label={site.name}><Mark /><span>Economics<br />Masters<br />Challenge</span></a><a className="text-link" href={`mailto:${site.email}`}>{site.email}<Arrow diagonal /></a></div>
-    <div className="footer-links"><nav aria-label="Footer navigation"><a href="/#format">Format</a><a href="/#day">Schedule</a><a href="/#prepare">Prepare</a><a href="/#judges">Judges</a><a href="/#partners">Partners</a><a href="/#faq">FAQ</a><a href="/register">Registration</a></nav><a href={site.instagram} target="_blank" rel="noreferrer">Instagram<Arrow diagonal /></a></div>
+    <div className="footer-links"><nav aria-label="Footer navigation"><a href="/#format">Format</a><a href="/#day">Schedule</a><a href="/#prepare">Prepare</a><a href="/#judges">Judges</a><a href="/#partners">Partners</a><a href="/team">Team</a><a href="/#faq">FAQ</a><a href="/register">Registration</a></nav><a href={site.instagram} target="_blank" rel="noreferrer">Instagram<Arrow diagonal /></a></div>
     <div className="footer-bottom"><p>© 2026 Economics Masters Challenge</p><p>An initiative of Youth Voice · Hosted at {site.host}</p><a className="footer-admin" href="/admin" rel="nofollow">Admin</a></div>
   </div></footer>;
+}
+
+export function Portrait({ name, src, size = 600, className = '' }: { name: string; src?: string; size?: number; className?: string }) {
+  if (src) return <img className={`portrait ${className}`} src={src} alt={name} width={size} height={size} loading="lazy" />;
+  const initials = name.split(/\s+/).filter(Boolean).map(part => part[0]).slice(0, 2).join('');
+  return <div className={`portrait portrait-placeholder ${className}`} role="img" aria-label={name ? `Portrait unavailable for ${name}` : 'Portrait to be announced'}>
+    {initials ? <span>{initials}</span> : <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="4" fill="currentColor" /><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" fill="currentColor" /></svg>}
+  </div>;
+}
+
+export function LinkedIn({ name, href }: { name: string; href: string }) {
+  return <a href={href} target="_blank" rel="noreferrer" className="founder-linkedin" aria-label={`${name} on LinkedIn`}><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96c0 .84.69 1.52 1.55 1.52h16.9c.86 0 1.55-.68 1.55-1.52V3.52c0-.84-.69-1.52-1.55-1.52ZM7.93 18.75H4.98V9.2h2.95v9.55ZM6.46 7.9a1.71 1.71 0 1 1 0-3.42 1.71 1.71 0 0 1 0 3.42ZM19 18.75h-2.95V14.1c0-1.11-.02-2.54-1.55-2.54-1.55 0-1.79 1.21-1.79 2.46v4.73H9.76V9.2h2.83v1.3h.04c.39-.74 1.36-1.52 2.79-1.52 2.99 0 3.58 1.97 3.58 4.53v5.24Z" /></svg></a>;
 }
 
 export function EligibilityList() {
