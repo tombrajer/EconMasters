@@ -83,6 +83,9 @@ section>.container>h2:first-child{margin-bottom:clamp(32px,4vw,56px)}
 .header-shell--hero .brand{justify-self:start}
 .header-shell--hero .header-registration{background:transparent;border-color:rgba(10,36,72,.3);color:var(--ink)}
 @media(hover:hover) and (pointer:fine){.header-shell--hero .header-registration:hover{background:var(--accent);border-color:var(--accent);color:var(--ink)}}
+/* Subpages use the same white header, in the page flow instead of over a hero */
+.header-shell--page{position:relative;min-height:104px}
+.header-shell--page .site-header{width:min(1320px,calc(100% - var(--edge) * 2))}
 
 /* Hero */
 .hero{--hero-fg:10,36,72;--hero-accent:#e39a12;--hero-title:#b47800;--hero-button:var(--accent);--hero-button-ink:var(--ink);background:var(--paper);color:var(--ink);position:relative;overflow:hidden;padding-top:104px}
@@ -305,7 +308,7 @@ summary::-webkit-details-marker{display:none}
 @media(hover:hover) and (pointer:fine){.founder-name a .arrow{transition:transform 200ms cubic-bezier(.22,1,.36,1)}.founder-name a:hover .arrow{transform:translate(2px,-2px)}}
 
 /* Registration */
-.register-main{padding-top:40px;padding-bottom:100px;min-height:calc(100svh - 84px)}
+.register-main{padding-top:40px;padding-bottom:100px;min-height:calc(100svh - 104px)}
 .back-link{font-size:13px;text-decoration:none;color:var(--muted);gap:10px;min-height:44px}
 .back-link>.arrow,.form-back>.arrow{transform:rotate(180deg);width:18px}
 .registration-layout{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,7vw,100px);margin-top:36px}
@@ -365,6 +368,7 @@ legend{padding:0;font-size:28px;letter-spacing:-.025em;margin-bottom:24px}
   .mobile-menu summary:active{opacity:.6}
   .header-registration{margin-left:auto}
   .header-shell--hero .site-header{display:flex;height:88px;gap:20px}
+  .header-shell--page{min-height:88px}
   .header-shell--hero .desktop-navigation{display:none}
   .hero{padding-top:88px}
   .split-heading{flex-direction:column;align-items:start;gap:14px}
@@ -394,6 +398,7 @@ legend{padding:0;font-size:28px;letter-spacing:-.025em;margin-bottom:24px}
   .brand{gap:10px}.brand-mark{width:22px;height:28px}.brand span{font-size:10px}
   .header-registration{display:none}
   .header-shell--hero .site-header{height:76px;gap:12px}
+  .header-shell--page{min-height:76px}
   .hero{padding-top:76px}
 
 
