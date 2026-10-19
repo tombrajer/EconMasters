@@ -6,11 +6,13 @@
 @font-face{font-family:Inter;src:url('/fonts/inter-regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:Inter;src:url('/fonts/inter-medium.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap}
 @font-face{font-family:Inter;src:url('/fonts/inter-semibold.ttf') format('truetype');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'Instrument Serif';src:url('/fonts/instrument-serif-latin.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Instrument Serif';src:url('/fonts/instrument-serif-latin-ext.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 
 :root{
   --ink:#0a2448;--dark:#0a2448;--deep:#071a36;--ink-hover:#183a6b;--paper:#fff;--soft:#f3f4f6;--muted:#4e5a6e;--muted-dark:#a7b3c7;--line:#e0e4eb;--line-dark:#22406b;
   --accent:#f9b12a;--accent-hover:#ffc451;
-  --sans:Inter,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:Inter,Arial,sans-serif;--display:'Instrument Serif',Georgia,serif;--mono:ui-monospace,SFMono-Regular,Menlo,monospace;
   --gutter:56px;--edge:max(var(--gutter),env(safe-area-inset-left,0px),env(safe-area-inset-right,0px));--section:clamp(64px,8vw,112px);
   font-family:var(--sans);color:var(--ink);background:var(--paper);font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased
 }
@@ -33,6 +35,8 @@ h1,h2,h3,p,dl,dd{margin:0}
 ul,ol{margin:0;padding:0;list-style:none}
 h1,h2,h3{font-weight:400;letter-spacing:-.035em;text-wrap:balance}
 h1{font-size:clamp(44px,7vw,100px);line-height:1}
+/* Display serif for headlines and names; small labels and UI headings stay in Inter */
+:root :is(h1,h2:not(.team-label),.round h3,.founder-name h3,.economic-row-title h3){font-family:var(--display);font-weight:400;letter-spacing:-.01em}
 h2{font-size:clamp(36px,4.6vw,64px);line-height:1.02}
 h3{font-size:clamp(21px,2vw,28px);line-height:1.15;letter-spacing:-.025em}
 em{font-style:normal}
@@ -296,7 +300,7 @@ section>.container>h2:first-child{margin-bottom:clamp(32px,4vw,56px)}
 .founder-portrait{width:min(100%,360px);margin-inline:auto}
 .team-founders .person-role{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#946000;margin-top:clamp(24px,3vw,40px)}
 .team-founders .founder-name{margin-top:6px}
-.team-founders .founder-name h3{font-size:clamp(28px,2.6vw,38px)}
+.team-founders .founder-name h3{font-size:clamp(32px,3vw,44px)}
 .team-founders .founder-bio{font-size:16px;line-height:1.65;margin-top:14px}
 .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(36px,4vw,56px) 24px}
 .team-member{text-align:center}
