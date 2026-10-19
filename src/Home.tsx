@@ -34,7 +34,7 @@ export function Home() {
   useScrollMotion(main);
   return <main id="main" ref={main}>
     <section className="hero" aria-labelledby="hero-title" data-background={background}>
-      {background === 'dots' && <DotPattern width={20} height={20} cr={.85} className="fill-white/25 [mask-image:radial-gradient(ellipse_at_center,white,transparent_85%)]" />}
+      {background === 'dots' && <DotPattern width={20} height={20} cr={.85} className="fill-[#0a2448]/15 [mask-image:radial-gradient(ellipse_at_center,white,transparent_85%)]" />}
       <div className="hero-top container">
         <h1 id="hero-title">Economics<br /><span>Masters Challenge</span></h1>
         <ul className="hero-event-details" aria-label="Event details">
