@@ -2,6 +2,9 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { fields, site } from './content';
 import { validateRegistration } from './behavior';
 import { Arrow } from './components/Shared';
+import { ToastStack, useToasts } from './components/ToastStack';
+import { cn } from '@/lib/utils';
+import './app.css';
 
 type Field = { name: string; label: string; required?: boolean; type?: string; placeholder?: string; textarea?: boolean };
 
@@ -9,6 +12,25 @@ const registrationFields: { title: string; fields: Field[] }[] = fields;
 const teamFields = registrationFields[0].fields.filter(field => field.required);
 const contactFields = registrationFields[1].fields.filter(field => field.required);
 const optionalFields = registrationFields.flatMap(group => group.fields).filter(field => !field.required);
+const steps = ['Your team', 'Contact details'];
+
+/* Origin UI Stepper, ported to a plain ordered list. It only mirrors `step`;
+   moving between steps still goes through Continue and its validation. */
+function Stepper({ step }: { step: number }) {
+  return <ol className="reg-stepper" aria-label="Registration steps">
+    {steps.map((label, index) => {
+      const state = step > index ? 'complete' : step === index ? 'current' : 'upcoming';
+      return <li key={label} className="reg-step" data-state={state} aria-current={step === index ? 'step' : undefined}>
+        <span className="reg-step-indicator" aria-hidden="true">
+          <span className="reg-step-number">{index + 1}</span>
+          <svg className="reg-step-check" viewBox="0 0 16 16" fill="none"><path d="m3.5 8.4 2.9 2.9 6.1-6.6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </span>
+        <span className="reg-step-label"><span className="visually-hidden">Step {index + 1} of {steps.length}: </span>{label}{state === 'complete' && <span className="visually-hidden"> (completed)</span>}</span>
+        {index < steps.length - 1 && <span className="reg-step-connector" aria-hidden="true"><span /></span>}
+      </li>;
+    })}
+  </ol>;
+}
 
 export function Register() {
   const [step, setStep] = useState(0);
@@ -24,6 +46,7 @@ export function Register() {
   const form = useRef<HTMLFormElement>(null);
   const pendingFocus = useRef<string | null>(null);
   const availabilityCheck = useRef<AbortController | null>(null);
+  const toasts = useToasts();
 
   const checkAvailability = async () => {
     availabilityCheck.current?.abort();
@@ -103,6 +126,7 @@ export function Register() {
       const data = await response.json();
       if (response.ok && typeof data.id === 'string' && data.id.trim()) {
         setResult({ success: true, message: 'Your team is registered.', id: data.id });
+        toasts.push({ kind: 'success', title: 'Team registered', body: `Reference ${data.id}` });
       } else {
         if (data.code === 'full') setAvailability('full');
         if (data.code === 'closed') setAvailability('closed');
@@ -121,13 +145,26 @@ export function Register() {
     setResult(null);
     if (errors[name]) setErrors(previous => { const next = { ...previous }; delete next[name]; return next; });
   };
-  const field = (raw: Field) => <div className={`form-field ${raw.textarea || raw.name.startsWith('m') || raw.name === 'captain' || raw.name === 'email' ? 'full-width' : ''}`} key={raw.name}>
-    <label htmlFor={raw.name}>{raw.label}</label>
-    {raw.textarea
-      ? <textarea id={raw.name} name={raw.name} rows={3} value={values[raw.name] || ''} aria-invalid={!!errors[raw.name]} aria-describedby={errors[raw.name] ? `${raw.name}-error` : undefined} onChange={event => change(raw.name, event.target.value)} />
-      : <input id={raw.name} name={raw.name} type={raw.type || 'text'} required={raw.required} placeholder={raw.placeholder} value={values[raw.name] || ''} autoComplete={raw.name === 'email' ? 'email' : raw.name === 'phone' ? 'tel' : raw.name === 'country' ? 'country-name' : raw.name === 'captain' ? 'name' : raw.name === 'school' ? 'organization' : 'off'} autoCapitalize={raw.name === 'email' ? 'none' : /^(m\d|captain|team|school|country)$/.test(raw.name) ? 'words' : undefined} autoCorrect={raw.name === 'email' ? 'off' : undefined} spellCheck={raw.name === 'email' ? false : undefined} enterKeyHint="next" aria-invalid={!!errors[raw.name]} aria-describedby={errors[raw.name] ? `${raw.name}-error` : undefined} onChange={event => change(raw.name, event.target.value)} />}
-    {errors[raw.name] && <p className="field-error" id={`${raw.name}-error`}>{errors[raw.name]}</p>}
-  </div>;
+  /* Bencho Label Input, ported: a real <label> that rests inside the empty
+     field and lifts onto its top edge on focus or once filled (pure CSS via
+     :placeholder-shown, so the prerendered HTML looks the same). */
+  const field = (raw: Field) => {
+    const error = errors[raw.name];
+    const shared = {
+      id: raw.name, name: raw.name, value: values[raw.name] || '', className: 'reg-control',
+      placeholder: raw.placeholder || ' ', required: raw.required, 'aria-invalid': !!error,
+      'aria-describedby': error ? `${raw.name}-error` : undefined,
+    };
+    return <div className={cn('reg-field', (raw.textarea || raw.name.startsWith('m') || raw.name === 'captain' || raw.name === 'email') && 'full-width')} data-textarea={raw.textarea || undefined} key={raw.name}>
+      <div className="reg-box">
+        {raw.textarea
+          ? <textarea {...shared} rows={3} onChange={event => change(raw.name, event.target.value)} />
+          : <input {...shared} type={raw.type || 'text'} autoComplete={raw.name === 'email' ? 'email' : raw.name === 'phone' ? 'tel' : raw.name === 'country' ? 'country-name' : raw.name === 'captain' ? 'name' : raw.name === 'school' ? 'organization' : 'off'} autoCapitalize={raw.name === 'email' ? 'none' : /^(m\d|captain|team|school|country)$/.test(raw.name) ? 'words' : undefined} autoCorrect={raw.name === 'email' ? 'off' : undefined} spellCheck={raw.name === 'email' ? false : undefined} enterKeyHint="next" onChange={event => change(raw.name, event.target.value)} />}
+        <label htmlFor={raw.name} className="reg-label">{raw.label}{raw.required && <span className="reg-required" aria-hidden="true">*</span>}</label>
+      </div>
+      {error && <p className="field-error" id={`${raw.name}-error`}>{error}</p>}
+    </div>;
+  };
   const notices = {
     checking: 'Checking registration availability...',
     open: 'Registration is open. Places are limited to 33 teams.',
@@ -148,9 +185,7 @@ export function Register() {
       <div className="registration-form">
         <div className="registration-notice" role="status"><p>{notices[availability]}</p>{availability === 'unavailable' && <button className="text-link" type="button" onClick={() => void checkAvailability()}>Check again</button>}</div>
         <form ref={form} onSubmit={submit} noValidate hidden={result?.success} aria-label="Team registration">
-          <ol className="registration-steps" aria-label="Registration steps">
-            {['Your team', 'Contact details'].map((label, index) => <li key={label} aria-current={step === index ? 'step' : undefined} data-complete={step > index}><span>{step > index ? '✓' : index + 1}</span>{label}</li>)}
-          </ol>
+          <Stepper step={step} />
           <fieldset hidden={step !== 0} disabled={sending || result?.success}>
             <legend>Your team</legend>
             <div className="form-fields">{teamFields.map(field)}</div>
@@ -172,5 +207,6 @@ export function Register() {
         <div ref={status} className="preview-result" tabIndex={-1} role="status" hidden={!result}>{result && <><h2>{result.success ? "You're registered." : 'Registration update'}</h2>{!result.success && <p>{result.message}</p>}{result.id && <p>Registration reference: {result.id}</p>}<p>Questions? Contact <a href={`mailto:${site.email}`}>{site.email}</a>.</p></>}</div>
       </div>
     </div>
+    <ToastStack {...toasts} />
   </main>;
 }
