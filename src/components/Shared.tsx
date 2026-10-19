@@ -82,7 +82,7 @@ export function Header({ overHero = false }: { overHero?: boolean }) {
   const close = () => setOpen(false);
   return <>
     <a className="skip-link" href="#main">Skip to content</a>
-    <div ref={shell} className={cn('header-shell', overHero && 'header-shell--hero')} data-menu={open ? 'open' : 'closed'}><header className="site-header container">
+    <div ref={shell} className={cn('header-shell header-shell--hero', !overHero && 'header-shell--page')} data-menu={open ? 'open' : 'closed'}><header className="site-header container">
       <a href="/" className="brand" aria-label={site.name} onClick={close}><Mark /><span>Economics<br />Masters<br />Challenge</span></a>
       <nav className="desktop-navigation" aria-label="Main navigation">{navigation.map(link => <a key={link.href} href={link.href}>{link.label}</a>)}</nav>
       <RegisterLink className="header-registration" />

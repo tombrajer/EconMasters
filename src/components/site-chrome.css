@@ -31,7 +31,6 @@
 .header-shell{transition:color 200ms ease}
 .header-shell[data-menu=open]{z-index:60;color:#fff}
 .header-shell[data-menu=open] .site-header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:2}
-.header-shell[data-menu=open]:not(.header-shell--hero){min-height:85px}
 .header-shell[data-menu=open] .site-header .header-registration{visibility:hidden}
 .header-shell[data-menu=open] :is(a,button):focus-visible{outline-color:#fff}
 
