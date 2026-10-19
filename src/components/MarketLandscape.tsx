@@ -35,6 +35,11 @@ export function MarketLandscape() {
     let time = elapsed.current;
     let previous = 0;
     const draw = () => {
+      // Colours come from the hero's CSS variables so light and dark hero variants share one drawing.
+      const style = getComputedStyle(surface);
+      const ink = style.getPropertyValue('--hero-fg').trim() || '255,255,255';
+      const accent = style.getPropertyValue('--hero-accent').trim() || ACCENT;
+      const fg = (alpha = 1) => `rgba(${ink},${alpha})`;
       context.clearRect(0, 0, width, height);
       const compact = width < 640;
       const pad = compact ? 24 : 36;
@@ -56,17 +61,17 @@ export function MarketLandscape() {
           const py = backdropHeight * .03 + depth * depth * backdropHeight * .97 - wave * (24 + depth * 40);
           // Leave quieter space around the centered title and event details.
           const centerFade = 1 - .7 * Math.exp(-Math.pow((px / backdropWidth - .5) * 3.5, 2)) * (1 - depth * .5);
-          backdropContext.fillStyle = `rgba(255,255,255,${(.18 + (wave + 1) * .12) * centerFade * (1 - depth * .45)})`;
+          backdropContext.fillStyle = `rgba(${ink},${(.18 + (wave + 1) * .12) * centerFade * (1 - depth * .45)})`;
           const size = .75 + depth * 1.3;
           backdropContext.fillRect(px, py, size, size);
         }
       }
 
-      context.strokeStyle = 'rgba(255,255,255,.45)';
+      context.strokeStyle = fg(.45);
       context.lineWidth = 1;
       context.beginPath(); context.moveTo(left, top - 14); context.lineTo(left, bottom); context.lineTo(right + 4, bottom); context.stroke();
       context.font = `${compact ? 10 : 11}px ui-monospace, SFMono-Regular, Menlo, monospace`;
-      context.fillStyle = 'rgba(255,255,255,.7)';
+      context.fillStyle = fg(.7);
       context.textAlign = 'left';
       context.fillText('PRICE', left + 8, top - 16);
       context.textAlign = 'right';
@@ -85,45 +90,47 @@ export function MarketLandscape() {
       };
       const demandMoved = Math.abs(state.demandShift - BASE) > .002;
       const supplyMoved = Math.abs(state.supplyShift - BASE) > .002;
-      if (demandMoved) stroke(demand, BASE, 'rgba(255,255,255,.28)', 1, [4, 5]);
-      if (supplyMoved) stroke(supply, BASE, 'rgba(255,255,255,.28)', 1, [4, 5]);
-      stroke(demand, state.demandShift, 'rgba(255,255,255,.62)', 1.5);
-      stroke(supply, state.supplyShift, ACCENT, 2);
+      if (demandMoved) stroke(demand, BASE, fg(.28), 1, [4, 5]);
+      if (supplyMoved) stroke(supply, BASE, fg(.28), 1, [4, 5]);
+      stroke(demand, state.demandShift, fg(.62), 1.5);
+      stroke(supply, state.supplyShift, accent, 2);
 
       context.textAlign = 'left';
-      context.fillStyle = '#fff';
+      context.fillStyle = fg();
       context.font = `600 ${compact ? 12 : 13}px Inter, Arial, sans-serif`;
       context.fillText(demandMoved ? 'D₁' : 'D', x(SPAN + state.demandShift) + 6, y(demand(SPAN)) + 4);
-      context.fillStyle = ACCENT;
+      context.fillStyle = accent;
       context.fillText(supplyMoved ? 'S₁' : 'S', x(SPAN + state.supplyShift) + 6, y(supply(SPAN)) + 4);
-      if (Math.abs(state.demandShift - BASE) > .06) { context.fillStyle = 'rgba(255,255,255,.4)'; context.fillText('D₀', x(SPAN + BASE) + 6, y(demand(SPAN)) + 4); }
-      if (Math.abs(state.supplyShift - BASE) > .06) { context.fillStyle = 'rgba(255,255,255,.4)'; context.fillText('S₀', x(SPAN + BASE) + 6, y(supply(SPAN)) + 4); }
+      if (Math.abs(state.demandShift - BASE) > .06) { context.fillStyle = fg(.4); context.fillText('D₀', x(SPAN + BASE) + 6, y(demand(SPAN)) + 4); }
+      if (Math.abs(state.supplyShift - BASE) > .06) { context.fillStyle = fg(.4); context.fillText('S₀', x(SPAN + BASE) + 6, y(supply(SPAN)) + 4); }
 
       const ex = x(current.q);
       const ey = y(current.p);
       context.setLineDash([3, 4]);
-      context.strokeStyle = 'rgba(255,255,255,.45)';
+      context.strokeStyle = fg(.45);
       context.lineWidth = 1;
       context.beginPath(); context.moveTo(left, ey); context.lineTo(ex, ey); context.lineTo(ex, bottom); context.stroke();
       if (demandMoved || supplyMoved) {
-        context.strokeStyle = 'rgba(255,255,255,.18)';
+        context.strokeStyle = fg(.18);
         context.beginPath(); context.moveTo(left, y(base.p)); context.lineTo(x(base.q), y(base.p)); context.lineTo(x(base.q), bottom); context.stroke();
       }
       context.setLineDash([]);
 
-      context.fillStyle = 'rgba(249,177,42,.2)';
+      context.globalAlpha = .2;
+      context.fillStyle = accent;
       context.beginPath(); context.arc(ex, ey, compact ? 10 : 13, 0, Math.PI * 2); context.fill();
-      context.fillStyle = ACCENT;
+      context.globalAlpha = 1;
+      context.fillStyle = accent;
       context.beginPath(); context.arc(ex, ey, 4.5, 0, Math.PI * 2); context.fill();
 
       context.font = `${compact ? 10 : 11}px ui-monospace, SFMono-Regular, Menlo, monospace`;
-      context.fillStyle = '#fff';
+      context.fillStyle = fg();
       context.textAlign = 'right';
       context.fillText('P*', left - 8, ey + 4);
       context.textAlign = 'center';
       context.fillText('Q*', ex, bottom + 20);
       context.textAlign = 'right';
-      context.fillStyle = 'rgba(255,255,255,.75)';
+      context.fillStyle = fg(.75);
       context.fillText(state.label.toUpperCase(), right - 60, top - 16);
 
       surface.dataset.phase = time.toFixed(2);

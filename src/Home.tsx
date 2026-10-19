@@ -29,7 +29,11 @@ export function Home() {
   const main = useRef<HTMLElement>(null);
   const [background, setBackground] = useState('dots');
   useEffect(() => {
-    setBackground(new URLSearchParams(window.location.search).get('background') === 'wave' ? 'wave' : 'dots');
+    const params = new URLSearchParams(window.location.search);
+    setBackground(params.get('background') === 'wave' ? 'wave' : 'dots');
+    const hero = params.get('hero');
+    if (hero && ['white', 'cream', 'mist', 'gold'].includes(hero)) document.documentElement.dataset.hero = hero;
+    return () => { delete document.documentElement.dataset.hero; };
   }, []);
   useScrollMotion(main);
   return <main id="main" ref={main}>
