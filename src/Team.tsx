@@ -1,7 +1,13 @@
 import { content, site } from './content';
 import { Arrow, LinkedIn, Portrait } from './components/Shared';
+import { useReveal } from './useReveal';
+import './components/content.css';
+
+// The intro is this page's hero, so only the later section headings fade in.
+const revealTargets = '.team-founders .team-label, .team-organisers .split-heading';
 
 export function Team() {
+  useReveal(revealTargets);
   return <main id="main" className="team-main">
     <section className="team-intro container" aria-labelledby="team-title">
       <h1 id="team-title">The team.</h1>
@@ -22,7 +28,7 @@ export function Team() {
 
     <section className="team-organisers section container" aria-labelledby="organisers-title">
       <div className="split-heading"><h2 id="organisers-title">Organising team</h2><p>The students who plan the rounds, bring in judges and partners, and run competition day.</p></div>
-      <ul className="team-grid">{content.team.map((member, index) => <li className="team-member" key={member.name || index}>
+      <ul className="team-grid">{content.team.map((member, index) => <li className="team-member" key={member.name || index} data-pending={member.name ? undefined : 'true'}>
         <Portrait className="team-portrait" name={member.name} src={member.image || undefined} />
         <h3>{member.name || 'To be announced'}</h3>
         <p>{member.role}</p>

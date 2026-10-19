@@ -4,6 +4,8 @@ import { schedule } from '../content';
 import { questions, verdict } from '../quiz';
 import { Arrow } from './Shared';
 
+const clock = /^\d{2}:\d{2}$/;
+
 export function Timeline() {
   const wrapper = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -17,28 +19,26 @@ export function Timeline() {
     const update = () => {
       frame = 0;
       const rect = root.getBoundingClientRect();
-      const vertical = getComputedStyle(root).getPropertyValue('--axis').trim() === 'vertical';
-      const centres = nodes.map(node => {
-        const box = node.getBoundingClientRect();
-        return vertical ? box.top + box.height / 2 - rect.top : box.left + box.width / 2 - rect.left;
-      });
+      // Pin the rail to the node centres so it starts and ends exactly on the first and last stop.
+      const boxes = nodes.map(node => node.getBoundingClientRect());
+      const centres = boxes.map(box => box.top + box.height / 2 - rect.top);
       const length = centres[centres.length - 1] - centres[0];
-      Object.assign(track.style, vertical
-        ? { top: `${centres[0]}px`, height: `${length}px`, left: '', width: '' }
-        : { left: `${centres[0]}px`, width: `${length}px`, top: '', height: '' });
-      const progress = vertical
-        ? graphProgress(rect.top + rect.height * .1, rect.height * .55, window.innerHeight, motion.matches)
-        : Math.min(1, graphProgress(rect.top, rect.height, window.innerHeight * .9, motion.matches) * 1.6);
+      Object.assign(track.style, { top: `${centres[0]}px`, height: `${length}px`, left: `${boxes[0].left + boxes[0].width / 2 - rect.left}px` });
+      const progress = graphProgress(rect.top + rect.height * .1, rect.height * .55, window.innerHeight, motion.matches);
       root.style.setProperty('--progress', progress.toFixed(3));
       stops.forEach((stop, index) => { stop.dataset.reached = String(centres[index] - centres[0] <= progress * length + .5); });
     };
     const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    // Web fonts and breakpoint changes move the nodes, so re-measure whenever the list resizes.
+    const observer = new ResizeObserver(schedule);
+    observer.observe(root);
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
     motion.addEventListener('change', schedule);
     update();
     return () => {
       cancelAnimationFrame(frame);
+      observer.disconnect();
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
       motion.removeEventListener('change', schedule);
@@ -47,10 +47,12 @@ export function Timeline() {
   return <div className="timeline" ref={wrapper}>
     <span className="timeline-track" aria-hidden="true"><span className="timeline-fill" /></span>
     <ol>{schedule.map(item => <li key={item.title} className={item.key ? 'key' : undefined} data-reached="true">
+      <span className="timeline-time">{clock.test(item.time) ? <time dateTime={item.time}>{item.time}</time> : item.time}</span>
       <span className="timeline-node" aria-hidden="true" />
-      <span className="timeline-time">{item.time}</span>
-      <h3>{item.title}</h3>
-      {item.detail && <p>{item.detail}</p>}
+      <div className="timeline-body">
+        <h3>{item.title}</h3>
+        {item.detail && <p>{item.detail}</p>}
+      </div>
     </li>)}</ol>
   </div>;
 }

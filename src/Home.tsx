@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { DotPattern } from '@/components/ui/dot-pattern';
 import TiltCascadeDemo from '@/components/ui/tilt-cascade-demo';
 import { useScrollMotion } from './useScrollMotion';
+import { useReveal } from './useReveal';
 import { content, edition, eligibility, partners, preparation, previousPartners, site, upcomingEdition, type Partner } from './content';
 import { Arrow, Disclosure, Portrait, RegisterLink } from './components/Shared';
 import { ExampleQuestion, Timeline } from './components/Graphs';
 import { EconomicPlate, MarketLandscape } from './components/MarketLandscape';
+import './components/content.css';
 
 const [foundations, caseRound] = content.rounds;
 const caseIcons = [
@@ -17,9 +19,13 @@ const caseIcons = [
 
 type Judge = { name: string; background: string; image: string };
 
+// Keep the outer markup exactly `<article class="judge">`: the routes test strips these blocks.
 function JudgeCard({ judge }: { judge: Judge }) {
-  return <article className="judge"><Portrait className="judge-portrait" name={judge.name} src={judge.image || undefined} size={240} /><div><h3>{judge.name || 'To be announced'}</h3><p>{judge.background || 'Judge & expert'}</p></div></article>;
+  return <article className="judge"><Portrait className="judge-portrait" name={judge.name} src={judge.image || undefined} size={240} /><div className="judge-body" data-pending={judge.name ? undefined : 'true'}><h3>{judge.name || 'To be announced'}</h3><p>{judge.background || 'Judge & expert'}</p></div></article>;
 }
+
+// Section headings and the organisers teaser fade in once; never the hero or registration.
+const revealTargets = 'main > section:not(.hero) h2:not(.team-teaser h2), .team-teaser';
 
 function PartnerLogos({ list }: { list: Partner[] }) {
   return <ul className="partner-logos">{list.map(partner => <li key={partner.name}><a href={partner.href} target="_blank" rel="noreferrer" aria-label={partner.name}><img className={`logo-${partner.width / partner.height > 2 ? 'wide' : 'round'}`} src={partner.logo} alt={partner.name} width={partner.width} height={partner.height} loading="lazy" /></a></li>)}</ul>;
@@ -32,6 +38,7 @@ export function Home() {
     setBackground(new URLSearchParams(window.location.search).get('background') === 'wave' ? 'wave' : 'dots');
   }, []);
   useScrollMotion(main);
+  useReveal(revealTargets);
   return <main id="main" ref={main}>
     <section className="hero" aria-labelledby="hero-title" data-background={background}>
       {background === 'dots' && <DotPattern width={20} height={20} cr={.85} className="fill-[#0a2448]/15 [mask-image:radial-gradient(ellipse_at_center,white,transparent_85%)]" />}
@@ -73,8 +80,10 @@ export function Home() {
     </div></section>
 
     <section className="day-section section" id="day" aria-labelledby="day-title"><div className="container">
-      <div className="split-heading"><h2 id="day-title">Competition day</h2><p>2026 schedule. Next edition to be announced.</p></div>
-      <Timeline />
+      <div className="day-layout">
+        <div className="day-intro"><h2 id="day-title">Competition day</h2><p>2026 schedule. Next edition to be announced.</p></div>
+        <Timeline />
+      </div>
     </div></section>
 
     <section className="prepare-section section" id="prepare" aria-labelledby="prepare-title"><div className="container">

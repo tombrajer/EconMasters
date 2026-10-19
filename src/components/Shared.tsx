@@ -72,16 +72,27 @@ export function EligibilityList() {
 export function Disclosure({ label, className = '', children }: { label: string; className?: string; children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [keyboard, setKeyboard] = useState(false);
-  const id = useId();
   const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
-  // Keep native disclosures usable in the prerendered page without JavaScript.
-  if (!mounted) return <details className={className}><summary>{label}<span className="disclosure-icon" aria-hidden="true" /></summary>{children}</details>;
+  const fallback = useRef<HTMLDetailsElement>(null);
+  const id = useId();
+  const panelId = `${id}-panel`;
+  const triggerId = `${id}-trigger`;
+  useEffect(() => {
+    // Carry over a disclosure the visitor opened before hydration finished.
+    if (fallback.current?.open) setOpen(true);
+    setMounted(true);
+  }, []);
+  const icon = <span className="disclosure-icon" aria-hidden="true" />;
+  // Prerendered HTML: a native <details> that works without JavaScript and keeps the full text in the page.
+  if (!mounted) return <details className={`disclosure-native ${className}`} ref={fallback}><summary><span className="disclosure-label">{label}</span>{icon}</summary><div className="disclosure-content">{children}</div></details>;
   return <div className={`disclosure ${className}`} data-open={open} data-keyboard={keyboard}>
-    <button className="disclosure-trigger" type="button" aria-expanded={open} aria-controls={id} onClick={event => {
-      setKeyboard(event.detail === 0);
-      setOpen(value => !value);
-    }}>{label}<span className="disclosure-icon" aria-hidden="true" /></button>
-    <div className="disclosure-panel" id={id} inert={!open} aria-hidden={!open}><div className="disclosure-content">{children}</div></div>
+    <h3 className="disclosure-heading">
+      <button className="disclosure-trigger" id={triggerId} type="button" aria-expanded={open} aria-controls={panelId} onClick={event => {
+        // Keyboard activation (detail 0) opens instantly; pointer activation animates.
+        setKeyboard(event.detail === 0);
+        setOpen(value => !value);
+      }}><span className="disclosure-label">{label}</span>{icon}</button>
+    </h3>
+    <div className="disclosure-panel" id={panelId} role="region" aria-labelledby={triggerId} inert={!open}><div className="disclosure-content">{children}</div></div>
   </div>;
 }
