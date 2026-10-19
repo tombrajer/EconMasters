@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { DotPattern } from '@/components/ui/dot-pattern';
 import TiltCascadeDemo from '@/components/ui/tilt-cascade-demo';
 import { useScrollMotion } from './useScrollMotion';
-import { content, edition, eligibility, partners, preparation, site } from './content';
-import { Arrow, Disclosure, RegisterLink } from './components/Shared';
+import { content, edition, eligibility, partners, preparation, previousPartners, site, upcomingEdition, type Partner } from './content';
+import { Arrow, Disclosure, Portrait, RegisterLink } from './components/Shared';
 import { ExampleQuestion, Timeline } from './components/Graphs';
 import { EconomicPlate, MarketLandscape } from './components/MarketLandscape';
 
@@ -14,6 +14,16 @@ const caseIcons = [
   <><path d="M12 24c0-4-5-5-5-12a10 10 0 0 1 20 0c0 7-5 8-5 12M12 24h10M13 28h8M15 32h4" /></>,
   <><circle cx="12" cy="10" r="5" /><path d="M3 30v-3c0-5 4-8 9-8s9 3 9 8v3ZM24 6a5 5 0 0 1 0 10M25 20c5 0 8 3 8 7v3h-8" /></>,
 ];
+
+type Judge = { name: string; background: string; image: string };
+
+function JudgeCard({ judge }: { judge: Judge }) {
+  return <article className="judge"><Portrait className="judge-portrait" name={judge.name} src={judge.image || undefined} size={240} /><div><h3>{judge.name || 'To be announced'}</h3><p>{judge.background || 'Judge & expert'}</p></div></article>;
+}
+
+function PartnerLogos({ list }: { list: Partner[] }) {
+  return <ul className="partner-logos">{list.map(partner => <li key={partner.name}><a href={partner.href} target="_blank" rel="noreferrer" aria-label={partner.name}><img className={`logo-${partner.width / partner.height > 2 ? 'wide' : 'round'}`} src={partner.logo} alt={partner.name} width={partner.width} height={partner.height} loading="lazy" /></a></li>)}</ul>;
+}
 
 export function Home() {
   const main = useRef<HTMLElement>(null);
@@ -90,24 +100,21 @@ export function Home() {
       <div className="gallery-carousel"><TiltCascadeDemo /></div>
     </div></section>
 
-    <section className="judges-section section container" id="judges" aria-labelledby="judges-title"><div className="judges-heading"><h2 id="judges-title">Judges <em>& experts.</em></h2><p>2026 edition</p><p className="judges-description">Next-edition panel to be confirmed.</p></div><div className="judges">{content.judges.map(judge => <article className="judge" key={judge.name}>{judge.image ? <img src={judge.image} alt={judge.name} width="120" height="144" loading="lazy" /> : <div className="portrait-placeholder" role="img" aria-label={`Portrait unavailable for ${judge.name}`}><span>DW</span></div>}<div><h3>{judge.name}</h3><p>{judge.background}</p></div></article>)}</div></section>
+    <section className="judges-section section container" id="judges" aria-labelledby="judges-title"><div className="judges-heading"><h2 id="judges-title">Judges <em>& experts.</em></h2><p>{upcomingEdition} edition</p><p className="judges-description">Panel to be announced.</p></div>
+      <div className="judges">{content.judges.map((judge, index) => <JudgeCard key={judge.name || index} judge={judge} />)}</div>
+      {content.previousJudges.map(past => <Disclosure key={past.edition} className="archive" label={`Previous judges · ${past.edition} edition`}><div className="judges">{past.judges.map(judge => <JudgeCard key={judge.name} judge={judge} />)}</div></Disclosure>)}
+    </section>
 
     <section className="partners-section section" id="partners" aria-labelledby="partners-title"><div className="container">
-      <h2 id="partners-title">2026 partners</h2>
-      <ul className="partner-logos">{partners.map(partner => <li key={partner.name}><a href={partner.href} target="_blank" rel="noreferrer" aria-label={partner.name}><img className={`logo-${partner.width / partner.height > 2 ? 'wide' : 'round'}`} src={partner.logo} alt={partner.name} width={partner.width} height={partner.height} loading="lazy" /></a></li>)}</ul>
+      <h2 id="partners-title">{upcomingEdition} partners</h2>
+      {partners.length ? <PartnerLogos list={partners} /> : <div className="partners-empty"><p>Partners for the {upcomingEdition} edition will be announced.</p><a className="text-link" href={`mailto:${site.email}?subject=Partnering%20with%20Economics%20Masters%20Challenge`}>Become a partner<Arrow diagonal /></a></div>}
+      {previousPartners.map(past => <Disclosure key={past.edition} className="archive" label={`Previous sponsors · ${past.edition} edition`}><PartnerLogos list={past.partners} /></Disclosure>)}
     </div></section>
 
-    <section className="founders-section section" id="founders" aria-labelledby="founders-title"><div className="container">
-      <h2 id="founders-title">Organisers</h2>
-      <div className="founders">{content.founders.map(founder => <article className="founder" key={founder.name}>
-        <img src={founder.src} alt={founder.name} width="600" height="720" loading="lazy" />
-        <div className="founder-body">
-          <div className="founder-name"><h3>{founder.name}</h3>{founder.linkedin && <a href={founder.linkedin} target="_blank" rel="noreferrer" className="founder-linkedin" aria-label={`${founder.name} on LinkedIn`}><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96c0 .84.69 1.52 1.55 1.52h16.9c.86 0 1.55-.68 1.55-1.52V3.52c0-.84-.69-1.52-1.55-1.52ZM7.93 18.75H4.98V9.2h2.95v9.55ZM6.46 7.9a1.71 1.71 0 1 1 0-3.42 1.71 1.71 0 0 1 0 3.42ZM19 18.75h-2.95V14.1c0-1.11-.02-2.54-1.55-2.54-1.55 0-1.79 1.21-1.79 2.46v4.73H9.76V9.2h2.83v1.3h.04c.39-.74 1.36-1.52 2.79-1.52 2.99 0 3.58 1.97 3.58 4.53v5.24Z" /></svg></a>}</div>
-          <p className="person-role">Founder</p>
-          <Disclosure label="Read bio"><p className="founder-bio">{founder.bio}</p></Disclosure>
-        </div>
-      </article>)}</div>
-      <div className="youth-voice"><p><strong>Youth Voice</strong> is a student-led platform making economics more accessible through writing, events, and academic initiatives.</p><a href={site.instagram} target="_blank" rel="noreferrer" className="text-link">Youth Voice on Instagram<Arrow diagonal /></a></div>
+    <section className="founders-section section" id="organisers" aria-labelledby="organisers-title"><div className="container team-teaser">
+      <ul className="avatar-stack" aria-hidden="true">{content.founders.map(founder => <li key={founder.name}><Portrait name={founder.name} src={founder.src} size={240} /></li>)}</ul>
+      <div><h2 id="organisers-title">Organisers</h2><p>Founded by {content.founders.map(founder => founder.name.split(' ')[0]).join(', ').replace(/, ([^,]*)$/, ' and $1')}, and run by a student organising team.</p></div>
+      <a className="button" href="/team">Meet the team<Arrow /></a>
     </div></section>
 
     <section className="faq-section section" id="faq" aria-labelledby="faq-title"><div className="container faq-layout">
