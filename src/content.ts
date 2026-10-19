@@ -16,7 +16,10 @@ export const eligibility = [
 ];
 export type Partner = { name: string; href: string; logo: string; width: number; height: number };
 // Partners for the upcoming edition. Leave empty until confirmed.
-export const partners: Partner[] = [];
+export const partners: Partner[] = [
+  { name: 'Forbes', href: 'https://forbes.cz/', logo: '/logos/forbes.svg', width: 200, height: 54 },
+  { name: 'Visa', href: 'https://www.visa.cz/', logo: '/logos/visa.svg', width: 1000, height: 325 },
+];
 export const previousPartners: { edition: string; partners: Partner[] }[] = [
   { edition: '2026', partners: [
     { name: 'Visa', href: 'https://www.visa.cz/', logo: '/logos/visa.svg', width: 1000, height: 325 },
