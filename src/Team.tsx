@@ -11,7 +11,7 @@ export function Team() {
   return <main id="main" className="team-main">
     <section className="team-intro container" aria-labelledby="team-title">
       <h1 id="team-title">The team.</h1>
-      <p>Economics Masters Challenge is organised entirely by high school students: three founders and the organising team that runs each edition with them.</p>
+      <p>Economics Masters Challenge is organised entirely by high school students: a founder, two co-founders and the organising team that runs each edition with them.</p>
     </section>
 
     <section className="team-founders section container" aria-labelledby="founders-title">
