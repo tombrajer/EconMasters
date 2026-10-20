@@ -211,8 +211,11 @@ section>.container>h2:first-child{margin-bottom:clamp(32px,4vw,56px)}
 .facts-list dd{text-align:right;font-weight:500}
 
 /* 2026 edition */
-.edition-section{padding-bottom:12px}
-.gallery-carousel{margin-inline:calc(var(--edge) * -1)}
+.edition-section{padding-bottom:12px;overflow-x:clip}
+/* Full-bleed, with extra room below so the tilted side photos glide off screen instead of being cut */
+.gallery-carousel{--gallery-room:clamp(56px,8vw,120px);margin-inline:calc(50% - 50vw)}
+.gallery-carousel .tcc-root{padding-bottom:var(--gallery-room)}
+.gallery-carousel .tcc-controls{bottom:calc(12px + var(--gallery-room))}
 
 /* Judges */
 .judges-section{padding-top:28px;padding-bottom:68px}
