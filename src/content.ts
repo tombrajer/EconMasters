@@ -38,11 +38,6 @@ export const schedule = [
   { time: 'Results', title: 'Winners announced' },
   { time: '16:00', title: 'Closing' },
 ];
-export const edition = [
-  ['Date', 'May 29, 2026'],
-  ['Participants', '~40 students'],
-  ['Venue', 'Sunny Canadian International School'],
-];
 export const fields = [
   { title: 'Team information', fields: [
     { name: 'team', label: 'Team name', required: true },

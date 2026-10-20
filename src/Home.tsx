@@ -3,7 +3,7 @@ import { DotPattern } from '@/components/ui/dot-pattern';
 import TiltCascadeDemo from '@/components/ui/tilt-cascade-demo';
 import { useScrollMotion } from './useScrollMotion';
 import { useReveal } from './useReveal';
-import { content, edition, eligibility, partners, preparation, previousPartners, site, upcomingEdition, type Partner } from './content';
+import { content, eligibility, partners, preparation, previousPartners, site, upcomingEdition, type Partner } from './content';
 import { Arrow, Disclosure, Portrait, RegisterLink } from './components/Shared';
 import { ExampleQuestion, Timeline } from './components/Graphs';
 import { EconomicPlate, MarketLandscape } from './components/MarketLandscape';
@@ -104,7 +104,6 @@ export function Home() {
 
     <section className="edition-section section" id="previous-edition" aria-labelledby="edition-title"><div className="container">
       <h2 id="edition-title">The 2026 edition</h2>
-      <dl className="edition-facts">{edition.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
       <div className="gallery-carousel"><TiltCascadeDemo /></div>
     </div></section>
 
