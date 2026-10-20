@@ -10,6 +10,8 @@ import { EconomicPlate, MarketLandscape } from './components/MarketLandscape';
 import './components/content.css';
 
 const [foundations, caseRound] = content.rounds;
+const [founder, ...cofounders] = content.founders;
+const firstName = (person: { name: string }) => person.name.split(' ')[0];
 const caseIcons = [
   <><path d="M8 3h13l5 5v25H8Z" /><path d="M21 3v6h5M12 14h10M12 19h10M12 24h7" /></>,
   <><path d="M5 24h5v9H5ZM15 16h5v17h-5ZM25 6h5v27h-5Z" /></>,
@@ -122,7 +124,7 @@ export function Home() {
 
     <section className="founders-section section" id="organisers" aria-labelledby="organisers-title"><div className="container team-teaser">
       <ul className="avatar-stack" aria-hidden="true">{content.founders.map(founder => <li key={founder.name}><Portrait name={founder.name} src={founder.src} size={240} /></li>)}</ul>
-      <div><h2 id="organisers-title">Organisers</h2><p>Founded by {content.founders.map(founder => founder.name.split(' ')[0]).join(', ').replace(/, ([^,]*)$/, ' and $1')}, and run by a student organising team.</p></div>
+      <div><h2 id="organisers-title">Organisers</h2><p>Founded by {firstName(founder)} with co-founders {cofounders.map(firstName).join(', ').replace(/, ([^,]*)$/, ' and $1')}, and run by a student organising team.</p></div>
       <a className="button" href="/team">Meet the team<Arrow /></a>
     </div></section>
 
