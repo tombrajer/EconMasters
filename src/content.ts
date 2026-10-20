@@ -66,7 +66,7 @@ export const fields = [
 ];
 
 export const preparation = [
-  { round: 'Round 1', title: 'Microeconomics', meta: '35–40 questions in 2026', kind: 'frontier', topics: ['Supply, demand and equilibrium', 'Elasticity', 'Production and costs', 'Market structures', 'Factor markets', 'Market failure and government'] },
-  { round: 'Round 1', title: 'Macroeconomics', meta: '20–25 questions in 2026', kind: 'data', topics: ['GDP and economic growth', 'Inflation and unemployment', 'Aggregate demand and supply', 'Monetary and fiscal policy', 'Exchange rates and trade'] },
-  { round: 'Round 2', title: 'The case', meta: 'Team solution + presentation', kind: 'network', topics: ['Reading tables and charts', 'Finding the core problem', 'Weighing trade-offs', 'Making a clear recommendation', 'Presenting and taking questions'] },
+  { round: 'Round 1', title: 'Microeconomics', kind: 'frontier', topics: ['Supply, demand and equilibrium', 'Elasticity', 'Production and costs', 'Market structures', 'Factor markets', 'Market failure and government'] },
+  { round: 'Round 1', title: 'Macroeconomics', kind: 'data', topics: ['GDP and economic growth', 'Inflation and unemployment', 'Aggregate demand and supply', 'Monetary and fiscal policy', 'Exchange rates and trade'] },
+  { round: 'Round 2', title: 'The case', kind: 'network', topics: ['Reading tables and charts', 'Finding the core problem', 'Weighing trade-offs', 'Making a clear recommendation', 'Presenting and taking questions'] },
 ] as const;

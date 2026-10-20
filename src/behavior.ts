@@ -25,6 +25,7 @@ export function validateRegistration(values: Record<string, string>): Record<str
       errors[name] = 'Please enter a different student for each team member.';
     }
   });
+  if (values.consent !== 'yes') errors.consent = 'Please confirm you have read the privacy notice.';
   if (values.email?.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) {
     errors.email = 'Please enter a valid email address.';
   }

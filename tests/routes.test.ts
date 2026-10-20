@@ -20,3 +20,11 @@ test('both prerendered routes contain content and do not enable submission witho
   const homeWithoutJudgeProfiles = home.replace(/<article class="judge">[\s\S]*?<\/article>/g, '');
   assert.doesNotMatch(homeWithoutJudgeProfiles + registration, /Prague|Praha|Prahy/i);
 });
+
+test('the privacy notice is prerendered and linked from every page footer', async () => {
+  const privacy = await readFile(new URL('../dist/privacy/index.html', import.meta.url), 'utf8');
+  const home = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+  assert.match(privacy, /<title>Privacy \| Economics Masters Challenge<\/title>/);
+  assert.match(privacy, /no cookies/);
+  assert.match(home, /href="\/privacy"/);
+});

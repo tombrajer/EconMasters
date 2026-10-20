@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { handleRegistration } from '../api/registration.ts';
 
-const values = { team: 'Market Minds', school: 'Example School', m1: 'Alex Smith', m2: 'Sam Jones', m3: 'Jordan Lee', captain: 'Alex Smith', email: 'team@example.org' };
+const values = { team: 'Market Minds', school: 'Example School', m1: 'Alex Smith', m2: 'Sam Jones', m3: 'Jordan Lee', captain: 'Alex Smith', email: 'team@example.org', consent: 'yes' };
 const id = '5418c821-7245-4844-82b4-d5f1a3b63884';
 const request = (entry = values) => new Request('https://example.org/api/registration', {
   method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://example.org' },

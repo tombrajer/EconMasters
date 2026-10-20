@@ -115,7 +115,7 @@ export function Header({ overHero = false }: { overHero?: boolean }) {
 
 const footerColumns: { title: string; links: { href: string; label: string; external?: boolean }[] }[] = [
   { title: 'Competition', links: [{ href: '/#format', label: 'Format' }, { href: '/#day', label: 'Schedule' }, { href: '/#prepare', label: 'Prepare' }, { href: '/#judges', label: 'Judges' }, { href: '/#partners', label: 'Partners' }] },
-  { title: 'About', links: [{ href: '/team', label: 'Team' }, { href: '/#faq', label: 'FAQ' }, { href: '/register', label: 'Registration' }] },
+  { title: 'About', links: [{ href: '/team', label: 'Team' }, { href: '/#faq', label: 'FAQ' }, { href: '/register', label: 'Registration' }, { href: '/privacy', label: 'Privacy' }] },
   { title: 'Contact', links: [{ href: `mailto:${site.email}`, label: site.email }, { href: site.instagram, label: 'Instagram', external: true }] },
 ];
 
