@@ -27,7 +27,7 @@ export async function handleRegistration(request: Request, store: Store): Promis
     if (typeof body.requestId !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(body.requestId)) {
       return json({ message: 'Invalid submission identifier.' }, 400);
     }
-    const names = ['team', 'school', 'm1', 'm2', 'm3', 'program', 'grade', 'country', 'captain', 'email', 'phone', 'source', 'notes'];
+    const names = ['team', 'school', 'm1', 'm2', 'm3', 'program', 'grade', 'country', 'captain', 'email', 'phone', 'source', 'notes', 'consent'];
     const values: Record<string, string> = {};
     for (const name of names) {
       const value = body.values[name] ?? '';

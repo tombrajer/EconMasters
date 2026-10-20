@@ -43,7 +43,6 @@
 /* ---------- Competition day: vertical milestone rail ---------- */
 .day-layout{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(40px,6vw,96px);align-items:start}
 .day-intro{position:sticky;top:48px}
-.day-intro p{margin-top:20px;max-width:36ch;font-size:15px;color:var(--muted-dark);text-wrap:pretty}
 
 .timeline{--progress:1;--time:84px;--rail:20px;--gap:20px;position:relative}
 .timeline ol{display:grid}
@@ -71,7 +70,6 @@
 @media(max-width:820px){
   .day-layout{grid-template-columns:1fr;gap:40px}
   .day-intro{position:static}
-  .day-intro p{margin-top:14px}
 }
 @media(max-width:560px){
   /* Milestone layout: rail on the left, time label above each title. */

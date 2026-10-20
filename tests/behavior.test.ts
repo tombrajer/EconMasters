@@ -34,7 +34,8 @@ test('journey progresses across the viewport and finishes near the top', () => {
 
 test('whitespace-only team fields are rejected with field-specific messages', () => {
   const errors = validateRegistration({ team: ' ', school: '', m1: '', m2: '', m3: '', captain: '', email: '' });
-  assert.equal(Object.keys(errors).length, 7);
+  assert.equal(Object.keys(errors).length, 8);
+  assert.match(errors.consent, /privacy notice/i);
   assert.match(errors.team, /team name/i);
   assert.match(errors.m3, /member 3/i);
 });
@@ -43,7 +44,10 @@ test('an invalid email cannot pass preview validation', () => {
   assert.match(validateRegistration({ ...validTeam, email: 'no-address' }).email, /valid email/i);
 });
 
-const validTeam = { team: 'Market Minds', school: 'Example School', m1: 'Alex', m2: 'Sam', m3: 'Jordan', captain: 'Alex', email: 'team@example.org' };
+const validTeam = { team: 'Market Minds', school: 'Example School', m1: 'Alex', m2: 'Sam', m3: 'Jordan', captain: 'Alex', email: 'team@example.org', consent: 'yes' };
+test('registration requires confirming the privacy notice', () => {
+  assert.match(validateRegistration({ ...validTeam, consent: '' }).consent, /privacy notice/i);
+});
 test('a complete team needs no optional fields to pass validation', () => {
   assert.deepEqual(validateRegistration(validTeam), {});
 });

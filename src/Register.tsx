@@ -196,6 +196,11 @@ export function Register() {
             <div className="team-review"><div><strong>{values.team}</strong><p>{values.school}</p><p>{['m1', 'm2', 'm3'].map(name => values[name]).filter(Boolean).join(', ')}</p></div><button type="button" className="text-link" onClick={() => move(0)}>Edit team</button></div>
             <div className="form-fields">{contactFields.map(field)}</div>
             <details className="optional-fields"><summary>Additional details <span>Optional</span><span className="disclosure-icon" aria-hidden="true" /></summary><div className="form-fields">{optionalFields.map(field)}</div></details>
+            <div className="reg-consent">
+              <input type="checkbox" id="consent" name="consent" checked={values.consent === 'yes'} required aria-invalid={!!errors.consent} aria-describedby={errors.consent ? 'consent-error' : undefined} onChange={event => change('consent', event.target.checked ? 'yes' : '')} />
+              <label htmlFor="consent">I have read the <a href="/privacy" target="_blank" rel="noreferrer">privacy notice</a>, and my teammates know their details are being shared with the organisers.</label>
+            </div>
+            {errors.consent && <p className="field-error" id="consent-error">{errors.consent}</p>}
           </fieldset>
           <noscript><p>Registration needs JavaScript. Please contact the organising team with questions.</p></noscript>
           <div className="form-actions">

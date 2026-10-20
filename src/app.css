@@ -23,6 +23,9 @@
 /* ── Label input ─────────────────────────────────────────── */
 .registration-form .form-fields{row-gap:26px}
 .reg-field{min-width:0}
+.reg-consent{display:flex;gap:12px;align-items:flex-start;margin-top:24px;font-size:14px;line-height:1.5;color:var(--muted)}
+.reg-consent input{flex:none;width:20px;height:20px;margin-top:1px;accent-color:var(--ink)}
+.reg-consent a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 .reg-box{position:relative;--rest:28px}
 .reg-control{display:block;width:100%;min-height:56px;margin:0;padding:17px 15px 15px;border:1px solid #b6c0cf;border-radius:0;background:var(--paper);color:var(--ink);font:400 16px/1.35 var(--sans);caret-color:var(--ink);outline:none;-webkit-appearance:none;appearance:none;transition:border-color 180ms ease,box-shadow 180ms ease}
 textarea.reg-control{min-height:116px;padding-top:16px;resize:vertical}

@@ -10,8 +10,6 @@ import { EconomicPlate, MarketLandscape } from './components/MarketLandscape';
 import './components/content.css';
 
 const [foundations, caseRound] = content.rounds;
-const [founder, ...cofounders] = content.founders;
-const firstName = (person: { name: string }) => person.name.split(' ')[0];
 const caseIcons = [
   <><path d="M8 3h13l5 5v25H8Z" /><path d="M21 3v6h5M12 14h10M12 19h10M12 24h7" /></>,
   <><path d="M5 24h5v9H5ZM15 16h5v17h-5ZM25 6h5v27h-5Z" /></>,
@@ -63,19 +61,18 @@ export function Home() {
       <h2 id="format-title">The format</h2>
       <div className="rounds">
         <article className="round">
-          <header className="round-head"><span className="round-index">Round {foundations.index}</span><span className="round-type">MCQ exam</span></header>
+          <header className="round-head"><span className="round-index">Round {foundations.index}</span></header>
           <h3>{foundations.title}</h3>
           <p className="round-lead">{foundations.lead}</p>
           <dl className="round-facts">{foundations.facts?.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
           <ExampleQuestion />
-          <p className="round-note">Figures from the 2026 edition. The format may vary by edition.</p>
         </article>
         <article className="round round-case">
-          <header className="round-head"><span className="round-index">Round {caseRound.index}</span><span className="round-type">{caseRound.type}</span></header>
+          <header className="round-head"><span className="round-index">Round {caseRound.index}</span></header>
           <h3>{caseRound.title}</h3>
           <p className="round-lead">{caseRound.lead}</p>
           <ol className="case-steps">{caseRound.steps?.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, '0')}</span><svg className="case-step-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{caseIcons[index]}</svg><p>{step}</p></li>)}</ol>
-          <figure className="case-photo"><img src="/photos/team-presentations.jpg" alt="A team presenting its case solution to the judges at the 2026 edition" width="1200" height="800" loading="lazy" /><figcaption>Team presentations, 2026</figcaption></figure>
+          <figure className="case-photo"><img src="/photos/team-presentations.jpg" alt="A team presenting its case solution to the judges at the 2026 edition" width="1200" height="800" loading="lazy" /></figure>
           <div className="case-criteria"><p>The judges score</p><ul>{caseRound.points.map(point => <li key={point}>{point}</li>)}</ul></div>
         </article>
       </div>
@@ -83,7 +80,7 @@ export function Home() {
 
     <section className="day-section section" id="day" aria-labelledby="day-title"><div className="container">
       <div className="day-layout">
-        <div className="day-intro"><h2 id="day-title">Competition day</h2><p>2026 schedule. Next edition to be announced.</p></div>
+        <div className="day-intro"><h2 id="day-title">Competition day schedule</h2></div>
         <Timeline />
       </div>
     </div></section>
@@ -93,7 +90,7 @@ export function Home() {
     </div>
       <div className="economic-rows">
         {preparation.map(row => <article className="economic-row container" key={row.title}>
-          <div className="economic-row-title"><span className="model-label">{row.round} · {row.meta}</span><h3>{row.title}</h3></div>
+          <div className="economic-row-title"><span className="model-label">{row.round}</span><h3>{row.title}</h3></div>
           <EconomicPlate kind={row.kind} />
           <ul className="topic-list">{row.topics.map(topic => <li key={topic}>{topic}</li>)}</ul>
         </article>)}
@@ -101,8 +98,8 @@ export function Home() {
     </section>
 
     <section className="eligibility-section section" id="eligibility" aria-labelledby="eligibility-title"><div className="container eligibility-layout">
-      <div><h2 id="eligibility-title">Who can enter</h2><p>Any high school student, from any grade and any academic program. Eligibility is confirmed for each edition.</p><RegisterLink label="Register your team" /></div>
-      <dl className="facts-list">{eligibility.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+      <h2 id="eligibility-title">Who can enter</h2>
+      <div><dl className="facts-list">{eligibility.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl><RegisterLink label="Register your team" /></div>
     </div></section>
 
     <section className="edition-section section" id="previous-edition" aria-labelledby="edition-title"><div className="container">
@@ -111,7 +108,7 @@ export function Home() {
       <div className="gallery-carousel"><TiltCascadeDemo /></div>
     </div></section>
 
-    <section className="judges-section section container" id="judges" aria-labelledby="judges-title"><div className="judges-heading"><h2 id="judges-title">Judges <em>& experts.</em></h2><p>{upcomingEdition} edition</p><p className="judges-description">Panel to be announced.</p></div>
+    <section className="judges-section section container" id="judges" aria-labelledby="judges-title"><div className="judges-heading"><h2 id="judges-title">Judges <em>& experts.</em></h2><p>{upcomingEdition} edition</p></div>
       <div className="judges">{content.judges.map((judge, index) => <JudgeCard key={judge.name || index} judge={judge} />)}</div>
       {content.previousJudges.map(past => <Disclosure key={past.edition} className="archive" label={`Previous judges · ${past.edition} edition`}><div className="judges">{past.judges.map(judge => <JudgeCard key={judge.name} judge={judge} />)}</div></Disclosure>)}
     </section>
@@ -124,7 +121,7 @@ export function Home() {
 
     <section className="founders-section section" id="organisers" aria-labelledby="organisers-title"><div className="container team-teaser">
       <ul className="avatar-stack" aria-hidden="true">{content.founders.map(founder => <li key={founder.name}><Portrait name={founder.name} src={founder.src} size={240} /></li>)}</ul>
-      <div><h2 id="organisers-title">Organisers</h2><p>Founded by {firstName(founder)} with co-founders {cofounders.map(firstName).join(', ').replace(/, ([^,]*)$/, ' and $1')}, and run by a student organising team.</p></div>
+      <div><h2 id="organisers-title">Organisers</h2><p>Organised entirely by high school students.</p></div>
       <a className="button" href="/team">Meet the team<Arrow /></a>
     </div></section>
 
@@ -134,7 +131,7 @@ export function Home() {
     </div></section>
 
     <section className="closing-section section" aria-labelledby="closing-title"><div className="container closing-layout">
-      <div><h2 id="closing-title">Register your team</h2><p className="registration-status">Dates for the next edition and registration will be announced.</p></div>
+      <h2 id="closing-title">Register your team</h2>
       <div className="closing-actions"><RegisterLink label="Go to registration" /><a className="text-link" href={`mailto:${site.email}`}>Contact us<Arrow diagonal /></a></div>
     </div></section>
   </main>;
