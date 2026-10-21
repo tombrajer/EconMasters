@@ -36,6 +36,7 @@ test('structured data describes the organisation, the competition and the FAQ sh
   for (const question of faq.mainEntity) assert.ok(home.includes(question.name.replace(/'/g, '&#x27;')), `FAQ "${question.name}" is visible`);
   const ids = new Set(nodes.map(node => node['@id']));
   for (const ref of JSON.stringify(nodes).matchAll(/\{"@id":"([^"]+)"\}/g)) assert.ok(ids.has(ref[1]), `${ref[1]} resolves`);
+  assert.match(home, /<meta name="google-site-verification" content="es0QEgOxarT4yDfB_QygAKwLikoQBCPgBGC0nIPbXrY" \/>/);
   const team = graph(await read('team/index.html'));
   assert.ok(team.some(node => node['@type'] === 'AboutPage'));
   assert.ok(team.some(node => node['@type'] === 'BreadcrumbList'));
