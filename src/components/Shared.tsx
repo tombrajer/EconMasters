@@ -15,7 +15,7 @@ export function RegisterLink({ label = 'Registration', className = '', onClick }
   return <a className={cn('button button--cta', className)} href="/register" onClick={onClick}><span className="button-label">{label}</span><Arrow /></a>;
 }
 
-const navigation = [{ href: '/#format', label: 'Format' }, { href: '/#prepare', label: 'Prepare' }, { href: '/#judges', label: 'Judges' }, { href: '/team', label: 'Team' }, { href: '/#faq', label: 'FAQ' }];
+const navigation = [{ href: '/#format', label: 'Format' }, { href: '/#prepare', label: 'Prepare' }, { href: '/#judges', label: 'Judges' }, { href: '/#partners', label: 'Partners' }, { href: '/team', label: 'Team' }, { href: '/#faq', label: 'FAQ' }];
 
 const focusable = 'a[href]:not([tabindex="-1"]),button:not([disabled])';
 
