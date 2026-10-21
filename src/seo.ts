@@ -4,6 +4,9 @@ import { content, eligibility, preparation, previousPartners, schedule, site } f
 // structured-data ID is built from it, so moving the site is a one-line change.
 export const origin = 'https://www.econmasterschallenge.com';
 
+// Google Search Console ownership (URL-prefix property for the origin above).
+const googleSiteVerification = 'es0QEgOxarT4yDfB_QygAKwLikoQBCPgBGC0nIPbXrY';
+
 export type Route = '/' | '/register' | '/team' | '/privacy' | '/admin' | '/404';
 
 type Page = {
@@ -190,6 +193,7 @@ export function head(route: Route) {
     `<meta name="description" content="${escapeHtml(page.description)}" />`,
     `<meta name="robots" content="${robots}" />`,
   ];
+  if (route === '/') tags.push(`<meta name="google-site-verification" content="${googleSiteVerification}" />`);
   if (page.index) tags.push(
     `<link rel="canonical" href="${pageUrl}" />`,
     `<meta property="og:site_name" content="${site.name}" />`,
