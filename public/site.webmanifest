@@ -1,0 +1,13 @@
+{
+  "name": "Economics Masters Challenge",
+  "short_name": "EMC",
+  "description": "A student-run economics competition for high school teams of three.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    { "src": "/favicon-512.png?v=2", "sizes": "512x512", "type": "image/png" },
+    { "src": "/apple-touch-icon.png?v=2", "sizes": "180x180", "type": "image/png" }
+  ]
+}

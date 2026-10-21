@@ -14,7 +14,9 @@ npm run preview
 
 `npm test` includes the production build and type check before the automated checks.
 
-The production build prerenders both pages, so their content and native disclosures work without JavaScript. Serve `dist/` with clean directory URLs; `/register/index.html` is included.
+The production build prerenders every page, so their content and native disclosures work without JavaScript. Serve `dist/` with clean directory URLs; `/register/index.html` is included.
+
+SEO lives in `src/seo.ts`: the production origin (`https://www.econmasterschallenge.com`), each page's title, description and robots rule, the JSON-LD graph (organisation, event series, 2026 edition, FAQ, breadcrumbs), and the generated `sitemap.xml`, `robots.txt` and `llms.txt`. The prerender writes them into `dist/` along with a `404.html`. `vercel.json` redirects `econmasters.vercel.app` to the production domain and drops `.html` and trailing slashes, so every page has one URL. When the next edition's date and venue are confirmed, add it as an event in `src/seo.ts`; Google needs both to show it as an event result.
 
 Registration has two steps: team details, then captain and email. Optional information is collapsed, and going back keeps the entered values. Registration uses a Vercel API and Neon Postgres. Exactly three students are required; capacity is limited atomically to 33 teams (99 participants). Setup is documented in [docs/registration-setup.md](docs/registration-setup.md). The footer's `/admin` page (four-digit `ADMIN_PASSCODE`, attempt lockout) lists the entries and exports them to Excel. Registration remains unavailable until the database is connected and the schema is applied, and closed until `REGISTRATION_OPEN=true`. JavaScript-disabled browsers cannot submit.
 

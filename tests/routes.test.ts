@@ -14,7 +14,7 @@ test('both prerendered routes contain content and do not enable submission witho
   const registration = await readFile(new URL('../dist/register/index.html', import.meta.url), 'utf8');
   assert.match(home, /Economics.*?<br\/>.*?Masters Challenge/);
   assert.match(home, /gallery/);
-  assert.match(home, /og:image" content="https:\/\/econmasters\.vercel\.app\/og-sharing\.png"/);
+  assert.match(home, /og:image" content="https:\/\/www\.econmasterschallenge\.com\/og-sharing\.png"/);
   assert.match(registration, /disabled=""/);
   // A judge's employer can be in Prague; the competition must not claim that venue.
   const homeWithoutJudgeProfiles = home.replace(/<article class="judge">[\s\S]*?<\/article>/g, '');
@@ -24,7 +24,7 @@ test('both prerendered routes contain content and do not enable submission witho
 test('the privacy notice is prerendered and linked from every page footer', async () => {
   const privacy = await readFile(new URL('../dist/privacy/index.html', import.meta.url), 'utf8');
   const home = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
-  assert.match(privacy, /<title>Privacy \| Economics Masters Challenge<\/title>/);
+  assert.match(privacy, /<title>Privacy Notice \| Economics Masters Challenge<\/title>/);
   assert.match(privacy, /no cookies/);
   assert.match(home, /href="\/privacy"/);
 });
