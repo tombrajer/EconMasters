@@ -7,8 +7,9 @@ export function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return <svg className="arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d={diagonal ? 'M6 18 18 6M6 6h12v12' : 'M4 12h16m-6-6 6 6-6 6'} stroke="currentColor" strokeWidth="1.4" /></svg>;
 }
 
+// Team of Three: three rising bars for the teammates, the tallest gold for the winner.
 export function Mark() {
-  return <svg viewBox="0 0 44 52" className="brand-mark" aria-hidden="true"><path fill="currentColor" d="M1 35h5v17H1zm9-9h5v26h-5zm9-9h5v35h-5zm9-9h5v44h-5zm9-8h5v52h-5z" /></svg>;
+  return <svg viewBox="0 0 46 44" className="brand-mark" aria-hidden="true"><path fill="currentColor" d="M2.5 23h11v17h-11zm15-11h11v28h-11zM0 42.5h46V44H0z" /><path className="brand-mark-win" d="M32.5 0h11v40h-11z" /></svg>;
 }
 
 export function RegisterLink({ label = 'Registration', className = '', onClick }: { label?: string; className?: string; onClick?: () => void }) {
