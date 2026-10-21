@@ -4,9 +4,14 @@ import { Register } from './Register';
 import { Admin } from './Admin';
 import { Team } from './Team';
 import { Privacy } from './Privacy';
+import { NotFound } from './NotFound';
+import { routeFor, type Route } from './seo';
+import type { ComponentType } from 'react';
+
+const views: Record<Route, ComponentType> = { '/': Home, '/register': Register, '/admin': Admin, '/team': Team, '/privacy': Privacy, '/404': NotFound };
 
 export function App({ path }: { path: string }) {
-  const route = path.replace(/\/$/, '').replace(/\.html$/, '');
-  const page = route === '/register' ? <Register /> : route === '/admin' ? <Admin /> : route === '/team' ? <Team /> : route === '/privacy' ? <Privacy /> : <Home />;
-  return <><Header overHero={!['/register', '/admin', '/team', '/privacy'].includes(route)} />{page}<Footer /></>;
+  const route = routeFor(path);
+  const Page = views[route];
+  return <><Header overHero={route === '/'} /><Page /><Footer /></>;
 }

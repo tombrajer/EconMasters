@@ -1,28 +1,19 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { render } from '../.prerender/entry-server.js';
+import { head, indexedRoutes, llms, render, robots, sitemap } from '../.prerender/entry-server.js';
 
 const template = await readFile('dist/index.html', 'utf8');
-for (const path of ['/', '/register', '/team', '/privacy', '/admin']) {
-  let html = template.replace('<!--app-html-->', render(path));
-  if (path === '/register') {
-    html = html.replace(/<title>.*?<\/title>/, '<title>Registration | Economics Masters Challenge</title>');
-    html = html.replace(/<meta name="description" content="[^"]*"/, '<meta name="description" content="Register a team of three for the Economics Masters Challenge: a multiple-choice round and a case challenge presented to the judges."');
-  }
-  if (path === '/team') {
-    html = html.replace(/<title>.*?<\/title>/, '<title>Team | Economics Masters Challenge</title>');
-    html = html.replace(/<meta name="description" content="[^"]*"/, '<meta name="description" content="Meet the founders and the student organising team behind the Economics Masters Challenge."');
-  }
-  if (path === '/privacy') {
-    html = html.replace(/<title>.*?<\/title>/, '<title>Privacy | Economics Masters Challenge</title>');
-    html = html.replace(/<meta name="description" content="[^"]*"/, '<meta name="description" content="How the Economics Masters Challenge collects, uses and protects personal data under the GDPR."');
-  }
-  if (path === '/admin') {
-    html = html.replace(/<title>.*?<\/title>/, '<title>Admin | Economics Masters Challenge</title>');
-    html = html.replace(/<meta name="description" content="[^"]*"/, '<meta name="robots" content="noindex, nofollow"');
-  }
+const page = path => template.replace('<!--app-head-->', head(path)).replace('<!--app-html-->', render(path));
+
+for (const path of [...indexedRoutes, '/admin']) {
+  const html = page(path);
   const directory = path === '/' ? 'dist' : `dist${path}`;
   await mkdir(directory, { recursive: true });
   await writeFile(`${directory}/index.html`, html);
-  if (path === '/register' || path === '/team' || path === '/privacy') await writeFile(`dist${path}.html`, html);
+  if (path !== '/') await writeFile(`dist${path}.html`, html);
 }
-console.log('Prerendered /, /register, /team, /privacy and /admin. The public pages remain readable without JavaScript.');
+// Vercel serves 404.html with a real 404 status for any unknown path.
+await writeFile('dist/404.html', page('/404'));
+await writeFile('dist/sitemap.xml', sitemap());
+await writeFile('dist/robots.txt', robots());
+await writeFile('dist/llms.txt', llms());
+console.log(`Prerendered ${[...indexedRoutes, '/admin', '/404'].join(', ')}; wrote sitemap.xml, robots.txt and llms.txt.`);

@@ -217,27 +217,33 @@
   "gallery": [
     {
       "src": "/photos/opening-address.jpg",
-      "caption": "Opening address"
+      "caption": "Opening address",
+      "alt": "Student organisers give the opening address beside a table of trophies at the 2026 Economics Masters Challenge"
     },
     {
       "src": "/photos/round-one-in-progress.jpg",
-      "caption": "Round 1 in progress"
+      "caption": "Round 1 in progress",
+      "alt": "Three students work through the Round 1 multiple-choice economics exam at a shared desk"
     },
     {
       "src": "/photos/sponsors.jpg",
-      "caption": "Sponsors"
+      "caption": "Sponsors",
+      "alt": "An illuminated Visa sign between EAAPS and Bankovnictví banners at the 2026 edition"
     },
     {
       "src": "/photos/case-challenge-deliberation.jpg",
-      "caption": "Case challenge deliberation"
+      "caption": "Case challenge deliberation",
+      "alt": "Teams gather on sofas around a laptop to work on the Round 2 case challenge"
     },
     {
       "src": "/photos/team-presentations.jpg",
-      "caption": "Team presentations"
+      "caption": "Team presentations",
+      "alt": "A team presenting its case solution to the judges at the 2026 edition"
     },
     {
       "src": "/photos/winner.jpg",
-      "caption": "Winner of the 2026 edition"
+      "caption": "Winner of the 2026 edition",
+      "alt": "The winning team holds trophies and diplomas with the organisers at the 2026 Economics Masters Challenge"
     }
   ]
 }
