@@ -92,8 +92,10 @@ section>.container>h2:first-child{margin-bottom:clamp(32px,4vw,56px)}
 .header-shell a:focus-visible,.header-shell summary:focus-visible{outline-color:#fff}
 .hero a:focus-visible,.header-shell--hero a:focus-visible,.header-shell--hero summary:focus-visible{outline-color:var(--ink)}
 .hero-top{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:20px;padding-top:clamp(24px,3.5svh,40px);text-align:center}
+.hero-heading-group{display:flex;flex-direction:column;align-items:center;gap:10px}
 .hero h1{font-size:clamp(44px,5.4vw,76px);line-height:1.04;letter-spacing:-.045em}
 .hero h1 span{white-space:nowrap;color:var(--hero-title)}
+.hero-date{font-size:clamp(22px,2.6vw,30px);font-weight:500;line-height:1.2;letter-spacing:-.02em;color:rgba(var(--hero-fg),1)}
 .hero-event-details{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:12px 24px;font-size:clamp(14px,1.3vw,18px);line-height:1.5;color:rgba(var(--hero-fg),.86)}
 .hero-event-details li+li{position:relative}
 .hero-event-details li+li::before{content:"";position:absolute;left:-14px;top:50%;width:4px;height:4px;border-radius:50%;background:var(--accent);transform:translateY(-50%)}

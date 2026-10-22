@@ -203,7 +203,7 @@ Economic curve paths draw progressively on viewport entry, with slight diagram t
 - **Do** organize sections with rules and dotted fields.
 - **Do** retain all 12 existing people/event photos in their original colors.
 - **Do** preserve native disclosures, keyboard focus, static motion alternatives, and the SVG hero fallback.
-- **Do** distinguish confirmed 2026 content from the unannounced next edition and preserve registration-preview wording.
+- **Do** distinguish confirmed 2026 content from the confirmed 2027 date and remaining unannounced details, and preserve registration-preview wording.
 
 ### Don't:
 

@@ -120,8 +120,8 @@ function eventSeries() {
   };
 }
 
-// The 2026 edition is the only one with a confirmed date. Add the next edition
-// here once its date and venue are announced; Google needs both for event results.
+// The 2027 edition date is confirmed. Add it here once its venue is confirmed;
+// Google needs both for event results.
 function edition2026() {
   return {
     '@type': 'EducationEvent',

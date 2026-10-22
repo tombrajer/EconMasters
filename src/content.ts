@@ -7,11 +7,12 @@ export const site = {
   instagram: 'https://www.instagram.com/youthvoiceedu?igsi=MTd4dHFzZ2RlZGxzYw',
   host: 'Sunny Canadian International School',
 };
+export const upcomingDate = '9.6.2027';
 export const eligibility = [
   ['Eligible grades', 'All high school grades'],
   ['Team size', 'Exactly 3 students'],
   ['Academic programs', 'AP / IB / other'],
-  ['Next edition', 'To be announced'],
+  ['Next edition', upcomingDate],
   ['Registration deadline', 'To be announced'],
 ];
 export type Partner = { name: string; href: string; logo: string; width: number; height: number };

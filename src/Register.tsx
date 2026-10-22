@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { fields, site } from './content';
+import { fields, site, upcomingDate } from './content';
 import { validateRegistration } from './behavior';
 import { Arrow } from './components/Shared';
 import { ToastStack, useToasts } from './components/ToastStack';
@@ -168,7 +168,7 @@ export function Register() {
   const notices = {
     checking: 'Checking registration availability...',
     open: 'Registration is open. Places are limited to 33 teams.',
-    closed: 'Registration is not open yet. Dates for the next edition will be announced.',
+    closed: `Registration is not open yet. The next edition takes place on ${upcomingDate}.`,
     full: 'Capacity reached. Registration is closed.',
     unavailable: 'Registration is temporarily unavailable. Please try again later.',
   };

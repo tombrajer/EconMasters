@@ -3,7 +3,7 @@ import { DotPattern } from '@/components/ui/dot-pattern';
 import TiltCascadeDemo from '@/components/ui/tilt-cascade-demo';
 import { useScrollMotion } from './useScrollMotion';
 import { useReveal } from './useReveal';
-import { content, eligibility, partners, preparation, previousPartners, site, upcomingEdition, type Partner } from './content';
+import { content, eligibility, partners, preparation, previousPartners, site, upcomingDate, upcomingEdition, type Partner } from './content';
 import { Arrow, Disclosure, Portrait, RegisterLink } from './components/Shared';
 import { ExampleQuestion, Timeline } from './components/Graphs';
 import { EconomicPlate, MarketLandscape } from './components/MarketLandscape';
@@ -43,9 +43,11 @@ export function Home() {
     <section className="hero" aria-labelledby="hero-title" data-background={background}>
       {background === 'dots' && <DotPattern width={20} height={20} cr={.85} className="fill-[#0a2448]/15 [mask-image:radial-gradient(ellipse_at_center,white,transparent_85%)]" />}
       <div className="hero-top container">
-        <h1 id="hero-title">Economics<br /><span>Masters Challenge</span></h1>
+        <div className="hero-heading-group">
+          <h1 id="hero-title">Economics<br /><span>Masters Challenge</span></h1>
+          <p className="hero-date">{upcomingDate}</p>
+        </div>
         <ul className="hero-event-details" aria-label="Event details">
-          <li>Date: TBD</li>
           <li>In-Person Event</li>
           <li>{site.host}</li>
         </ul>

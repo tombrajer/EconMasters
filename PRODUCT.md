@@ -16,7 +16,7 @@ High school students exploring a student-led economics competition. Teams of thr
 
 ## Constraints
 
-Preserve verified competition facts, edition distinctions, founder biographies, people photos, and all six existing gallery photographs. No city references or other photography. Next-edition date, deadline, and panel remain unconfirmed. Registration uses a Vercel API and Neon Postgres, with exactly three students per team and a hard 33-team limit. Show confirmation only after persistence; keep registration closed until configured and explicitly opened.
+Preserve verified competition facts, edition distinctions, founder biographies, people photos, and all six existing gallery photographs. No city references or other photography. The next edition takes place on 9.6.2027; its registration deadline, venue, and panel remain unconfirmed. Registration uses a Vercel API and Neon Postgres, with exactly three students per team and a hard 33-team limit. Show confirmation only after persistence; keep registration closed until configured and explicitly opened.
 
 ## Brand commitments
 
