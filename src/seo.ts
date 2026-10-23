@@ -1,4 +1,4 @@
-import { content, eligibility, preparation, previousPartners, schedule, site } from './content';
+import { content, eligibility, partners, preparation, previousPartners, schedule, site, upcomingDate, upcomingEdition, upcomingStartDate } from './content';
 
 // The one production origin. Every canonical, sitemap entry, social card and
 // structured-data ID is built from it, so moving the site is a one-line change.
@@ -65,6 +65,7 @@ const ids = {
   website: `${origin}/#website`,
   series: `${origin}/#event-series`,
   edition2026: `${origin}/#edition-2026`,
+  edition2027: `${origin}/#edition-2027`,
   youthVoice: `${origin}/#youth-voice`,
 };
 
@@ -116,12 +117,23 @@ function eventSeries() {
     organizer: { '@id': ids.organization },
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     audience,
-    subEvent: [{ '@id': ids.edition2026 }],
+    subEvent: [{ '@id': ids.edition2026 }, { '@id': ids.edition2027 }],
   };
 }
 
-// The 2027 edition date is confirmed. Add it here once its venue is confirmed;
-// Google needs both for event results.
+// Google needs a date and a full postal address to show an edition as an event result.
+const venue = {
+  '@type': 'Place',
+  name: site.host,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.hostAddress.street,
+    postalCode: site.hostAddress.postalCode,
+    addressLocality: site.hostAddress.locality,
+    addressCountry: site.hostAddress.country,
+  },
+};
+
 function edition2026() {
   return {
     '@type': 'EducationEvent',
@@ -132,7 +144,7 @@ function edition2026() {
     endDate: '2026-05-29',
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-    location: { '@type': 'Place', name: site.host },
+    location: venue,
     image: content.gallery.map(photo => url(photo.src)),
     organizer: { '@id': ids.organization },
     superEvent: { '@id': ids.series },
@@ -140,6 +152,27 @@ function edition2026() {
     educationalLevel: 'High school',
     sponsor: previousPartners.find(past => past.edition === '2026')?.partners.map(partner => ({ '@type': 'Organization', name: partner.name, url: partner.href })),
     contributor: content.previousJudges.find(past => past.edition === '2026')?.judges.map(judge => ({ '@type': 'Person', name: judge.name, image: url(judge.image) })),
+  };
+}
+
+function edition2027() {
+  return {
+    '@type': 'EducationEvent',
+    '@id': ids.edition2027,
+    name: `${site.name} ${upcomingEdition}`,
+    description: `The ${upcomingEdition} edition of the ${site.name}: high school teams of three sit a multiple-choice economics exam, then solve a real-world case and present it to the judges.`,
+    url: url('/'),
+    startDate: upcomingStartDate,
+    endDate: upcomingStartDate,
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    location: venue,
+    image: url(ogImage.src),
+    organizer: { '@id': ids.organization },
+    superEvent: { '@id': ids.series },
+    audience,
+    educationalLevel: 'High school',
+    sponsor: partners.length ? partners.map(partner => ({ '@type': 'Organization', name: partner.name, url: partner.href })) : undefined,
   };
 }
 
@@ -180,7 +213,7 @@ export function structuredData(route: Route) {
       { '@type': 'ListItem', position: 2, name: page.breadcrumb, item: pageUrl },
     ],
   });
-  if (route === '/') graph.push(eventSeries(), edition2026(), faqPage());
+  if (route === '/') graph.push(eventSeries(), edition2026(), edition2027(), faqPage());
   return { '@context': 'https://schema.org', '@graph': graph };
 }
 
@@ -257,6 +290,9 @@ ${list(schedule.map(item => `${item.time}: ${item.title}${item.detail ? ` (${ite
 
 ## What to prepare
 ${preparation.map(row => `### ${row.round}: ${row.title}\n${list(row.topics)}`).join('\n\n')}
+
+## Next edition
+The ${upcomingEdition} edition takes place on ${upcomingDate} at ${site.host}, ${site.hostAddress.street}, ${site.hostAddress.postalCode} ${site.hostAddress.locality}, Czech Republic.
 
 ## Previous edition
 The 2026 edition took place on 29 May 2026 at ${site.host}. Judges: ${content.previousJudges[0].judges.map(judge => `${judge.name} (${judge.background})`).join('; ')}. Sponsors: ${previousPartners[0].partners.map(partner => partner.name).join(', ')}.

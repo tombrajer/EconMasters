@@ -34,6 +34,10 @@ test('structured data describes the organisation, the competition and the FAQ sh
   for (const type of ['WebSite', 'Organization', 'WebPage', 'EventSeries', 'EducationEvent', 'FAQPage']) assert.ok(types.includes(type), type);
   const faq = nodes.find(node => node['@type'] === 'FAQPage') as { mainEntity: { name: string }[] };
   for (const question of faq.mainEntity) assert.ok(home.includes(question.name.replace(/'/g, '&#x27;')), `FAQ "${question.name}" is visible`);
+  const next = nodes.find(node => node['@id']?.toString().endsWith('#edition-2027')) as { startDate: string; location: { address?: { streetAddress?: string } } };
+  const visibleDate = new Date(`${next.startDate}T12:00:00Z`).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+  assert.ok(home.includes(visibleDate), `next edition date ${visibleDate} matches the page`);
+  assert.ok(next.location.address?.streetAddress, 'next edition has a street address');
   const ids = new Set(nodes.map(node => node['@id']));
   for (const ref of JSON.stringify(nodes).matchAll(/\{"@id":"([^"]+)"\}/g)) assert.ok(ids.has(ref[1]), `${ref[1]} resolves`);
   assert.match(home, /<meta name="google-site-verification" content="es0QEgOxarT4yDfB_QygAKwLikoQBCPgBGC0nIPbXrY" \/>/);
