@@ -24,7 +24,7 @@ const ogImage = { src: '/og-sharing.png', width: 1200, height: 630, alt: 'Econom
 export const pages: Record<Route, Page> = {
   '/': {
     title: 'Economics Masters Challenge | High School Economics Competition',
-    description: 'A student-run economics competition for high school teams of three. Round 1 is a timed micro and macro exam; Round 2 is a real-world case presented to judges.',
+    description: `A student-run economics competition for high school teams of three. Next edition: ${upcomingDate} at ${site.host}.`,
     index: true,
     images: content.gallery.map(photo => photo.src),
   },
