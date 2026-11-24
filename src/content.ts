@@ -8,9 +8,9 @@ export const site = {
   host: 'Sunny Canadian International School',
   hostAddress: { street: 'Straková 522', postalCode: '252 42', locality: 'Jesenice', country: 'CZ' },
 };
-export const upcomingDate = 'June 9, 2027';
+export const upcomingDate = 'June 2, 2027';
 // Machine-readable form of upcomingDate for structured data; keep the two in step.
-export const upcomingStartDate = '2027-06-09';
+export const upcomingStartDate = '2027-06-02';
 export const eligibility = [
   ['Eligible grades', 'All high school grades'],
   ['Team size', 'Exactly 3 students'],
